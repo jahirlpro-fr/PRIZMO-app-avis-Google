@@ -84,7 +84,7 @@ export function PrizeResult({
                 </>
               )}
 
-              {(!showInstagramOption || wheelNumber === 2) && onFinish && (
+              {(!showInstagramOption) && onFinish && (
                 <Button
                   onClick={onFinish}
                   className="w-full prizmo-gradient text-white text-lg font-semibold py-6"
@@ -135,7 +135,7 @@ export function PrizeResult({
                 </>
               )}
 
-              {(!showInstagramOption || wheelNumber === 2) && onFinish && (
+              {(!showInstagramOption) && onFinish && (
                 <Button
                   onClick={onFinish}
                   variant="outline"
