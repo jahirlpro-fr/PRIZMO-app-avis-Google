@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Save, Trash2, Plus, Eye, Users, Star, TrendingUp, Gift } from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, Eye, Users, Star, TrendingUp, Gift, Download, Search, Filter } from "lucide-react";
 import { storageService } from "@/lib/storage";
 import { Establishment, WheelSegment, Participant } from "@/types";
 import { WheelPreview } from "@/components/admin/WheelPreview";
@@ -20,6 +20,8 @@ export default function EditEstablishmentPage() {
   const [establishment, setEstablishment] = useState<Establishment | null>(null);
   const [segments, setSegments] = useState<WheelSegment[]>([]);
   const [participants, setParticipants] = useState<Participant[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterPrize, setFilterPrize] = useState<string>("all");
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -109,6 +111,50 @@ export default function EditEstablishmentPage() {
   };
 
   const totalProbability = segments.reduce((sum, seg) => sum + seg.probability, 0);
+
+  // CSV Export function
+  const handleExportCSV = () => {
+    if (participants.length === 0) {
+      alert("Aucune donnée à exporter");
+      return;
+    }
+
+    const headers = ["Date", "Email", "Téléphone", "Lot 1", "Lot 2"];
+    const csvContent = [
+      headers.join(","),
+      ...participants.map(p => [
+        new Date(p.createdAt).toLocaleDateString("fr-FR"),
+        p.email,
+        p.phone || "",
+        p.prize1 || "",
+        p.prize2 || ""
+      ].join(","))
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `prizmo_clients_${establishment?.slug}_${new Date().toISOString().split("T")[0]}.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Filter and search logic
+  const filteredParticipants = participants.filter(participant => {
+    const matchesSearch = 
+      participant.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (participant.phone && participant.phone.includes(searchTerm));
+    
+    const matchesPrize = 
+      filterPrize === "all" || 
+      (filterPrize === "winner" && participant.prize1 && participant.prize1 !== "Merci !") ||
+      (filterPrize === "loser" && (!participant.prize1 || participant.prize1 === "Merci !"));
+
+    return matchesSearch && matchesPrize;
+  });
 
   // Analytics calculations
   const totalParticipants = participants.length;
@@ -582,53 +628,122 @@ export default function EditEstablishmentPage() {
               <TabsContent value="clients">
                 <Card className="border-2 shadow-xl">
                   <CardHeader>
-                    <CardTitle className="text-2xl">Base de données clients</CardTitle>
-                    <CardDescription>
-                      {participants.length} participant{participants.length > 1 ? "s" : ""} enregistré{participants.length > 1 ? "s" : ""}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {participants.length > 0 ? (
-                      <div className="space-y-2">
-                        <div className="overflow-x-auto">
-                          <table className="w-full">
-                            <thead>
-                              <tr className="border-b">
-                                <th className="text-left p-3 font-semibold">Date</th>
-                                <th className="text-left p-3 font-semibold">Email</th>
-                                <th className="text-left p-3 font-semibold">Téléphone</th>
-                                <th className="text-left p-3 font-semibold">Lot gagné</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {participants.map((participant) => (
-                                <tr key={participant.id} className="border-b hover:bg-muted/50">
-                                  <td className="p-3 text-sm">
-                                    {new Date(participant.createdAt).toLocaleDateString("fr-FR")}
-                                  </td>
-                                  <td className="p-3">{participant.email}</td>
-                                  <td className="p-3">{participant.phone || "-"}</td>
-                                  <td className="p-3 font-medium">
-                                    {participant.prize1 || "En attente"}
-                                    {participant.prize2 && (
-                                      <span className="text-xs text-muted-foreground ml-2">
-                                        + {participant.prize2}
-                                      </span>
-                                    )}
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                        <div className="pt-4">
-                          <Button variant="outline" className="w-full">
-                            📥 Exporter en CSV
-                          </Button>
-                        </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <CardTitle className="text-2xl">Base de données clients</CardTitle>
+                        <CardDescription>
+                          {participants.length} participant{participants.length > 1 ? "s" : ""} enregistré{participants.length > 1 ? "s" : ""}
+                        </CardDescription>
                       </div>
+                      {participants.length > 0 && (
+                        <Button onClick={handleExportCSV} className="prizmo-gradient text-white">
+                          <Download className="w-4 h-4 mr-2" />
+                          Exporter CSV
+                        </Button>
+                      )}
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {participants.length > 0 ? (
+                      <>
+                        {/* Search and Filters */}
+                        <div className="flex flex-col md:flex-row gap-4">
+                          <div className="flex-1 relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                            <Input
+                              placeholder="Rechercher par email ou téléphone..."
+                              value={searchTerm}
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                              className="pl-10"
+                            />
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Filter className="w-4 h-4 text-muted-foreground" />
+                            <select
+                              value={filterPrize}
+                              onChange={(e) => setFilterPrize(e.target.value)}
+                              className="h-10 px-3 rounded-md border border-input bg-background"
+                            >
+                              <option value="all">Tous les participants</option>
+                              <option value="winner">🎁 Gagnants uniquement</option>
+                              <option value="loser">❌ Non-gagnants</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        {/* Results count */}
+                        {filteredParticipants.length !== participants.length && (
+                          <p className="text-sm text-muted-foreground">
+                            {filteredParticipants.length} résultat{filteredParticipants.length > 1 ? "s" : ""} sur {participants.length}
+                          </p>
+                        )}
+
+                        {/* Participants Table */}
+                        {filteredParticipants.length > 0 ? (
+                          <div className="overflow-x-auto rounded-lg border">
+                            <table className="w-full">
+                              <thead className="bg-muted">
+                                <tr>
+                                  <th className="text-left p-3 font-semibold">Date</th>
+                                  <th className="text-left p-3 font-semibold">Email</th>
+                                  <th className="text-left p-3 font-semibold">Téléphone</th>
+                                  <th className="text-left p-3 font-semibold">Lot gagné</th>
+                                  <th className="text-left p-3 font-semibold">Statut</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {filteredParticipants.map((participant, index) => {
+                                  const hasWon = participant.prize1 && participant.prize1 !== "Merci !";
+                                  return (
+                                    <tr 
+                                      key={participant.id} 
+                                      className={`border-b hover:bg-muted/50 ${index % 2 === 0 ? "bg-white" : "bg-muted/20"}`}
+                                    >
+                                      <td className="p-3 text-sm">
+                                        {new Date(participant.createdAt).toLocaleDateString("fr-FR", {
+                                          day: "2-digit",
+                                          month: "short",
+                                          year: "numeric"
+                                        })}
+                                      </td>
+                                      <td className="p-3 font-medium">{participant.email}</td>
+                                      <td className="p-3 text-sm">{participant.phone || "-"}</td>
+                                      <td className="p-3">
+                                        <span className="font-medium">
+                                          {participant.prize1 || "En attente"}
+                                        </span>
+                                        {participant.prize2 && (
+                                          <span className="text-xs text-muted-foreground ml-2 block">
+                                            + {participant.prize2}
+                                          </span>
+                                        )}
+                                      </td>
+                                      <td className="p-3">
+                                        {hasWon ? (
+                                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            🎁 Gagnant
+                                          </span>
+                                        ) : (
+                                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                            Participation
+                                          </span>
+                                        )}
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                        ) : (
+                          <div className="text-center py-8 text-muted-foreground">
+                            Aucun résultat ne correspond à votre recherche
+                          </div>
+                        )}
+                      </>
                     ) : (
                       <div className="text-center py-12">
+                        <Users className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
                         <p className="text-muted-foreground mb-4">
                           Aucun participant pour le moment
                         </p>

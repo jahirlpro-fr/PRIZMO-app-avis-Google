@@ -34,10 +34,10 @@ export function ReviewStep({ googleMapsUrl, establishmentName, onReviewConfirmed
 
           <Button
             onClick={handleOpenReview}
-            className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white text-lg font-semibold py-6"
+            className="w-full bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 hover:from-yellow-600 hover:via-orange-600 hover:to-red-600 text-white text-xl font-bold py-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
           >
-            <ExternalLink className="w-5 h-5 mr-2" />
-            Laisser un avis Google
+            <ExternalLink className="w-6 h-6 mr-2" />
+            ⭐ Laisser un avis Google
           </Button>
 
           <div className="relative">
@@ -52,10 +52,10 @@ export function ReviewStep({ googleMapsUrl, establishmentName, onReviewConfirmed
           <Button
             onClick={onReviewConfirmed}
             variant="outline"
-            className="w-full border-2 border-green-500 text-green-700 hover:bg-green-50 text-lg font-semibold py-6"
+            className="w-full border-3 border-green-600 text-green-700 hover:bg-green-50 hover:border-green-700 text-xl font-bold py-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           >
-            <CheckCircle2 className="w-5 h-5 mr-2" />
-            J'ai laissé mon avis
+            <CheckCircle2 className="w-6 h-6 mr-2" />
+            ✅ J'ai laissé mon avis
           </Button>
 
           <p className="text-xs text-center text-muted-foreground">

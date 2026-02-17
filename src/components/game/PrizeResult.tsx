@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Gift, Instagram, PartyPopper, Frown } from "lucide-react";
+import { useEffect } from "react";
+import confetti from "canvas-confetti";
 
 interface PrizeResultProps {
   prize: string;
@@ -22,6 +24,43 @@ export function PrizeResult({
   onFinish,
 }: PrizeResultProps) {
   const showInstagramOption = wheelNumber === 1 && hasInstagramWheel && isWinner;
+
+  // Confetti animation for winners
+  useEffect(() => {
+    if (isWinner) {
+      // Launch confetti
+      const duration = 3000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      function randomInRange(min: number, max: number) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval: ReturnType<typeof setInterval> = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+        });
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+        });
+      }, 250);
+
+      return () => clearInterval(interval);
+    }
+  }, [isWinner]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 prizmo-gradient">

@@ -86,8 +86,11 @@ export function EmailForm({ onSubmit, establishmentName }: EmailFormProps) {
               {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
             </div>
 
-            <Button type="submit" className="w-full prizmo-gradient text-white text-lg font-semibold py-6">
-              Continuer vers le jeu 🎲
+            <Button 
+              type="submit" 
+              className="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 text-white text-xl font-bold py-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+            >
+              🎲 Commencer le jeu !
             </Button>
 
             <p className="text-xs text-center text-muted-foreground">

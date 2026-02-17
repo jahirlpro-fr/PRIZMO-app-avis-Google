@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { WheelSegment } from "@/types";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Zap } from "lucide-react";
 
 interface WheelOfFortuneProps {
   segments: WheelSegment[];
@@ -126,17 +126,17 @@ export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establis
           <Button
             onClick={spinWheel}
             disabled={isSpinning}
-            className="w-full prizmo-gradient text-white text-xl font-bold py-8 disabled:opacity-50"
+            className="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 text-white text-xl font-bold py-8 disabled:opacity-50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:transform-none"
           >
             {isSpinning ? (
               <>
-                <Sparkles className="w-6 h-6 mr-2 animate-spin" />
+                <Zap className="w-6 h-6 mr-2 animate-bounce" />
                 La roue tourne...
               </>
             ) : (
               <>
-                <Sparkles className="w-6 h-6 mr-2" />
-                Tourner la roue !
+                <Sparkles className="w-6 h-6 mr-2 animate-pulse" />
+                🎰 TOURNER LA ROUE !
               </>
             )}
           </Button>
