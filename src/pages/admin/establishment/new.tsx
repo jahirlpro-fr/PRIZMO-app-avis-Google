@@ -78,6 +78,47 @@ export default function NewEstablishmentPage() {
     router.push(`/admin/establishment/${newEstablishment.id}`);
   };
 
+  const handleCreate = () => {
+    if (!formData.name) return;
+
+    const slug = formData.name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+    const newEstablishment: Establishment = {
+      id: crypto.randomUUID(),
+      name: formData.name,
+      slug: slug,
+      address: formData.address,
+      googleMapsUrl: formData.googleMapsUrl,
+      instagramUrl: formData.instagramUrl || undefined,
+      primaryColor: formData.primaryColor,
+      secondaryColor: formData.secondaryColor,
+      enableInstagramWheel: formData.enableInstagramWheel,
+      createdAt: new Date().toISOString(),
+    };
+
+    storageService.saveEstablishment(newEstablishment);
+    storageService.initializeDemoData(); // Ensure default segments are created if needed, though usually handled separately
+    
+    // Create default segments for this new establishment
+    const defaultSegments: WheelSegment[] = [
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Boisson offerte", color: "#8b5cf6", type: "prize", probability: 25, order: 1 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Perdu", color: "#9ca3af", type: "no-prize", probability: 20, order: 2 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Dessert offert", color: "#f59e0b", type: "prize", probability: 15, order: 3 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Perdu", color: "#9ca3af", type: "no-prize", probability: 20, order: 4 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Café offert", color: "#10b981", type: "prize", probability: 10, order: 5 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Perdu", color: "#9ca3af", type: "no-prize", probability: 10, order: 6 },
+    ];
+    
+    storageService.saveSegments(newEstablishment.id, defaultSegments);
+
+    router.push(`/admin/establishment/${newEstablishment.id}`);
+  };
+
   const handleChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {

@@ -6,6 +6,16 @@ const STORAGE_KEYS = {
   PARTICIPANTS: "prizmo_participants",
 };
 
+// Generate URL-friendly slug from establishment name
+function generateSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export const storageService = {
   // Establishments
   getEstablishments(): Establishment[] {
@@ -22,12 +32,23 @@ export const storageService = {
   saveEstablishment(establishment: Establishment): void {
     const establishments = this.getEstablishments();
     const index = establishments.findIndex((e) => e.id === establishment.id);
+    
+    // Generate slug if not provided
+    if (!establishment.slug) {
+      establishment.slug = generateSlug(establishment.name);
+    }
+    
     if (index >= 0) {
       establishments[index] = establishment;
     } else {
       establishments.push(establishment);
     }
     localStorage.setItem(STORAGE_KEYS.ESTABLISHMENTS, JSON.stringify(establishments));
+  },
+
+  getEstablishmentBySlug(slug: string): Establishment | null {
+    const establishments = this.getEstablishments();
+    return establishments.find((e) => e.slug === slug) || null;
   },
 
   // Wheel Segments
@@ -77,6 +98,7 @@ export const storageService = {
       const demoEstablishment: Establishment = {
         id: "demo-restaurant",
         name: "Restaurant Demo",
+        slug: "demo-restaurant",
         address: "123 Rue de la Gastronomie, Paris",
         googleMapsUrl: "https://www.google.com/maps",
         instagramUrl: "https://www.instagram.com",

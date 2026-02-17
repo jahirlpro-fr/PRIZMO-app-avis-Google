@@ -1,6 +1,7 @@
 export interface Establishment {
   id: string;
   name: string;
+  slug: string;
   address: string;
   googleMapsUrl: string;
   instagramUrl?: string;
