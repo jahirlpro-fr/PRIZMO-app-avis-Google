@@ -3,10 +3,11 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Download, Share2, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Download, Share2, CheckCircle2, FileText, Printer } from "lucide-react";
 import { storageService } from "@/lib/storage";
 import { Establishment } from "@/types";
 import QRCode from "qrcode";
+import { generatePoster } from "@/lib/pdfGenerator";
 
 export default function QRCodePage() {
   const router = useRouter();
@@ -89,6 +90,23 @@ export default function QRCodePage() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleGeneratePDF = async (format: "A4" | "A5" | "sticker") => {
+    if (!establishment || !qrCodeUrl) return;
+
+    try {
+      await generatePoster({
+        establishmentName: establishment.name,
+        qrCodeDataUrl: qrCodeUrl,
+        primaryColor: establishment.primaryColor,
+        secondaryColor: establishment.secondaryColor,
+        format: format
+      });
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert("Erreur lors de la génération du PDF");
+    }
   };
 
   if (!establishment) {
@@ -254,6 +272,109 @@ export default function QRCodePage() {
                     </p>
                   </div>
                 </div>
+
+                {/* PDF Posters Section */}
+                <Card className="border-2 border-purple-200">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Printer className="w-5 h-5 text-purple-600" />
+                      Affiches PDF prêtes à imprimer
+                    </CardTitle>
+                    <CardDescription>
+                      Téléchargez des affiches professionnelles avec votre QR code intégré
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {/* A4 Poster */}
+                      <Card className="hover:shadow-lg transition-shadow border-purple-200">
+                        <CardContent className="pt-6">
+                          <div className="text-center space-y-3">
+                            <div className="text-4xl">📄</div>
+                            <h3 className="font-bold text-lg">Affiche A4</h3>
+                            <p className="text-sm text-muted-foreground">
+                              Format mural (210 × 297 mm)
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Parfait pour vitrine, mur, ou entrée du restaurant
+                            </p>
+                            <Button
+                              onClick={() => handleGeneratePDF("A4")}
+                              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                            >
+                              <FileText className="w-4 h-4 mr-2" />
+                              Télécharger A4
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      {/* A5 Table Tent */}
+                      <Card className="hover:shadow-lg transition-shadow border-pink-200">
+                        <CardContent className="pt-6">
+                          <div className="text-center space-y-3">
+                            <div className="text-4xl">🏷️</div>
+                            <h3 className="font-bold text-lg">Chevalet A5</h3>
+                            <p className="text-sm text-muted-foreground">
+                              Format table (148 × 210 mm)
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Idéal pour les tables, comptoir, ou caisse
+                            </p>
+                            <Button
+                              onClick={() => handleGeneratePDF("A5")}
+                              className="w-full bg-gradient-to-r from-pink-600 to-orange-600 hover:from-pink-700 hover:to-orange-700"
+                            >
+                              <FileText className="w-4 h-4 mr-2" />
+                              Télécharger A5
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      {/* Sticker */}
+                      <Card className="hover:shadow-lg transition-shadow border-orange-200">
+                        <CardContent className="pt-6">
+                          <div className="text-center space-y-3">
+                            <div className="text-4xl">🎟️</div>
+                            <h3 className="font-bold text-lg">Sticker</h3>
+                            <p className="text-sm text-muted-foreground">
+                              Format compact (100 × 100 mm)
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Pour portes, fenêtres, ou support mobile
+                            </p>
+                            <Button
+                              onClick={() => handleGeneratePDF("sticker")}
+                              className="w-full bg-gradient-to-r from-orange-600 to-yellow-600 hover:from-orange-700 hover:to-yellow-700"
+                            >
+                              <FileText className="w-4 h-4 mr-2" />
+                              Télécharger Sticker
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Printing Tips */}
+                    <Card className="bg-blue-50 border-blue-200">
+                      <CardContent className="pt-4">
+                        <div className="flex gap-3">
+                          <Printer className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
+                          <div className="space-y-2">
+                            <h4 className="font-semibold text-blue-900">Conseils d'impression</h4>
+                            <ul className="text-sm text-blue-800 space-y-1">
+                              <li>• Utilisez du papier blanc épais (200-300g) pour une meilleure qualité</li>
+                              <li>• Imprimez en couleur pour un rendu optimal</li>
+                              <li>• Pour les stickers, utilisez du papier autocollant</li>
+                              <li>• Plastifiez l'affiche A4 pour une utilisation en extérieur</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CardContent>
+                </Card>
               </CardContent>
             </Card>
           </div>

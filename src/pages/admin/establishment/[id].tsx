@@ -8,10 +8,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Save, Trash2, Plus, Eye, Users, Star, TrendingUp, Gift, Download, Search, Filter } from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, Eye, Users, Star, TrendingUp, Gift, Download, Search, Filter, Calendar } from "lucide-react";
 import { storageService } from "@/lib/storage";
 import { Establishment, WheelSegment, Participant } from "@/types";
 import { WheelPreview } from "@/components/admin/WheelPreview";
+import { AnalyticsCharts } from "@/components/admin/AnalyticsCharts";
 
 export default function EditEstablishmentPage() {
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function EditEstablishmentPage() {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterPrize, setFilterPrize] = useState<string>("all");
+  const [analyticsPeriod, setAnalyticsPeriod] = useState<7 | 30 | 90 | 365>(30);
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -227,6 +229,48 @@ export default function EditEstablishmentPage() {
               {/* Tab: Analytics - NEW PRIORITY */}
               <TabsContent value="analytics">
                 <div className="space-y-6">
+                  {/* Period Filter */}
+                  <Card className="border-2 shadow-lg">
+                    <CardContent className="pt-6">
+                      <div className="flex items-center justify-between flex-wrap gap-4">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-5 h-5 text-muted-foreground" />
+                          <span className="font-semibold">Période d'analyse :</span>
+                        </div>
+                        <div className="flex gap-2 flex-wrap">
+                          <Button
+                            variant={analyticsPeriod === 7 ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setAnalyticsPeriod(7)}
+                          >
+                            7 jours
+                          </Button>
+                          <Button
+                            variant={analyticsPeriod === 30 ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setAnalyticsPeriod(30)}
+                          >
+                            30 jours
+                          </Button>
+                          <Button
+                            variant={analyticsPeriod === 90 ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setAnalyticsPeriod(90)}
+                          >
+                            3 mois
+                          </Button>
+                          <Button
+                            variant={analyticsPeriod === 365 ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setAnalyticsPeriod(365)}
+                          >
+                            1 an
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
                   {/* KPIs Cards */}
                   <div className="grid md:grid-cols-3 gap-4">
                     <Card className="border-2 shadow-lg">
@@ -280,6 +324,9 @@ export default function EditEstablishmentPage() {
                       </CardContent>
                     </Card>
                   </div>
+
+                  {/* Analytics Charts Component */}
+                  <AnalyticsCharts participants={participants} period={analyticsPeriod} />
 
                   {/* Prize Distribution */}
                   <Card className="border-2 shadow-lg">
