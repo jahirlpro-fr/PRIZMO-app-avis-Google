@@ -47,40 +47,6 @@ export default function NewEstablishmentPage() {
 
     if (!validateForm()) return;
 
-    // Créer l'établissement
-    const newEstablishment: Establishment = {
-      id: formData.name.toLowerCase().replace(/\s+/g, "-") + "-" + Date.now(),
-      name: formData.name,
-      address: formData.address,
-      googleMapsUrl: formData.googleMapsUrl,
-      instagramUrl: formData.instagramUrl || undefined,
-      primaryColor: formData.primaryColor,
-      secondaryColor: formData.secondaryColor,
-      enableInstagramWheel: formData.enableInstagramWheel,
-      createdAt: new Date().toISOString(),
-    };
-
-    storageService.saveEstablishment(newEstablishment);
-
-    // Créer les segments par défaut
-    const defaultSegments: WheelSegment[] = [
-      { id: "1", establishmentId: newEstablishment.id, title: "Boisson maison offerte", color: "#8b5cf6", type: "prize", probability: 25, order: 1 },
-      { id: "2", establishmentId: newEstablishment.id, title: "Merci !", color: "#ec4899", type: "no-prize", probability: 20, order: 2 },
-      { id: "3", establishmentId: newEstablishment.id, title: "Dessert offert", color: "#f59e0b", type: "prize", probability: 20, order: 3 },
-      { id: "4", establishmentId: newEstablishment.id, title: "Merci !", color: "#10b981", type: "no-prize", probability: 15, order: 4 },
-      { id: "5", establishmentId: newEstablishment.id, title: "Café offert", color: "#3b82f6", type: "prize", probability: 15, order: 5 },
-      { id: "6", establishmentId: newEstablishment.id, title: "Merci !", color: "#ef4444", type: "no-prize", probability: 5, order: 6 },
-    ];
-
-    storageService.saveSegments(newEstablishment.id, defaultSegments);
-
-    // Rediriger vers la page d'édition
-    router.push(`/admin/establishment/${newEstablishment.id}`);
-  };
-
-  const handleCreate = () => {
-    if (!formData.name) return;
-
     const slug = formData.name
       .toLowerCase()
       .normalize("NFD")
@@ -102,16 +68,14 @@ export default function NewEstablishmentPage() {
     };
 
     storageService.saveEstablishment(newEstablishment);
-    storageService.initializeDemoData(); // Ensure default segments are created if needed, though usually handled separately
     
-    // Create default segments for this new establishment
     const defaultSegments: WheelSegment[] = [
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Boisson offerte", color: "#8b5cf6", type: "prize", probability: 25, order: 1 },
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Perdu", color: "#9ca3af", type: "no-prize", probability: 20, order: 2 },
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Dessert offert", color: "#f59e0b", type: "prize", probability: 15, order: 3 },
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Perdu", color: "#9ca3af", type: "no-prize", probability: 20, order: 4 },
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Café offert", color: "#10b981", type: "prize", probability: 10, order: 5 },
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Perdu", color: "#9ca3af", type: "no-prize", probability: 10, order: 6 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Boisson maison offerte", color: "#8b5cf6", type: "prize", probability: 25, order: 1 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#9ca3af", type: "no-prize", probability: 20, order: 2 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Dessert offert", color: "#f59e0b", type: "prize", probability: 20, order: 3 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#10b981", type: "no-prize", probability: 15, order: 4 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Café offert", color: "#3b82f6", type: "prize", probability: 15, order: 5 },
+      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#ef4444", type: "no-prize", probability: 5, order: 6 },
     ];
     
     storageService.saveSegments(newEstablishment.id, defaultSegments);
@@ -158,7 +122,6 @@ export default function NewEstablishmentPage() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Informations de base */}
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Informations de base</h3>
                     
@@ -188,7 +151,6 @@ export default function NewEstablishmentPage() {
                     </div>
                   </div>
 
-                  {/* Liens */}
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Liens sociaux</h3>
                     
@@ -234,7 +196,6 @@ export default function NewEstablishmentPage() {
                     </div>
                   </div>
 
-                  {/* Couleurs */}
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Personnalisation</h3>
                     

@@ -8,9 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Save, Trash2, Plus, Eye } from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, Eye, Users, Star, TrendingUp, Gift } from "lucide-react";
 import { storageService } from "@/lib/storage";
-import { Establishment, WheelSegment } from "@/types";
+import { Establishment, WheelSegment, Participant } from "@/types";
 import { WheelPreview } from "@/components/admin/WheelPreview";
 
 export default function EditEstablishmentPage() {
@@ -19,6 +19,7 @@ export default function EditEstablishmentPage() {
   
   const [establishment, setEstablishment] = useState<Establishment | null>(null);
   const [segments, setSegments] = useState<WheelSegment[]>([]);
+  const [participants, setParticipants] = useState<Participant[]>([]);
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -49,6 +50,9 @@ export default function EditEstablishmentPage() {
       
       const establishmentSegments = storageService.getSegments(establishmentId);
       setSegments(establishmentSegments);
+      
+      const establishmentParticipants = storageService.getParticipants(establishmentId);
+      setParticipants(establishmentParticipants);
     }
   }, [router.isReady, id]);
 
@@ -106,6 +110,25 @@ export default function EditEstablishmentPage() {
 
   const totalProbability = segments.reduce((sum, seg) => sum + seg.probability, 0);
 
+  // Analytics calculations
+  const totalParticipants = participants.length;
+  const participantsWithPrize = participants.filter(p => p.prize1 && p.prize1 !== "Merci !").length;
+  const conversionRate = totalParticipants > 0 ? Math.round((participantsWithPrize / totalParticipants) * 100) : 0;
+
+  // Prize distribution
+  const prizeDistribution = segments.reduce((acc, segment) => {
+    const count = participants.filter(p => p.prize1 === segment.title || p.prize2 === segment.title).length;
+    if (count > 0) {
+      acc[segment.title] = count;
+    }
+    return acc;
+  }, {} as Record<string, number>);
+
+  // Recent participants (last 5)
+  const recentParticipants = [...participants]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 5);
+
   if (!establishment) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -147,13 +170,160 @@ export default function EditEstablishmentPage() {
               <p className="text-muted-foreground">Gérez votre établissement et personnalisez l'expérience client</p>
             </div>
 
-            <Tabs defaultValue="wheel" className="space-y-6">
+            <Tabs defaultValue="analytics" className="space-y-6">
               <TabsList className="grid w-full grid-cols-4">
+                <TabsTrigger value="analytics">📊 Analytics</TabsTrigger>
                 <TabsTrigger value="wheel">🎡 Configuration Roue</TabsTrigger>
                 <TabsTrigger value="general">⚙️ Informations</TabsTrigger>
                 <TabsTrigger value="clients">👥 Clients</TabsTrigger>
-                <TabsTrigger value="analytics">📊 Analytics</TabsTrigger>
               </TabsList>
+
+              {/* Tab: Analytics - NEW PRIORITY */}
+              <TabsContent value="analytics">
+                <div className="space-y-6">
+                  {/* KPIs Cards */}
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <Card className="border-2 shadow-lg">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Participants totaux
+                          </CardTitle>
+                          <Users className="w-5 h-5 text-purple-600" />
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-3xl font-bold">{totalParticipants}</div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Clients ayant joué
+                        </p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border-2 shadow-lg">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Avis générés
+                          </CardTitle>
+                          <Star className="w-5 h-5 text-yellow-600" />
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-3xl font-bold">{totalParticipants}</div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Clics sur "Laisser un avis"
+                        </p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border-2 shadow-lg">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-sm font-medium text-muted-foreground">
+                            Taux de gain
+                          </CardTitle>
+                          <TrendingUp className="w-5 h-5 text-green-600" />
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-3xl font-bold">{conversionRate}%</div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {participantsWithPrize} lots gagnés
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Prize Distribution */}
+                  <Card className="border-2 shadow-lg">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Gift className="w-5 h-5" />
+                        Distribution des lots
+                      </CardTitle>
+                      <CardDescription>Répartition des gains offerts à vos clients</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      {Object.keys(prizeDistribution).length > 0 ? (
+                        <div className="space-y-3">
+                          {Object.entries(prizeDistribution).map(([prize, count]) => {
+                            const segment = segments.find(s => s.title === prize);
+                            return (
+                              <div key={prize} className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                                <div className="flex items-center gap-3">
+                                  <div 
+                                    className="w-4 h-4 rounded-full"
+                                    style={{ backgroundColor: segment?.color || "#888" }}
+                                  />
+                                  <span className="font-medium">{prize}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-2xl font-bold">{count}</span>
+                                  <span className="text-sm text-muted-foreground">
+                                    ({totalParticipants > 0 ? Math.round((count / totalParticipants) * 100) : 0}%)
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <p className="text-center text-muted-foreground py-8">
+                          Aucune donnée disponible pour le moment
+                        </p>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* Recent Participants */}
+                  <Card className="border-2 shadow-lg">
+                    <CardHeader>
+                      <CardTitle>Derniers participants</CardTitle>
+                      <CardDescription>Activité récente de votre jeu</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      {recentParticipants.length > 0 ? (
+                        <div className="space-y-2">
+                          {recentParticipants.map((participant) => (
+                            <div 
+                              key={participant.id}
+                              className="flex items-center justify-between p-3 bg-muted rounded-lg hover:bg-muted/70 transition-colors"
+                            >
+                              <div className="space-y-1">
+                                <p className="font-medium">{participant.email}</p>
+                                <p className="text-xs text-muted-foreground">
+                                  {new Date(participant.createdAt).toLocaleDateString("fr-FR", {
+                                    day: "2-digit",
+                                    month: "long",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                  })}
+                                </p>
+                              </div>
+                              <div className="text-right">
+                                <p className="font-semibold text-sm">
+                                  {participant.prize1 || "En attente"}
+                                </p>
+                                {participant.prize2 && (
+                                  <p className="text-xs text-muted-foreground">
+                                    + {participant.prize2}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-center text-muted-foreground py-8">
+                          Aucun participant pour le moment
+                        </p>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
 
               {/* Tab: Configuration de la roue - SPLIT SCREEN */}
               <TabsContent value="wheel">
@@ -413,37 +583,60 @@ export default function EditEstablishmentPage() {
                 <Card className="border-2 shadow-xl">
                   <CardHeader>
                     <CardTitle className="text-2xl">Base de données clients</CardTitle>
-                    <CardDescription>Consultez et exportez vos contacts</CardDescription>
+                    <CardDescription>
+                      {participants.length} participant{participants.length > 1 ? "s" : ""} enregistré{participants.length > 1 ? "s" : ""}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-center py-12">
-                      <p className="text-muted-foreground mb-4">
-                        Fonctionnalité en développement
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Tableau des participants, filtres, et export CSV
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              {/* Tab: Analytics */}
-              <TabsContent value="analytics">
-                <Card className="border-2 shadow-xl">
-                  <CardHeader>
-                    <CardTitle className="text-2xl">Statistiques & Performance</CardTitle>
-                    <CardDescription>Analysez les performances de votre jeu</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-center py-12">
-                      <p className="text-muted-foreground mb-4">
-                        Fonctionnalité en développement
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        KPIs, graphiques, taux de conversion
-                      </p>
-                    </div>
+                    {participants.length > 0 ? (
+                      <div className="space-y-2">
+                        <div className="overflow-x-auto">
+                          <table className="w-full">
+                            <thead>
+                              <tr className="border-b">
+                                <th className="text-left p-3 font-semibold">Date</th>
+                                <th className="text-left p-3 font-semibold">Email</th>
+                                <th className="text-left p-3 font-semibold">Téléphone</th>
+                                <th className="text-left p-3 font-semibold">Lot gagné</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {participants.map((participant) => (
+                                <tr key={participant.id} className="border-b hover:bg-muted/50">
+                                  <td className="p-3 text-sm">
+                                    {new Date(participant.createdAt).toLocaleDateString("fr-FR")}
+                                  </td>
+                                  <td className="p-3">{participant.email}</td>
+                                  <td className="p-3">{participant.phone || "-"}</td>
+                                  <td className="p-3 font-medium">
+                                    {participant.prize1 || "En attente"}
+                                    {participant.prize2 && (
+                                      <span className="text-xs text-muted-foreground ml-2">
+                                        + {participant.prize2}
+                                      </span>
+                                    )}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        <div className="pt-4">
+                          <Button variant="outline" className="w-full">
+                            📥 Exporter en CSV
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-center py-12">
+                        <p className="text-muted-foreground mb-4">
+                          Aucun participant pour le moment
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Les clients qui jouent apparaîtront ici
+                        </p>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
