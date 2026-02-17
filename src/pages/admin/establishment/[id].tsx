@@ -8,9 +8,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Save, Trash2, Plus, GripVertical } from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, Eye } from "lucide-react";
 import { storageService } from "@/lib/storage";
 import { Establishment, WheelSegment } from "@/types";
+import { WheelPreview } from "@/components/admin/WheelPreview";
 
 export default function EditEstablishmentPage() {
   const router = useRouter();
@@ -73,7 +74,7 @@ export default function EditEstablishmentPage() {
   const handleSaveSegments = () => {
     if (!establishment) return;
     storageService.saveSegments(establishment.id, segments);
-    alert("Segments de la roue mis à jour avec succès !");
+    alert("Configuration de la roue sauvegardée !");
   };
 
   const handleAddSegment = () => {
@@ -103,6 +104,8 @@ export default function EditEstablishmentPage() {
     setSegments(updated);
   };
 
+  const totalProbability = segments.reduce((sum, seg) => sum + seg.probability, 0);
+
   if (!establishment) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -119,23 +122,185 @@ export default function EditEstablishmentPage() {
       />
 
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-        <header className="bg-white border-b shadow-sm">
-          <div className="container mx-auto px-4 py-4">
+        <header className="bg-white border-b shadow-sm sticky top-0 z-50">
+          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
             <Button onClick={() => router.push("/admin")} variant="ghost">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Retour au dashboard
             </Button>
+            <div className="flex items-center gap-2">
+              <Button 
+                onClick={() => window.open(`/game/${establishment.slug}`, "_blank")}
+                variant="outline"
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Prévisualiser le jeu
+              </Button>
+            </div>
           </div>
         </header>
 
         <div className="container mx-auto px-4 py-8">
-          <div className="max-w-4xl mx-auto">
-            <Tabs defaultValue="general" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="general">Informations</TabsTrigger>
-                <TabsTrigger value="wheel">Roue de la fortune</TabsTrigger>
-                <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-6">
+              <h1 className="text-3xl font-bold">{establishment.name}</h1>
+              <p className="text-muted-foreground">Gérez votre établissement et personnalisez l'expérience client</p>
+            </div>
+
+            <Tabs defaultValue="wheel" className="space-y-6">
+              <TabsList className="grid w-full grid-cols-4">
+                <TabsTrigger value="wheel">🎡 Configuration Roue</TabsTrigger>
+                <TabsTrigger value="general">⚙️ Informations</TabsTrigger>
+                <TabsTrigger value="clients">👥 Clients</TabsTrigger>
+                <TabsTrigger value="analytics">📊 Analytics</TabsTrigger>
               </TabsList>
+
+              {/* Tab: Configuration de la roue - SPLIT SCREEN */}
+              <TabsContent value="wheel">
+                <div className="grid lg:grid-cols-2 gap-6">
+                  {/* LEFT: Preview */}
+                  <Card className="border-2 shadow-xl lg:sticky lg:top-24 h-fit">
+                    <CardHeader>
+                      <CardTitle className="text-xl flex items-center gap-2">
+                        <Eye className="w-5 h-5" />
+                        Aperçu de la roue
+                      </CardTitle>
+                      <CardDescription>
+                        Visualisation en temps réel
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col items-center space-y-4">
+                      <WheelPreview segments={segments} size={400} />
+                      
+                      <div className="w-full p-4 bg-muted rounded-lg">
+                        <p className="text-sm font-semibold mb-2">Statistiques</p>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <p className="text-muted-foreground">Segments</p>
+                            <p className="font-bold text-lg">{segments.length}</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Probabilité totale</p>
+                            <p className={`font-bold text-lg ${totalProbability === 100 ? "text-green-600" : "text-orange-600"}`}>
+                              {totalProbability}%
+                            </p>
+                          </div>
+                        </div>
+                        {totalProbability !== 100 && (
+                          <p className="text-xs text-orange-600 mt-2">
+                            ⚠️ La somme des probabilités devrait être égale à 100%
+                          </p>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* RIGHT: Configuration */}
+                  <div className="space-y-4">
+                    <Card className="border-2 shadow-xl">
+                      <CardHeader>
+                        <CardTitle className="text-xl">Segments de la roue</CardTitle>
+                        <CardDescription>
+                          Personnalisez les lots et leurs probabilités
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {segments.map((segment, index) => (
+                          <Card key={segment.id} className="border-2">
+                            <CardContent className="pt-6">
+                              <div className="space-y-4">
+                                <div className="flex items-center justify-between mb-4">
+                                  <span className="text-sm font-semibold text-muted-foreground">
+                                    Segment #{index + 1}
+                                  </span>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleDeleteSegment(index)}
+                                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </Button>
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-4">
+                                  <div className="space-y-2">
+                                    <Label>Titre du lot</Label>
+                                    <Input
+                                      value={segment.title}
+                                      onChange={(e) => handleUpdateSegment(index, "title", e.target.value)}
+                                      placeholder="Ex: Dessert offert"
+                                    />
+                                  </div>
+
+                                  <div className="space-y-2">
+                                    <Label>Type de segment</Label>
+                                    <select
+                                      value={segment.type}
+                                      onChange={(e) => handleUpdateSegment(index, "type", e.target.value)}
+                                      className="w-full h-10 px-3 rounded-md border border-input bg-background"
+                                    >
+                                      <option value="prize">🎁 Lot gagnant</option>
+                                      <option value="no-prize">❌ Pas de gain</option>
+                                    </select>
+                                  </div>
+
+                                  <div className="space-y-2">
+                                    <Label>Couleur</Label>
+                                    <div className="flex gap-2">
+                                      <Input
+                                        type="color"
+                                        value={segment.color}
+                                        onChange={(e) => handleUpdateSegment(index, "color", e.target.value)}
+                                        className="w-20 h-10 cursor-pointer"
+                                      />
+                                      <Input
+                                        type="text"
+                                        value={segment.color}
+                                        onChange={(e) => handleUpdateSegment(index, "color", e.target.value)}
+                                        placeholder="#000000"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="space-y-2">
+                                    <Label>Probabilité (%)</Label>
+                                    <Input
+                                      type="number"
+                                      min="0"
+                                      max="100"
+                                      value={segment.probability}
+                                      onChange={(e) => handleUpdateSegment(index, "probability", parseInt(e.target.value) || 0)}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+
+                        <Button 
+                          onClick={handleAddSegment} 
+                          variant="outline" 
+                          className="w-full border-2 border-dashed hover:border-solid"
+                        >
+                          <Plus className="w-4 h-4 mr-2" />
+                          Ajouter un segment
+                        </Button>
+
+                        <Button 
+                          onClick={handleSaveSegments} 
+                          className="w-full prizmo-gradient text-white font-semibold"
+                          size="lg"
+                        >
+                          <Save className="w-4 h-4 mr-2" />
+                          Enregistrer la configuration
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </TabsContent>
 
               {/* Tab: Informations générales */}
               <TabsContent value="general">
@@ -235,7 +400,7 @@ export default function EditEstablishmentPage() {
                       </div>
                     </div>
 
-                    <Button onClick={handleSaveEstablishment} className="w-full prizmo-gradient text-white">
+                    <Button onClick={handleSaveEstablishment} className="w-full prizmo-gradient text-white" size="lg">
                       <Save className="w-4 h-4 mr-2" />
                       Enregistrer les modifications
                     </Button>
@@ -243,93 +408,22 @@ export default function EditEstablishmentPage() {
                 </Card>
               </TabsContent>
 
-              {/* Tab: Configuration de la roue */}
-              <TabsContent value="wheel">
+              {/* Tab: Clients */}
+              <TabsContent value="clients">
                 <Card className="border-2 shadow-xl">
                   <CardHeader>
-                    <CardTitle className="text-2xl">Configuration de la roue</CardTitle>
-                    <CardDescription>Personnalisez les segments et les lots de votre roue</CardDescription>
+                    <CardTitle className="text-2xl">Base de données clients</CardTitle>
+                    <CardDescription>Consultez et exportez vos contacts</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="space-y-4">
-                      {segments.map((segment, index) => (
-                        <Card key={segment.id} className="border">
-                          <CardContent className="pt-6">
-                            <div className="grid md:grid-cols-2 gap-4">
-                              <div className="space-y-2">
-                                <Label>Titre du lot</Label>
-                                <Input
-                                  value={segment.title}
-                                  onChange={(e) => handleUpdateSegment(index, "title", e.target.value)}
-                                  placeholder="Ex: Dessert offert"
-                                />
-                              </div>
-
-                              <div className="space-y-2">
-                                <Label>Type</Label>
-                                <select
-                                  value={segment.type}
-                                  onChange={(e) => handleUpdateSegment(index, "type", e.target.value)}
-                                  className="w-full h-10 px-3 rounded-md border border-input bg-background"
-                                >
-                                  <option value="prize">Lot gagnant</option>
-                                  <option value="no-prize">Pas de gain</option>
-                                </select>
-                              </div>
-
-                              <div className="space-y-2">
-                                <Label>Couleur</Label>
-                                <div className="flex gap-2">
-                                  <Input
-                                    type="color"
-                                    value={segment.color}
-                                    onChange={(e) => handleUpdateSegment(index, "color", e.target.value)}
-                                    className="w-20 h-10"
-                                  />
-                                  <Input
-                                    type="text"
-                                    value={segment.color}
-                                    onChange={(e) => handleUpdateSegment(index, "color", e.target.value)}
-                                  />
-                                </div>
-                              </div>
-
-                              <div className="space-y-2">
-                                <Label>Probabilité (%)</Label>
-                                <Input
-                                  type="number"
-                                  min="1"
-                                  max="100"
-                                  value={segment.probability}
-                                  onChange={(e) => handleUpdateSegment(index, "probability", parseInt(e.target.value))}
-                                />
-                              </div>
-
-                              <div className="col-span-2 flex justify-end">
-                                <Button
-                                  variant="destructive"
-                                  size="sm"
-                                  onClick={() => handleDeleteSegment(index)}
-                                >
-                                  <Trash2 className="w-4 h-4 mr-2" />
-                                  Supprimer
-                                </Button>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
+                  <CardContent>
+                    <div className="text-center py-12">
+                      <p className="text-muted-foreground mb-4">
+                        Fonctionnalité en développement
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Tableau des participants, filtres, et export CSV
+                      </p>
                     </div>
-
-                    <Button onClick={handleAddSegment} variant="outline" className="w-full">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Ajouter un segment
-                    </Button>
-
-                    <Button onClick={handleSaveSegments} className="w-full prizmo-gradient text-white">
-                      <Save className="w-4 h-4 mr-2" />
-                      Enregistrer la configuration de la roue
-                    </Button>
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -338,16 +432,16 @@ export default function EditEstablishmentPage() {
               <TabsContent value="analytics">
                 <Card className="border-2 shadow-xl">
                   <CardHeader>
-                    <CardTitle className="text-2xl">Statistiques & Données clients</CardTitle>
+                    <CardTitle className="text-2xl">Statistiques & Performance</CardTitle>
                     <CardDescription>Analysez les performances de votre jeu</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="text-center py-12">
                       <p className="text-muted-foreground mb-4">
-                        Fonctionnalité en cours de développement
+                        Fonctionnalité en développement
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        Bientôt disponible : nombre de participations, lots distribués, export CSV des emails collectés
+                        KPIs, graphiques, taux de conversion
                       </p>
                     </div>
                   </CardContent>
