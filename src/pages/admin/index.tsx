@@ -72,11 +72,15 @@ export default function AdminDashboard() {
                 <CardTitle>Actions rapides</CardTitle>
                 <CardDescription>Gérez vos établissements et leurs paramètres</CardDescription>
               </CardHeader>
-              <CardContent className="grid md:grid-cols-4 gap-4">
-                <div className="h-auto py-4 border-2 border-dashed border-gray-200 rounded-lg" />
-                <div className="h-auto py-4 border-2 border-dashed border-gray-200 rounded-lg" />
-                <div className="h-auto py-4 border-2 border-dashed border-gray-200 rounded-lg" />
-              </CardContent>
+                          <CardContent className="grid md:grid-cols-4 gap-4">
+                              <Button onClick={handleCreateNew} className="prizmo-gradient text-white h-auto py-4 flex-col gap-2">
+                                  <Plus className="w-6 h-6" />
+                                  Nouvel établissement
+                              </Button>
+                              <div className="h-auto py-4 border-2 border-dashed border-gray-200 rounded-lg" />
+                              <div className="h-auto py-4 border-2 border-dashed border-gray-200 rounded-lg" />
+                              <div className="h-auto py-4 border-2 border-dashed border-gray-200 rounded-lg" />
+                          </CardContent>
             </Card>
 
             {/* Establishments List */}
