@@ -130,7 +130,7 @@ export default function AdminDashboard() {
                             </Button>
                                     <Button
                                         onClick={() => handleDelete(establishment)}
-                                        className="flex-1 bg-red-400 hover:bg-red-500 text-white border-0"
+                                        className="flex-1 bg-rose-800 hover:bg-rose-900 text-white border-0"
                                     >
                                         <Trash2 className="w-4 h-4 mr-2" />
                                         Supprimer
