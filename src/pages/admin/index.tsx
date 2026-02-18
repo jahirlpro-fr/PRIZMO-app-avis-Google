@@ -32,6 +32,18 @@ export default function AdminDashboard() {
     router.push(`/admin/establishment/${id}`);
   };
 
+    const handleDelete = (establishment: Establishment) => {
+        setEstablishmentToDelete(establishment);
+    };
+
+    const confirmDelete = () => {
+        if (!establishmentToDelete) return;
+        storageService.deleteEstablishment(establishmentToDelete.id);
+        setEstablishments(establishments.filter(e => e.id !== establishmentToDelete.id));
+        setEstablishmentToDelete(null);
+    };
+
+
   return (
     <>
       <SEO 
