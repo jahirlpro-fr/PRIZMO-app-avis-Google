@@ -149,6 +149,38 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+          {/* Modal de confirmation suppression */}
+          <AlertDialog open={!!establishmentToDelete} onOpenChange={(open) => !open && setEstablishmentToDelete(null)}>
+              <AlertDialogContent className="border-2 border-purple-100">
+                  <AlertDialogHeader>
+                      <AlertDialogTitle className="text-2xl font-bold">
+                          🗑️ Supprimer cet établissement ?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription className="text-base text-gray-600">
+                          Vous êtes sur le point de supprimer définitivement{" "}
+                          <span className="font-semibold text-gray-900">{establishmentToDelete?.name}</span>.
+                          <br /><br />
+                          Toutes les données associées (participants, segments de roue) seront également supprimées.
+                          Cette action est <span className="font-semibold text-red-600">irréversible</span>.
+                      </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="gap-2">
+                      <AlertDialogCancel className="border-2">
+                          Annuler
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                          onClick={confirmDelete}
+                          className="bg-red-500 hover:bg-red-600 text-white"
+                      >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Oui, supprimer
+                      </AlertDialogAction>
+                  </AlertDialogFooter>
+              </AlertDialogContent>
+          </AlertDialog>
+
+      
     </>
   );
 }
