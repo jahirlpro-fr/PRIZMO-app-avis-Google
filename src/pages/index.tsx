@@ -33,24 +33,16 @@ export default function HomePage() {
               laissent un avis, tournent la roue et gagnent un cadeau. Simple, efficace, mémorable.
             </p>
 
-            <div className="flex gap-4 justify-center flex-wrap">
-              <Button 
-                size="lg" 
-                className="prizmo-gradient text-white text-lg px-8 py-6"
-                onClick={() => router.push("/game/demo-restaurant")}
-              >
-                <Sparkles className="w-5 h-5 mr-2" />
-                Tester la démo
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="text-lg px-8 py-6"
-                onClick={() => router.push("/admin")}
-              >
-                Accès administrateur
-              </Button>
-            </div>
+<div className="flex gap-4 justify-center flex-wrap">
+  <Button 
+    size="lg" 
+    className="prizmo-gradient text-white text-lg px-8 py-6"
+    onClick={() => router.push("/admin")}
+  >
+    <Sparkles className="w-5 h-5 mr-2" />
+    Accès administrateur
+  </Button>
+</div>
           </div>
         </section>
 
