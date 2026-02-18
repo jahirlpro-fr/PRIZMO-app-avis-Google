@@ -14,7 +14,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 export default function AdminDashboard() {
   const router = useRouter();
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
-  const [selectedEstablishment, setSelectedEstablishment] = useState<Establishment | null>(null);
+  const [selectedEstablishment, setSelectedEstablishment] = useState < Establishment | null > (null);
+  const [establishmentToDelete, setEstablishmentToDelete] = useState < Establishment | null > (null);
 
   useEffect(() => {
     // Charger les établissements
