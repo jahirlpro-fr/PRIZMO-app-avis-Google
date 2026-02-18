@@ -119,5 +119,23 @@ export const storageService = {
       ];
       this.saveSegments("demo-restaurant", demoSegments);
     }
-  },
+    },
+
+    deleteEstablishment(id: string): void {
+        // Supprimer l'établissement
+        const establishments = this.getEstablishments();
+        const filtered = establishments.filter((e) => e.id !== id);
+        localStorage.setItem(STORAGE_KEYS.ESTABLISHMENTS, JSON.stringify(filtered));
+
+        // Supprimer les segments associés
+        const segData = localStorage.getItem(STORAGE_KEYS.SEGMENTS);
+        const allSegments: WheelSegment[] = segData ? JSON.parse(segData) : [];
+        localStorage.setItem(STORAGE_KEYS.SEGMENTS, JSON.stringify(allSegments.filter((s) => s.establishmentId !== id)));
+
+        // Supprimer les participants associés
+        const partData = localStorage.getItem(STORAGE_KEYS.PARTICIPANTS);
+        const allParticipants: Participant[] = partData ? JSON.parse(partData) : [];
+        localStorage.setItem(STORAGE_KEYS.PARTICIPANTS, JSON.stringify(allParticipants.filter((p) => p.establishmentId !== id)));
+    },
+  
 };
