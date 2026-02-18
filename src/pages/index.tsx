@@ -135,28 +135,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="container mx-auto px-4 py-16 text-center">
-          <Card className="max-w-2xl mx-auto border-4 border-purple-200 shadow-2xl prizmo-gradient text-white">
-            <CardHeader>
-              <CardTitle className="text-3xl text-white">Prêt à transformer votre établissement ?</CardTitle>
-              <CardDescription className="text-purple-100 text-lg">
-                Testez Prizmo dès maintenant et découvrez la puissance de la gamification !
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Button 
-                size="lg" 
-                variant="secondary"
-                className="text-lg px-8 py-6"
-                onClick={() => router.push("/game/demo-restaurant")}
-              >
-                <Sparkles className="w-5 h-5 mr-2" />
-                Essayer la démo gratuitement
-              </Button>
-            </CardContent>
-          </Card>
-        </section>
+
 
         {/* Footer */}
         <footer className="container mx-auto px-4 py-8 text-center text-gray-600 border-t">
