@@ -124,14 +124,13 @@ export default function AdminDashboard() {
                               <Edit className="w-4 h-4 mr-2" />
                               Modifier
                             </Button>
-                            <Button 
-                              onClick={() => router.push(`/admin/establishment/${establishment.id}/qr`)}
-                              variant="outline"
-                              className="flex-1"
-                            >
-                              <QrCode className="w-4 h-4 mr-2" />
-                              QR Code
-                            </Button>
+                                    <Button
+                                        onClick={() => handleDelete(establishment)}
+                                        className="flex-1 bg-red-500 hover:bg-red-600 text-white border-0"
+                                    >
+                                        <Trash2 className="w-4 h-4 mr-2" />
+                                        Supprimer
+                                    </Button>
                           </div>
                           <Button 
                             onClick={() => router.push(`/game/${establishment.id}`)}
