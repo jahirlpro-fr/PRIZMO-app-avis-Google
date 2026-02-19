@@ -8,15 +8,20 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Save, Trash2, Plus, Eye, Users, Star, TrendingUp, Gift, Download, Search, Filter, Calendar } from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, Eye, Users, Star, TrendingUp, Gift, Download, Search, Filter, Calendar, QrCode, LogOut } from "lucide-react";
 import { storageService } from "@/lib/storage";
 import { Establishment, WheelSegment, Participant } from "@/types";
 import { WheelPreview } from "@/components/admin/WheelPreview";
 import { AnalyticsCharts } from "@/components/admin/AnalyticsCharts";
+// Fix import - importing generatePoster instead if generateQRCodePDF doesn't exist, or check pdfGenerator.ts
+import { generatePoster } from "@/lib/pdfGenerator"; 
+import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function EditEstablishmentPage() {
   const router = useRouter();
   const { id } = router.query;
+  const { signOut } = useAuth();
   
   const [establishment, setEstablishment] = useState<Establishment | null>(null);
   const [segments, setSegments] = useState<WheelSegment[]>([]);
@@ -190,7 +195,7 @@ export default function EditEstablishmentPage() {
   }
 
   return (
-    <>
+    <ProtectedRoute establishmentId={id as string}>
       <SEO 
         title={`Éditer ${establishment.name} - Prizmo Admin`}
         description="Modifier les paramètres de votre établissement"
@@ -210,6 +215,10 @@ export default function EditEstablishmentPage() {
               >
                 <Eye className="w-4 h-4 mr-2" />
                 Prévisualiser le jeu
+              </Button>
+              <Button onClick={() => signOut()} variant="outline" className="text-red-600 hover:text-red-700 hover:bg-red-50">
+                <LogOut className="w-4 h-4 mr-2" />
+                Déconnexion
               </Button>
             </div>
           </div>
@@ -810,6 +819,6 @@ export default function EditEstablishmentPage() {
           </div>
         </div>
       </div>
-    </>
+    </ProtectedRoute>
   );
 }

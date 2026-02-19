@@ -11,9 +11,12 @@ import { Establishment } from "@/types";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import type React from "react";
+import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function AdminDashboard() {
   const router = useRouter();
+  const { signOut } = useAuth();
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [selectedEstablishment, setSelectedEstablishment] = useState < Establishment | null > (null);
   const [establishmentToDelete, setEstablishmentToDelete] = useState < Establishment | null > (null);
@@ -60,7 +63,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <>
+    <ProtectedRoute requireRole="superadmin">
       <SEO 
         title="Dashboard Admin - Prizmo"
         description="Gérez vos établissements et leur roue de la fortune"
@@ -116,7 +119,7 @@ export default function AdminDashboard() {
                 ) : (
                   <div className="grid md:grid-cols-2 gap-4">
                     {establishments.map((establishment) => (
-                      <Card key={establishment.id} className="hover:shadow-lg transition-shadow">
+                      <Card key={establishment.id} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => handleEdit(establishment.id)}>
                         <CardHeader>
                           <div className="flex items-start justify-between">
                             <div>
@@ -200,6 +203,6 @@ export default function AdminDashboard() {
           </AlertDialog>
 
       
-    </>
+    </ProtectedRoute>
   );
 }

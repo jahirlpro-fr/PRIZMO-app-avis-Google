@@ -1,5 +1,5 @@
 import { SEO } from "@/components/SEO";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,9 +10,12 @@ import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Save } from "lucide-react";
 import { storageService } from "@/lib/storage";
 import { Establishment, WheelSegment } from "@/types";
+import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function NewEstablishmentPage() {
   const router = useRouter();
+  const { signOut } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -42,7 +45,7 @@ export default function NewEstablishmentPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -95,7 +98,7 @@ export default function NewEstablishmentPage() {
   };
 
   return (
-    <>
+    <ProtectedRoute requireRole="superadmin">
       <SEO 
         title="Nouvel établissement - Prizmo Admin"
         description="Créez un nouvel établissement"
@@ -263,6 +266,6 @@ export default function NewEstablishmentPage() {
           </div>
         </div>
       </div>
-    </>
+    </ProtectedRoute>
   );
 }

@@ -8,10 +8,13 @@ import { storageService } from "@/lib/storage";
 import { Establishment } from "@/types";
 import QRCode from "qrcode";
 import { generatePoster } from "@/lib/pdfGenerator";
+import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function QRCodePage() {
   const router = useRouter();
   const { id } = router.query;
+  const { signOut } = useAuth();
   
   const [establishment, setEstablishment] = useState<Establishment | null>(null);
   const [gameUrl, setGameUrl] = useState("");
@@ -119,7 +122,7 @@ export default function QRCodePage() {
   }
 
   return (
-    <>
+    <ProtectedRoute establishmentId={id as string}>
       <SEO 
         title={`QR Code - ${establishment.name}`}
         description="Générez votre QR code pour le jeu"
@@ -381,6 +384,6 @@ export default function QRCodePage() {
           </div>
         </div>
       </div>
-    </>
+    </ProtectedRoute>
   );
 }
