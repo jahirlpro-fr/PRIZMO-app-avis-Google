@@ -10,6 +10,7 @@ import { storageService } from "@/lib/storage";
 import { Establishment } from "@/types";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import type React from "react";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -18,10 +19,19 @@ export default function AdminDashboard() {
   const [establishmentToDelete, setEstablishmentToDelete] = useState < Establishment | null > (null);
 
   useEffect(() => {
-    // Charger les établissements
-    storageService.initializeDemoData();
-    const data = storageService.getEstablishments();
-    setEstablishments(data);
+    const loadEstablishments = async () => {
+      const data = await storageService.getEstablishments();
+      setEstablishments(data);
+      
+      // Initialize demo data if empty (only for first run)
+      if (data.length === 0) {
+        await storageService.initializeDemoData();
+        const refreshedData = await storageService.getEstablishments();
+        setEstablishments(refreshedData);
+      }
+    };
+
+    loadEstablishments();
   }, []);
 
   const handleCreateNew = () => {
@@ -32,17 +42,22 @@ export default function AdminDashboard() {
     router.push(`/admin/establishment/${id}`);
   };
 
-    const handleDelete = (establishment: Establishment) => {
-        setEstablishmentToDelete(establishment);
-    };
+  const handleDelete = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const toDelete = establishments.find(est => est.id === id);
+    if (toDelete) {
+      setEstablishmentToDelete(toDelete);
+    }
+  };
 
-    const confirmDelete = () => {
-        if (!establishmentToDelete) return;
-        storageService.deleteEstablishment(establishmentToDelete.id);
-        setEstablishments(establishments.filter(e => e.id !== establishmentToDelete.id));
-        setEstablishmentToDelete(null);
-    };
-
+  const confirmDelete = async () => {
+    if (establishmentToDelete) {
+      await storageService.deleteEstablishment(establishmentToDelete.id);
+      const updated = await storageService.getEstablishments();
+      setEstablishments(updated);
+      setEstablishmentToDelete(null);
+    }
+  };
 
   return (
     <>
@@ -129,7 +144,7 @@ export default function AdminDashboard() {
                               Modifier
                             </Button>
                                     <Button
-                                        onClick={() => handleDelete(establishment)}
+                                        onClick={(e) => handleDelete(establishment.id, e)}
                                         className="flex-1 bg-red-500 hover:bg-red-600 text-white border-0"
                                     >
                                         <Trash2 className="w-4 h-4 mr-2" />

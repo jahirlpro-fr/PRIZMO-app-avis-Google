@@ -29,28 +29,26 @@ export default function GamePage() {
   // Initialiser les données et charger l'établissement
   useEffect(() => {
     if (!router.isReady) return;
+    
+    const initGame = async () => {
+      const slug = router.query.slug as string;
+      const found = await storageService.getEstablishmentBySlug(slug);
+      
+      if (found) {
+        setEstablishment(found);
+        const establishmentSegments = await storageService.getSegments(found.id);
+        setSegments(establishmentSegments);
+      }
+    };
 
-    // Initialiser les données de démo si nécessaire
-    storageService.initializeDemoData();
+    initGame();
+  }, [router.isReady, router.query.slug]);
 
-    const establishmentId = slug as string;
-    const foundEstablishment = storageService.getEstablishmentById(establishmentId);
-
-    if (foundEstablishment) {
-      setEstablishment(foundEstablishment);
-      const establishmentSegments = storageService.getSegments(establishmentId);
-      setSegments(establishmentSegments);
-      setStep("email");
-    } else {
-      setStep("error");
-    }
-  }, [router.isReady, slug]);
-
-  const handleEmailSubmit = (email: string, phone: string) => {
+  const handleEmailSubmit = async (email: string, phone: string) => {
     if (!establishment) return;
 
     // Vérification anti-abus
-    const existingParticipant = storageService.getParticipantByEmail(establishment.id, email);
+    const existingParticipant = await storageService.getParticipantByEmail(establishment.id, email);
     
     if (existingParticipant) {
       setStep("already-played");
@@ -73,7 +71,7 @@ export default function GamePage() {
     setStep("wheel1");
   };
 
-  const handleSpin1Complete = (prize: string) => {
+  const handleSpin1Complete = async (prize: string) => {
     setPrize1(prize);
     
     // Vérifier si c'est un lot gagnant (basé sur le type de segment)
@@ -89,7 +87,7 @@ export default function GamePage() {
         hasSpunWheel1: true,
         prize1: prize
       };
-      storageService.saveParticipant(newParticipant);
+      await storageService.saveParticipant(newParticipant);
       setParticipant(newParticipant);
     }
 
@@ -103,7 +101,7 @@ export default function GamePage() {
     }
   };
 
-  const handleSpin2Complete = (prize: string) => {
+  const handleSpin2Complete = async (prize: string) => {
     setPrize2(prize);
     
     // Pour la 2ème roue, on utilise les mêmes segments pour l'instant
@@ -119,7 +117,7 @@ export default function GamePage() {
         hasSpunWheel2: true,
         prize2: prize
       };
-      storageService.saveParticipant(updatedParticipant);
+      await storageService.saveParticipant(updatedParticipant);
       setParticipant(updatedParticipant);
     }
 

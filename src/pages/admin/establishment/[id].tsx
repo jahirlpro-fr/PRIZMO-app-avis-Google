@@ -37,30 +37,34 @@ export default function EditEstablishmentPage() {
   useEffect(() => {
     if (!router.isReady) return;
     
-    const establishmentId = id as string;
-    const found = storageService.getEstablishmentById(establishmentId);
-    
-    if (found) {
-      setEstablishment(found);
-      setFormData({
-        name: found.name,
-        address: found.address,
-        googleMapsUrl: found.googleMapsUrl,
-        instagramUrl: found.instagramUrl || "",
-        primaryColor: found.primaryColor,
-        secondaryColor: found.secondaryColor,
-        enableInstagramWheel: found.enableInstagramWheel,
-      });
+    const fetchData = async () => {
+      const establishmentId = id as string;
+      const found = await storageService.getEstablishmentById(establishmentId);
       
-      const establishmentSegments = storageService.getSegments(establishmentId);
-      setSegments(establishmentSegments);
-      
-      const establishmentParticipants = storageService.getParticipants(establishmentId);
-      setParticipants(establishmentParticipants);
-    }
+      if (found) {
+        setEstablishment(found);
+        setFormData({
+          name: found.name,
+          address: found.address,
+          googleMapsUrl: found.googleMapsUrl,
+          instagramUrl: found.instagramUrl || "",
+          primaryColor: found.primaryColor,
+          secondaryColor: found.secondaryColor,
+          enableInstagramWheel: found.enableInstagramWheel,
+        });
+        
+        const establishmentSegments = await storageService.getSegments(establishmentId);
+        setSegments(establishmentSegments);
+        
+        const establishmentParticipants = await storageService.getParticipants(establishmentId);
+        setParticipants(establishmentParticipants);
+      }
+    };
+
+    fetchData();
   }, [router.isReady, id]);
 
-  const handleSaveEstablishment = () => {
+  const handleSaveEstablishment = async () => {
     if (!establishment) return;
 
     const updated: Establishment = {
@@ -74,14 +78,14 @@ export default function EditEstablishmentPage() {
       enableInstagramWheel: formData.enableInstagramWheel,
     };
 
-    storageService.saveEstablishment(updated);
+    await storageService.saveEstablishment(updated);
     setEstablishment(updated);
     alert("Établissement mis à jour avec succès !");
   };
 
-  const handleSaveSegments = () => {
+  const handleSaveSegments = async () => {
     if (!establishment) return;
-    storageService.saveSegments(establishment.id, segments);
+    await storageService.saveSegments(establishment.id, segments);
     alert("Configuration de la roue sauvegardée !");
   };
 

@@ -42,7 +42,7 @@ export default function NewEstablishmentPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -67,7 +67,7 @@ export default function NewEstablishmentPage() {
       createdAt: new Date().toISOString(),
     };
 
-    storageService.saveEstablishment(newEstablishment);
+    await storageService.saveEstablishment(newEstablishment);
     
     const defaultSegments: WheelSegment[] = [
       { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Boisson maison offerte", color: "#8b5cf6", type: "prize", probability: 25, order: 1 },
@@ -78,7 +78,7 @@ export default function NewEstablishmentPage() {
       { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#ef4444", type: "no-prize", probability: 5, order: 6 },
     ];
     
-    storageService.saveSegments(newEstablishment.id, defaultSegments);
+    await storageService.saveSegments(newEstablishment.id, defaultSegments);
 
     router.push(`/admin/establishment/${newEstablishment.id}`);
   };

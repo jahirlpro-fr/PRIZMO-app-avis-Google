@@ -22,14 +22,15 @@ export default function QRCodePage() {
   useEffect(() => {
     if (!router.isReady) return;
     
-    const establishmentId = id as string;
-    const found = storageService.getEstablishmentById(establishmentId);
-    
-    if (found) {
-      setEstablishment(found);
-      const url = `${window.location.origin}/game/${found.slug}`;
-      setGameUrl(url);
-    }
+    const fetchEstablishment = async () => {
+      const establishmentId = id as string;
+      const found = await storageService.getEstablishmentById(establishmentId);
+      if (found) {
+        setEstablishment(found);
+      }
+    };
+
+    fetchEstablishment();
   }, [router.isReady, id]);
 
   useEffect(() => {
