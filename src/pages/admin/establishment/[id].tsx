@@ -232,12 +232,12 @@ export default function EditEstablishmentPage() {
             </div>
 
             <Tabs defaultValue="analytics" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="analytics">📊 Analytics</TabsTrigger>
-                <TabsTrigger value="wheel">🎡 Configuration Roue</TabsTrigger>
-                <TabsTrigger value="general">⚙️ Informations</TabsTrigger>
-                <TabsTrigger value="clients">👥 Clients</TabsTrigger>
-              </TabsList>
+                          <TabsList className="grid w-full grid-cols-4">
+                              <TabsTrigger value="wheel">🎡 Configuration Roue</TabsTrigger>
+                              <TabsTrigger value="general">⚙️ Informations</TabsTrigger>
+                              <TabsTrigger value="clients">👥 Clients</TabsTrigger>
+                              <TabsTrigger value="analytics">📊 Analytics</TabsTrigger>
+                          </TabsList>
 
               {/* Tab: Analytics - NEW PRIORITY */}
               <TabsContent value="analytics">
