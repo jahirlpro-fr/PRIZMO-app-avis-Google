@@ -100,27 +100,41 @@ export type Database = {
           avatar_url: string | null
           created_at: string | null
           email: string | null
+          establishment_id: string | null
           full_name: string | null
           id: string
+          role: string | null
           updated_at: string | null
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string | null
           email?: string | null
+          establishment_id?: string | null
           full_name?: string | null
           id: string
+          role?: string | null
           updated_at?: string | null
         }
         Update: {
           avatar_url?: string | null
           created_at?: string | null
           email?: string | null
+          establishment_id?: string | null
           full_name?: string | null
           id?: string
+          role?: string | null
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_establishment_id_fkey"
+            columns: ["establishment_id"]
+            isOneToOne: false
+            referencedRelation: "establishments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       segments: {
         Row: {
