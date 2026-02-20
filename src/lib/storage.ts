@@ -239,6 +239,22 @@ export const storageService = {
     }
   },
 
+    async getParticipantByPhone(establishmentId: string, phone: string): Promise<Participant | null> {
+        try {
+            const { data, error } = await supabase
+                .from("participants")
+                .select("*")
+                .eq("establishment_id", establishmentId)
+                .eq("phone", phone)
+                .single();
+
+            if (error) return null;
+            return toCamelCase(data);
+        } catch {
+            return null;
+        }
+    },
+
   async saveParticipant(participant: Participant): Promise<void> {
     try {
       const snakeData = toSnakeCase(participant);
