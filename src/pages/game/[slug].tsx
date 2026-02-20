@@ -53,12 +53,13 @@ useEffect(() => {
     if (!establishment) return;
 
     // Vérification anti-abus
-    const existingParticipant = await storageService.getParticipantByEmail(establishment.id, email);
-    
-    if (existingParticipant) {
-      setStep("already-played");
-      return;
-    }
+      const existingByEmail = await storageService.getParticipantByEmail(establishment.id, email);
+      const existingByPhone = await storageService.getParticipantByPhone(establishment.id, phone);
+
+      if (existingByEmail || existingByPhone) {
+          setStep("already-played");
+          return;
+      }
 
     setParticipant({
       email,
