@@ -27,22 +27,27 @@ export default function GamePage() {
   const [isWinner2, setIsWinner2] = useState(false);
 
   // Initialiser les données et charger l'établissement
-  useEffect(() => {
-    if (!router.isReady) return;
+useEffect(() => {
+  if (!router.isReady || !router.query.slug) return;
+  
+  const initGame = async () => {
+    const slugValue = router.query.slug as string;
+    if (!slugValue || slugValue === ':slug') return;
     
-    const initGame = async () => {
-      const slug = router.query.slug as string;
-      const found = await storageService.getEstablishmentBySlug(slug);
-      
-      if (found) {
-        setEstablishment(found);
-        const establishmentSegments = await storageService.getSegments(found.id);
-        setSegments(establishmentSegments);
-      }
-    };
+    const found = await storageService.getEstablishmentBySlug(slugValue);
+    
+    if (found) {
+      setEstablishment(found);
+      const establishmentSegments = await storageService.getSegments(found.id);
+      setSegments(establishmentSegments);
+      setStep("email");
+    } else {
+      setStep("error");
+    }
+  };
 
-    initGame();
-  }, [router.isReady, router.query.slug]);
+  initGame();
+}, [router.isReady, router.query.slug]);
 
   const handleEmailSubmit = async (email: string, phone: string) => {
     if (!establishment) return;
