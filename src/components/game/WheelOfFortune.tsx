@@ -131,7 +131,7 @@ export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establis
             {isSpinning ? (
               <>
                 <Zap className="w-6 h-6 mr-2 animate-bounce" />
-                La roue tourne...
+                La roue tourne..
               </>
             ) : (
               <>
