@@ -1,250 +1,153 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { SEO } from "@/components/SEO";
-import { EmailForm } from "@/components/game/EmailForm";
-import { ReviewStep } from "@/components/game/ReviewStep";
-import { WheelOfFortune } from "@/components/game/WheelOfFortune";
-import { PrizeResult } from "@/components/game/PrizeResult";
-import { storageService } from "@/lib/storage";
-import { Establishment, Participant, WheelSegment } from "@/types";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, AlertCircle } from "lucide-react";
+import { WheelSegment } from "@/types";
+import { Sparkles, Zap } from "lucide-react";
 
-type GameStep = "loading" | "email" | "review" | "wheel1" | "result1" | "instagram" | "wheel2" | "result2" | "already-played" | "error";
+interface WheelOfFortuneProps {
+    segments: WheelSegment[];
+    onSpinComplete: (prize: string) => void;
+    wheelNumber: 1 | 2;
+    establishmentName: string;
+}
 
-export default function GamePage() {
-  const router = useRouter();
-  const { slug } = router.query;
-  
-  const [step, setStep] = useState<GameStep>("loading");
-  const [establishment, setEstablishment] = useState<Establishment | null>(null);
-  const [segments, setSegments] = useState<WheelSegment[]>([]);
-  const [participant, setParticipant] = useState<Partial<Participant>>({});
-  const [prize1, setPrize1] = useState<string>("");
-  const [prize2, setPrize2] = useState<string>("");
-  const [isWinner1, setIsWinner1] = useState(false);
-  const [isWinner2, setIsWinner2] = useState(false);
+export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establishmentName }: WheelOfFortuneProps) {
+    const [isSpinning, setIsSpinning] = useState(false);
+    const [currentRotation, setCurrentRotation] = useState(0);
+    const wheelRef = useRef < HTMLDivElement > (null);
+    const selectedSegmentRef = useRef < WheelSegment | null > (null);
 
-  // Initialiser les données et charger l'établissement
-useEffect(() => {
-  if (!router.isReady || !router.query.slug) return;
-  
-  const initGame = async () => {
-    const slugValue = router.query.slug as string;
-    if (!slugValue || slugValue === ':slug') return;
-    
-    const found = await storageService.getEstablishmentBySlug(slugValue);
-    
-    if (found) {
-      setEstablishment(found);
-      const establishmentSegments = await storageService.getSegments(found.id);
-      setSegments(establishmentSegments);
-      setStep("email");
-    } else {
-      setStep("error");
-    }
-  };
+    const spinWheel = () => {
+        if (isSpinning || segments.length === 0) return;
+        setIsSpinning(true);
 
-  initGame();
-}, [router.isReady, router.query.slug]);
+        const totalProbability = segments.reduce((sum, seg) => sum + seg.probability, 0);
+        const random = Math.random() * totalProbability;
+        let cumulativeProbability = 0;
+        let selectedIndex = 0;
 
-  const handleEmailSubmit = async (email: string, phone: string) => {
-    if (!establishment) return;
+        for (let i = 0; i < segments.length; i++) {
+            cumulativeProbability += segments[i].probability;
+            if (random <= cumulativeProbability) {
+                selectedIndex = i;
+                break;
+            }
+        }
 
-    // Vérification anti-abus
-      const existingByEmail = await storageService.getParticipantByEmail(establishment.id, email);
-      const existingByPhone = await storageService.getParticipantByPhone(establishment.id, phone);
+        const selectedSegment = segments[selectedIndex];
+        selectedSegmentRef.current = selectedSegment;
 
-      if (existingByEmail || existingByPhone) {
-          setStep("already-played");
-          return;
-      }
+        const degreesPerSegment = 360 / segments.length;
+        const targetAngle = 360 - (degreesPerSegment * selectedIndex + degreesPerSegment / 2);
+        const extraSpins = 1800;
+        const normalizedCurrent = currentRotation % 360;
+        const finalRotation = currentRotation + (360 - normalizedCurrent) + extraSpins + targetAngle;
 
-    setParticipant({
-      email,
-      phone,
-      establishmentId: establishment.id,
-      createdAt: new Date().toISOString(),
-      hasSpunWheel1: false,
-      hasSpunWheel2: false
-    });
+        setCurrentRotation(finalRotation);
 
-    setStep("review");
-  };
+        if (wheelRef.current) {
+            wheelRef.current.style.transition = "transform 5000ms cubic-bezier(0.17, 0.67, 0.12, 0.99)";
+            wheelRef.current.style.transform = `rotate(${finalRotation}deg)`;
+        }
 
-  const handleReviewConfirmed = () => {
-    setStep("wheel1");
-  };
+        setTimeout(() => {
+            setIsSpinning(false);
+            if (selectedSegmentRef.current) {
+                onSpinComplete(selectedSegmentRef.current.title);
+            }
+        }, 5200);
+    };
 
-  const handleSpin1Complete = async (prize: string) => {
-    setPrize1(prize);
-    
-    // Vérifier si c'est un lot gagnant (basé sur le type de segment)
-    const segment = segments.find(s => s.title === prize);
-    const hasWon = segment?.type === "prize";
-    setIsWinner1(hasWon);
+    const degreesPerSegment = 360 / segments.length;
 
-    // Sauvegarder la participation partielle
-    if (participant.email && establishment) {
-      const newParticipant: Participant = {
-        ...(participant as Participant),
-        id: crypto.randomUUID(),
-        hasSpunWheel1: true,
-        prize1: prize
-      };
-      await storageService.saveParticipant(newParticipant);
-      setParticipant(newParticipant);
-    }
-
-    setStep("result1");
-  };
-
-  const handleContinueToInstagram = () => {
-    if (establishment?.instagramUrl) {
-      window.open(establishment.instagramUrl, "_blank");
-      setStep("wheel2");
-    }
-  };
-
-  const handleSpin2Complete = async (prize: string) => {
-    setPrize2(prize);
-    
-    // Pour la 2ème roue, on utilise les mêmes segments pour l'instant
-    // Idéalement, on aurait des segments spécifiques "Bonus"
-    const segment = segments.find(s => s.title === prize);
-    const hasWon = segment?.type === "prize";
-    setIsWinner2(hasWon);
-
-    // Mettre à jour la participation
-    if (participant.id) {
-      const updatedParticipant: Participant = {
-        ...(participant as Participant),
-        hasSpunWheel2: true,
-        prize2: prize
-      };
-      await storageService.saveParticipant(updatedParticipant);
-      setParticipant(updatedParticipant);
-    }
-
-    setStep("result2");
-  };
-
-  const handleFinish = () => {
-    // Recharger la page ou rediriger vers l'accueil
-    router.push("/");
-  };
-
-  // Rendu des différentes étapes
-  if (step === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center prizmo-gradient">
-        <Loader2 className="w-12 h-12 text-white animate-spin" />
-      </div>
+        <div className="min-h-screen flex items-center justify-center p-4 prizmo-gradient">
+            <Card className="w-full max-w-2xl shadow-2xl">
+                <CardHeader className="text-center space-y-2">
+                    <CardTitle className="text-3xl">
+                        {wheelNumber === 1 ? "🎡 Tournez la roue !" : "🎁 Bonus Instagram !"}
+                    </CardTitle>
+                    <p className="text-muted-foreground">
+                        {wheelNumber === 1
+                            ? `Merci pour votre avis ! Tentez votre chance chez ${establishmentName}`
+                            : "Un deuxième cadeau vous attend !"}
+                    </p>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="relative w-full max-w-md mx-auto aspect-square">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div
+                                ref={wheelRef}
+                                className="relative w-full h-full rounded-full shadow-2xl"
+                                style={{ transformOrigin: "center" }}
+                            >
+                                <svg viewBox="0 0 200 200" className="w-full h-full">
+                                    {segments.map((segment, index) => {
+                                        const startAngle = (degreesPerSegment * index - 90) * (Math.PI / 180);
+                                        const endAngle = (degreesPerSegment * (index + 1) - 90) * (Math.PI / 180);
+                                        const x1 = 100 + 100 * Math.cos(startAngle);
+                                        const y1 = 100 + 100 * Math.sin(startAngle);
+                                        const x2 = 100 + 100 * Math.cos(endAngle);
+                                        const y2 = 100 + 100 * Math.sin(endAngle);
+                                        const largeArcFlag = degreesPerSegment > 180 ? 1 : 0;
+                                        const textAngle = degreesPerSegment * index + degreesPerSegment / 2 - 90;
+                                        const textRadius = 65;
+                                        const textX = 100 + textRadius * Math.cos(textAngle * (Math.PI / 180));
+                                        const textY = 100 + textRadius * Math.sin(textAngle * (Math.PI / 180));
+
+                                        return (
+                                            <g key={segment.id}>
+                                                <path
+                                                    d={`M 100 100 L ${x1} ${y1} A 100 100 0 ${largeArcFlag} 1 ${x2} ${y2} Z`}
+                                                    fill={segment.color}
+                                                    stroke="white"
+                                                    strokeWidth="2"
+                                                />
+                                                <text
+                                                    x={textX}
+                                                    y={textY}
+                                                    fill="white"
+                                                    fontSize="8"
+                                                    fontWeight="bold"
+                                                    textAnchor="middle"
+                                                    dominantBaseline="middle"
+                                                    transform={`rotate(${textAngle}, ${textX}, ${textY})`}
+                                                    style={{ pointerEvents: "none" }}
+                                                >
+                                                    {segment.title.length > 15 ? segment.title.substring(0, 15) + "..." : segment.title}
+                                                </text>
+                                            </g>
+                                        );
+                                    })}
+                                    <circle cx="100" cy="100" r="15" fill="white" stroke="#333" strokeWidth="2" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-10">
+                            <div className="w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[30px] border-t-red-500 drop-shadow-lg" />
+                        </div>
+                    </div>
+
+                    <Button
+                        onClick={spinWheel}
+                        disabled={isSpinning}
+                        className="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 text-white text-xl font-bold py-8 disabled:opacity-50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:transform-none"
+                    >
+                        {isSpinning ? (
+                            <>
+                                <Zap className="w-6 h-6 mr-2 animate-bounce" />
+                                La roue tourne...
+                            </>
+                        ) : (
+                            <>
+                                <Sparkles className="w-6 h-6 mr-2 animate-pulse" />
+                                🎰 TOURNER LA ROUE !
+                            </>
+                        )}
+                    </Button>
+                </CardContent>
+            </Card>
+        </div>
     );
-  }
-
-  if (step === "error" || !establishment) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-        <Card className="w-full max-w-md text-center">
-          <CardHeader>
-            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-2" />
-            <CardTitle>Établissement introuvable</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4">Désolé, nous ne trouvons pas cet établissement.</p>
-            <Button onClick={() => router.push("/")}>Retour à l'accueil</Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  if (step === "already-played") {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-        <Card className="w-full max-w-md text-center shadow-xl">
-          <CardHeader>
-            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <AlertCircle className="w-8 h-8 text-orange-500" />
-            </div>
-            <CardTitle>Vous avez déjà participé !</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-6">
-              Une seule participation est autorisée par personne chez <strong>{establishment.name}</strong>.
-              Merci de votre visite et à bientôt !
-            </p>
-            <Button onClick={() => router.push("/")} variant="outline">Retour à l'accueil</Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <SEO 
-        title={`Jeu Concours - ${establishment.name}`}
-        description="Participez à notre jeu et tentez de gagner un cadeau !"
-      />
-
-      {step === "email" && (
-        <EmailForm 
-          onSubmit={handleEmailSubmit} 
-          establishmentName={establishment.name} 
-        />
-      )}
-
-      {step === "review" && (
-        <ReviewStep
-          googleMapsUrl={establishment.googleMapsUrl}
-          establishmentName={establishment.name}
-          onReviewConfirmed={handleReviewConfirmed}
-        />
-      )}
-
-      {step === "wheel1" && (
-        <WheelOfFortune
-          segments={segments}
-          onSpinComplete={handleSpin1Complete}
-          wheelNumber={1}
-          establishmentName={establishment.name}
-        />
-      )}
-
-      {step === "result1" && (
-        <PrizeResult
-          prize={prize1}
-          isWinner={isWinner1}
-          wheelNumber={1}
-          establishmentName={establishment.name}
-          hasInstagramWheel={establishment.enableInstagramWheel}
-          onContinueToInstagram={handleContinueToInstagram}
-          onFinish={handleFinish}
-        />
-      )}
-
-      {step === "wheel2" && (
-        <WheelOfFortune
-          segments={segments} // On pourrait utiliser des segments différents ici
-          onSpinComplete={handleSpin2Complete}
-          wheelNumber={2}
-          establishmentName={establishment.name}
-        />
-      )}
-
-      {step === "result2" && (
-        <PrizeResult
-          prize={prize2}
-          isWinner={isWinner2}
-          wheelNumber={2}
-          establishmentName={establishment.name}
-          hasInstagramWheel={false} // Pas de 3ème roue
-          onFinish={handleFinish}
-        />
-      )}
-    </>
-  );
 }
