@@ -12,7 +12,8 @@ interface WheelOfFortuneProps {
 }
 
 export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establishmentName }: WheelOfFortuneProps) {
-  const [isSpinning, setIsSpinning] = useState(false);
+    const [isSpinning, setIsSpinning] = useState(false);
+    const [currentRotation, setCurrentRotation] = useState(0);
   const wheelRef = useRef<HTMLDivElement>(null);
 
     const [currentRotation, setCurrentRotation] = useState(0);
