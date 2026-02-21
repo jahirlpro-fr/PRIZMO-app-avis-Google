@@ -127,7 +127,7 @@ export default function GamePage() {
             setParticipant(updatedParticipant);
         }
 
-        setStep("result2");
+        setTimeout(() => setStep("result2"), 200);
     };
 
     const handleFinish = () => {
