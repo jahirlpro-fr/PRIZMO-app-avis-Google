@@ -154,13 +154,13 @@ export default function AdminDashboard() {
                                         Supprimer
                                     </Button>
                           </div>
-                                <Button
-                                    onClick={() => router.push(`/game/${establishment.slug}`)}
-                                    className="w-full"
-                                    variant="secondary"
-                                >
-                                    Voir la page jeu
-                                </Button>
+                          <Button 
+                            onClick={() => router.push(`/game/${establishment.id}`)}
+                            className="w-full"
+                            variant="secondary"
+                          >
+                            Voir la page jeu
+                          </Button>
                         </CardContent>
                       </Card>
                     ))}
