@@ -97,7 +97,7 @@ export default function GamePage() {
             setParticipant(newParticipant);
         }
 
-        setStep("result1");
+        setTimeout(() => setStep("result1"), 200);
     };
 
     const handleContinueToInstagram = () => {
