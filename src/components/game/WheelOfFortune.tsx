@@ -15,39 +15,43 @@ export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establis
   const [isSpinning, setIsSpinning] = useState(false);
   const wheelRef = useRef<HTMLDivElement>(null);
 
-  const spinWheel = () => {
-    if (isSpinning) return;
-    setIsSpinning(true);
+    const [currentRotation, setCurrentRotation] = useState(0);
 
-    // Calculate weighted random selection
-    const totalProbability = segments.reduce((sum, seg) => sum + seg.probability, 0);
-    const random = Math.random() * totalProbability;
-    let cumulativeProbability = 0;
-    let selectedIndex = 0;
+    const spinWheel = () => {
+        if (isSpinning || segments.length === 0) return;
+        setIsSpinning(true);
 
-    for (let i = 0; i < segments.length; i++) {
-      cumulativeProbability += segments[i].probability;
-      if (random <= cumulativeProbability) {
-        selectedIndex = i;
-        break;
-      }
-    }
+        const totalProbability = segments.reduce((sum, seg) => sum + seg.probability, 0);
+        const random = Math.random() * totalProbability;
+        let cumulativeProbability = 0;
+        let selectedIndex = 0;
 
-    const selectedSegment = segments[selectedIndex];
-    const degreesPerSegment = 360 / segments.length;
-    const baseRotation = 1800; // 5 full rotations
-    const segmentRotation = degreesPerSegment * selectedIndex;
-    const finalRotation = baseRotation + segmentRotation + degreesPerSegment / 2;
+        for (let i = 0; i < segments.length; i++) {
+            cumulativeProbability += segments[i].probability;
+            if (random <= cumulativeProbability) {
+                selectedIndex = i;
+                break;
+            }
+        }
 
-    if (wheelRef.current) {
-      wheelRef.current.style.transform = `rotate(${finalRotation}deg)`;
-    }
+        const selectedSegment = segments[selectedIndex];
+        const degreesPerSegment = 360 / segments.length;
+        const targetAngle = 360 - (degreesPerSegment * selectedIndex + degreesPerSegment / 2);
+        const extraSpins = 1800; // 5 tours complets
+        const finalRotation = currentRotation + extraSpins + targetAngle;
 
-    setTimeout(() => {
-      setIsSpinning(false);
-      onSpinComplete(selectedSegment.title);
-    }, 4000);
-  };
+        setCurrentRotation(finalRotation);
+
+        if (wheelRef.current) {
+            wheelRef.current.style.transition = "transform 5000ms cubic-bezier(0.17, 0.67, 0.12, 0.99)";
+            wheelRef.current.style.transform = `rotate(${finalRotation}deg)`;
+        }
+
+        setTimeout(() => {
+            setIsSpinning(false);
+            onSpinComplete(selectedSegment.title);
+        }, 5000);
+    };
 
   const degreesPerSegment = 360 / segments.length;
 
