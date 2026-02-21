@@ -16,8 +16,6 @@ export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establis
     const [currentRotation, setCurrentRotation] = useState(0);
   const wheelRef = useRef<HTMLDivElement>(null);
 
-    const [currentRotation, setCurrentRotation] = useState(0);
-
     const spinWheel = () => {
         if (isSpinning || segments.length === 0) return;
         setIsSpinning(true);
