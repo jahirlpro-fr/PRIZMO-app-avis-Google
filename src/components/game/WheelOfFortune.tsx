@@ -75,7 +75,7 @@ export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establis
             <div className="absolute inset-0 flex items-center justify-center">
               <div
                 ref={wheelRef}
-                className="relative w-full h-full rounded-full shadow-2xl transition-transform duration-[4000ms] ease-out"
+                className="relative w-full h-full rounded-full shadow-2xl"
                 style={{ transformOrigin: "center" }}
               >
                 <svg viewBox="0 0 200 200" className="w-full h-full">
