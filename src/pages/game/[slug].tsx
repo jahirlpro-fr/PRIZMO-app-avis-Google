@@ -77,21 +77,31 @@ useEffect(() => {
     setStep("wheel1");
   };
 
-  const handleSpin1Complete = async (prize: string) => {
-    setPrize1(prize);
+  const handleSpin1Complete = async (prizeSegment: WheelSegment) => {
+    // Only proceed if it's the first spin
+    if ((participant as any).hasSpunWheel1) return;
+
+    // Save to local state
+    setParticipant({
+      ...(participant as any),
+      hasSpunWheel1: true
+    } as any);
+
+    // Save prize (using the title string)
+    setPrize1(prizeSegment.title);
     
     // Vérifier si c'est un lot gagnant (basé sur le type de segment)
-    const segment = segments.find(s => s.title === prize);
+    const segment = segments.find(s => s.title === prizeSegment.title);
     const hasWon = segment?.type === "prize";
     setIsWinner1(hasWon);
 
     // Sauvegarder la participation partielle
-    if (participant.email && establishment) {
+    if ((participant as any).email && establishment) {
       const newParticipant: Participant = {
-        ...(participant as Participant),
+        ...(participant as any),
         id: crypto.randomUUID(),
         hasSpunWheel1: true,
-        prize1: prize
+        prize1: prizeSegment.title
       };
       await storageService.saveParticipant(newParticipant);
       setParticipant(newParticipant);
@@ -107,21 +117,32 @@ useEffect(() => {
     }
   };
 
-  const handleSpin2Complete = async (prize: string) => {
-    setPrize2(prize);
+  const handleSpin2Complete = async (prizeSegment: WheelSegment) => {
+    if ((participant as any).hasSpunWheel2) return;
+
+    setParticipant({
+      ...(participant as any),
+      hasSpunWheel2: true
+    } as any);
+
+    // Update prize (append second prize or replace?)
+    // Usually second wheel is a bonus, let's just keep the main prize for now or combine them
+    // For this logic, let's assume we just want to show the result screen
+    
+    setPrize2(prizeSegment.title);
     
     // Pour la 2ème roue, on utilise les mêmes segments pour l'instant
     // Idéalement, on aurait des segments spécifiques "Bonus"
-    const segment = segments.find(s => s.title === prize);
+    const segment = segments.find(s => s.title === prizeSegment.title);
     const hasWon = segment?.type === "prize";
     setIsWinner2(hasWon);
 
     // Mettre à jour la participation
-    if (participant.id) {
+    if ((participant as any).id) {
       const updatedParticipant: Participant = {
-        ...(participant as Participant),
+        ...(participant as any),
         hasSpunWheel2: true,
-        prize2: prize
+        prize2: prizeSegment.title
       };
       await storageService.saveParticipant(updatedParticipant);
       setParticipant(updatedParticipant);
@@ -209,8 +230,6 @@ useEffect(() => {
         <WheelOfFortune
           segments={segments}
           onSpinComplete={handleSpin1Complete}
-          wheelNumber={1}
-          establishmentName={establishment.name}
         />
       )}
 
@@ -230,8 +249,6 @@ useEffect(() => {
         <WheelOfFortune
           segments={segments} // On pourrait utiliser des segments différents ici
           onSpinComplete={handleSpin2Complete}
-          wheelNumber={2}
-          establishmentName={establishment.name}
         />
       )}
 
