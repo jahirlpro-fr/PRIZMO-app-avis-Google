@@ -35,9 +35,10 @@ export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establis
 
         const selectedSegment = segments[selectedIndex];
         const degreesPerSegment = 360 / segments.length;
-        const targetAngle = 360 - (degreesPerSegment * selectedIndex + degreesPerSegment / 2);
-        const extraSpins = 1800; // 5 tours complets
-        const finalRotation = currentRotation + extraSpins + targetAngle;
+const targetAngle = 360 - (degreesPerSegment * selectedIndex + degreesPerSegment / 2);
+const extraSpins = 1800;
+const normalizedCurrent = currentRotation % 360;
+const finalRotation = currentRotation + (360 - normalizedCurrent) + extraSpins + targetAngle;
 
         setCurrentRotation(finalRotation);
 
