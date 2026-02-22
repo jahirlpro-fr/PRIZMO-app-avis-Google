@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { ArrowLeft, ArrowRight, Save, Store, Link, Palette, CheckCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, Save, Store, Link, Palette, CheckCircle, UserPlus } from "lucide-react";
 import { storageService } from "@/lib/storage";
+import { authService } from "@/services/authService";
 import { Establishment, WheelSegment } from "@/types";
 
 const STEPS = [
@@ -16,6 +17,7 @@ const STEPS = [
   { id: 2, title: "Connexion digitale", description: "Vos liens", icon: Link },
   { id: 3, title: "Personnalisation", description: "Vos couleurs", icon: Palette },
   { id: 4, title: "Confirmation", description: "C'est parti !", icon: CheckCircle },
+  { id: 5, title: "Compte commerçant", description: "Accès au dashboard", icon: UserPlus },
 ];
 
 export default function NewEstablishmentPage() {
@@ -29,6 +31,8 @@ export default function NewEstablishmentPage() {
     primaryColor: "#8b5cf6",
     secondaryColor: "#d946ef",
     enableInstagramWheel: false,
+    email: "",
+    password: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -48,6 +52,12 @@ export default function NewEstablishmentPage() {
     if (step === 2) {
       if (!formData.googleMapsUrl.trim()) newErrors.googleMapsUrl = "Le lien Google Maps est requis";
     }
+    if (step === 5) {
+      if (!formData.email.trim()) newErrors.email = "L'email est requis";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Email invalide";
+      if (!formData.password.trim()) newErrors.password = "Le mot de passe est requis";
+      if (formData.password.length < 6) newErrors.password = "Le mot de passe doit contenir au moins 6 caractères";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -59,39 +69,51 @@ export default function NewEstablishmentPage() {
   const prevStep = () => setCurrentStep(prev => prev - 1);
 
   const handleSubmit = async () => {
-    const slug = formData.name
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+    if (!validateStep(5)) return;
 
-    const newEstablishment: Establishment = {
-      id: crypto.randomUUID(),
-      name: formData.name,
-      slug,
-      address: formData.address,
-      googleMapsUrl: formData.googleMapsUrl,
-      instagramUrl: formData.instagramUrl || undefined,
-      primaryColor: formData.primaryColor,
-      secondaryColor: formData.secondaryColor,
-      enableInstagramWheel: formData.enableInstagramWheel,
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      const slug = formData.name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
 
-    await storageService.saveEstablishment(newEstablishment);
+      const newEstablishment: Establishment = {
+        id: crypto.randomUUID(),
+        name: formData.name,
+        slug,
+        address: formData.address,
+        googleMapsUrl: formData.googleMapsUrl,
+        instagramUrl: formData.instagramUrl || undefined,
+        primaryColor: formData.primaryColor,
+        secondaryColor: formData.secondaryColor,
+        enableInstagramWheel: formData.enableInstagramWheel,
+        createdAt: new Date().toISOString(),
+      };
 
-    const defaultSegments: WheelSegment[] = [
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Boisson maison offerte", color: "#8b5cf6", type: "prize", probability: 25, order: 1 },
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#9ca3af", type: "no-prize", probability: 20, order: 2 },
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Dessert offert", color: "#f59e0b", type: "prize", probability: 20, order: 3 },
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#10b981", type: "no-prize", probability: 15, order: 4 },
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Café offert", color: "#3b82f6", type: "prize", probability: 15, order: 5 },
-      { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#ef4444", type: "no-prize", probability: 5, order: 6 },
-    ];
+      await storageService.saveEstablishment(newEstablishment);
 
-    await storageService.saveSegments(newEstablishment.id, defaultSegments);
-    router.push(`/admin/establishment/${newEstablishment.id}`);
+      const defaultSegments: WheelSegment[] = [
+        { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Boisson maison offerte", color: "#8b5cf6", type: "prize", probability: 25, order: 1 },
+        { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#9ca3af", type: "no-prize", probability: 20, order: 2 },
+        { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Dessert offert", color: "#f59e0b", type: "prize", probability: 20, order: 3 },
+        { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#10b981", type: "no-prize", probability: 15, order: 4 },
+        { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Café offert", color: "#3b82f6", type: "prize", probability: 15, order: 5 },
+        { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#ef4444", type: "no-prize", probability: 5, order: 6 },
+      ];
+
+      await storageService.saveSegments(newEstablishment.id, defaultSegments);
+
+      // Create merchant account
+      await authService.signUp(formData.email, formData.password, "merchant", newEstablishment.id);
+
+      // Redirect to admin dashboard
+      router.push("/admin");
+    } catch (error) {
+      console.error("Error creating establishment or account:", error);
+      setErrors({ submit: "Erreur lors de la création. Veuillez réessayer." });
+    }
   };
 
   return (
@@ -348,6 +370,52 @@ export default function NewEstablishmentPage() {
                 </div>
               )}
 
+              {/* ÉTAPE 5 - Compte commerçant */}
+              {currentStep === 5 && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <UserPlus className="w-8 h-8 text-white" />
+                    </div>
+                    <h2 className="text-2xl font-bold">Créez votre compte</h2>
+                    <p className="text-gray-500 text-sm mt-1">Accédez à votre dashboard</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="votre@email.com"
+                      value={formData.email}
+                      onChange={(e) => handleChange("email", e.target.value)}
+                      className={errors.email ? "border-red-500" : ""}
+                    />
+                    {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Mot de passe *</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="••••••••"
+                      value={formData.password}
+                      onChange={(e) => handleChange("password", e.target.value)}
+                      className={errors.password ? "border-red-500" : ""}
+                    />
+                    {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
+                    <p className="text-xs text-gray-400">Minimum 6 caractères</p>
+                  </div>
+
+                  {errors.submit && (
+                    <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
+                      <p className="text-sm text-red-600">{errors.submit}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Navigation */}
               <div className="flex justify-between mt-8">
                 {currentStep > 1 ? (
@@ -359,7 +427,7 @@ export default function NewEstablishmentPage() {
                   <div />
                 )}
 
-                {currentStep < 4 ? (
+                {currentStep < 5 ? (
                   <Button
                     onClick={nextStep}
                     className="px-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
