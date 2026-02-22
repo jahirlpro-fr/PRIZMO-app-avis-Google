@@ -35,8 +35,8 @@ export const storageService = {
 
       // Upload to Supabase Storage
       const { data, error } = await supabase.storage
-        .from("logos")
-        .upload(fileName, file, {
+.from("establishment-logos")
+.upload(fileName, file, {
           cacheControl: "3600",
           upsert: true,
         });
@@ -48,8 +48,8 @@ export const storageService = {
 
       // Get public URL
       const { data: urlData } = supabase.storage
-        .from("logos")
-        .getPublicUrl(data.path);
+.from("establishment-logos")
+.getPublicUrl(data.path);
 
       return urlData.publicUrl;
     } catch (error) {
@@ -65,13 +65,13 @@ export const storageService = {
   async deleteLogo(url: string): Promise<void> {
     try {
       // Extract path from URL
-      const urlParts = url.split("/logos/");
+const urlParts = url.split("/establishment-logos/");
       if (urlParts.length < 2) {
         throw new Error("URL invalide");
       }
       const path = urlParts[1];
 
-      const { error } = await supabase.storage.from("logos").remove([path]);
+const { error } = await supabase.storage.from("establishment-logos").remove([path]);
 
       if (error) {
         console.error("Storage delete error:", error);
