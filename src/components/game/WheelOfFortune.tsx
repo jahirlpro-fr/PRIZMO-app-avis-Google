@@ -47,10 +47,11 @@ const finalRotation = currentRotation + (360 - normalizedCurrent) + extraSpins +
             wheelRef.current.style.transform = `rotate(${finalRotation}deg)`;
         }
 
+        const title = selectedSegment.title;
         setTimeout(() => {
             setIsSpinning(false);
-            onSpinComplete(selectedSegment.title);
-        }, 5000);
+            onSpinComplete(title);
+        }, 5200);
     };
 
   const degreesPerSegment = 360 / segments.length;
