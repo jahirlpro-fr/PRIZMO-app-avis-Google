@@ -6,6 +6,8 @@ export interface Establishment {
   googleMapsUrl: string;
   instagramUrl?: string;
   logo?: string;
+  logo_url?: string;
+  logo_secondary_url?: string;
   primaryColor: string;
   secondaryColor: string;
   enableInstagramWheel: boolean;

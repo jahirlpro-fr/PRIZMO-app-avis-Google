@@ -23,6 +23,8 @@ export type Database = {
           google_maps_url: string
           id: string
           instagram_url: string | null
+          logo_secondary_url: string | null
+          logo_url: string | null
           name: string
           primary_color: string
           secondary_color: string
@@ -35,6 +37,8 @@ export type Database = {
           google_maps_url: string
           id: string
           instagram_url?: string | null
+          logo_secondary_url?: string | null
+          logo_url?: string | null
           name: string
           primary_color?: string
           secondary_color?: string
@@ -47,6 +51,8 @@ export type Database = {
           google_maps_url?: string
           id?: string
           instagram_url?: string | null
+          logo_secondary_url?: string | null
+          logo_url?: string | null
           name?: string
           primary_color?: string
           secondary_color?: string

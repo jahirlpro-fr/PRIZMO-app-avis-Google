@@ -7,10 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { ArrowLeft, ArrowRight, Save, Store, Link, Palette, CheckCircle, UserPlus } from "lucide-react";
-import { storageService } from "@/lib/storage";
+import { ArrowLeft, ArrowRight, Save, Store, Link, Palette, CheckCircle, UserPlus, Upload, Image as ImageIcon } from "lucide-react";
+import { storageService as dbStorage } from "@/lib/storage";
+import { storageService as fileStorage } from "@/services/storageService";
 import { authService } from "@/services/authService";
 import { Establishment, WheelSegment } from "@/types";
+import type React from "react";
 
 const STEPS = [
   { id: 1, title: "Identité", description: "Votre restaurant", icon: Store },
@@ -33,13 +35,49 @@ export default function NewEstablishmentPage() {
     enableInstagramWheel: false,
     email: "",
     password: "",
+    logo_url: "",
+    logo_secondary_url: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [uploadingPrimaryLogo, setUploadingPrimaryLogo] = useState(false);
+  const [uploadingSecondaryLogo, setUploadingSecondaryLogo] = useState(false);
 
   const handleChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => { const n = { ...prev }; delete n[field]; return n; });
+    }
+  };
+
+  const handlePrimaryLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingPrimaryLogo(true);
+    try {
+      const tempId = crypto.randomUUID();
+      const url = await fileStorage.uploadLogo(file, tempId, "primary");
+      handleChange("logo_url", url);
+    } catch (error: any) {
+      setErrors({ ...errors, logo_url: error.message });
+    } finally {
+      setUploadingPrimaryLogo(false);
+    }
+  };
+
+  const handleSecondaryLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingSecondaryLogo(true);
+    try {
+      const tempId = crypto.randomUUID();
+      const url = await fileStorage.uploadLogo(file, tempId, "secondary");
+      handleChange("logo_secondary_url", url);
+    } catch (error: any) {
+      setErrors({ ...errors, logo_secondary_url: error.message });
+    } finally {
+      setUploadingSecondaryLogo(false);
     }
   };
 
@@ -51,6 +89,9 @@ export default function NewEstablishmentPage() {
     }
     if (step === 2) {
       if (!formData.googleMapsUrl.trim()) newErrors.googleMapsUrl = "Le lien Google Maps est requis";
+    }
+    if (step === 3) {
+      if (!formData.logo_url.trim()) newErrors.logo_url = "Le logo principal est requis";
     }
     if (step === 5) {
       if (!formData.email.trim()) {
@@ -95,10 +136,12 @@ export default function NewEstablishmentPage() {
         primaryColor: formData.primaryColor,
         secondaryColor: formData.secondaryColor,
         enableInstagramWheel: formData.enableInstagramWheel,
+        logo_url: formData.logo_url,
+        logo_secondary_url: formData.logo_secondary_url || undefined,
         createdAt: new Date().toISOString(),
       };
 
-      await storageService.saveEstablishment(newEstablishment);
+      await dbStorage.saveEstablishment(newEstablishment);
 
       const defaultSegments: WheelSegment[] = [
         { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Boisson maison offerte", color: "#8b5cf6", type: "prize", probability: 25, order: 1 },
@@ -109,7 +152,7 @@ export default function NewEstablishmentPage() {
         { id: crypto.randomUUID(), establishmentId: newEstablishment.id, title: "Merci !", color: "#ef4444", type: "no-prize", probability: 5, order: 6 },
       ];
 
-      await storageService.saveSegments(newEstablishment.id, defaultSegments);
+      await dbStorage.saveSegments(newEstablishment.id, defaultSegments);
 
       // Create merchant account
       try {
@@ -288,6 +331,95 @@ export default function NewEstablishmentPage() {
                     </div>
                     <h2 className="text-2xl font-bold">Vos couleurs</h2>
                     <p className="text-gray-500 text-sm mt-1">Personnalisez l'expérience à vos couleurs</p>
+                  </div>
+
+                  {/* Logo uploads */}
+                  <div className="space-y-4">
+                    {/* Primary Logo */}
+                    <div className="space-y-2">
+                      <Label>Logo principal *</Label>
+                      <div className="flex gap-4 items-start">
+                        <label className="flex-1 cursor-pointer">
+                          <div className={`border-2 border-dashed rounded-xl p-4 text-center transition-colors ${
+                            uploadingPrimaryLogo ? "border-purple-400 bg-purple-50" : "border-gray-300 hover:border-purple-400 hover:bg-purple-50"
+                          }`}>
+                            {uploadingPrimaryLogo ? (
+                              <div className="flex flex-col items-center gap-2">
+                                <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+                                <p className="text-sm text-gray-600">Upload en cours...</p>
+                              </div>
+                            ) : formData.logo_url ? (
+                              <div className="flex flex-col items-center gap-2">
+                                <ImageIcon className="w-8 h-8 text-green-600" />
+                                <p className="text-sm text-green-600 font-semibold">✓ Logo uploadé</p>
+                              </div>
+                            ) : (
+                              <div className="flex flex-col items-center gap-2">
+                                <Upload className="w-8 h-8 text-gray-400" />
+                                <p className="text-sm text-gray-600">Cliquez pour uploader</p>
+                                <p className="text-xs text-gray-400">JPG, PNG, WEBP, SVG (max 2MB)</p>
+                              </div>
+                            )}
+                          </div>
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/jpg,image/png,image/webp,image/svg+xml"
+                            onChange={handlePrimaryLogoUpload}
+                            className="hidden"
+                            disabled={uploadingPrimaryLogo}
+                          />
+                        </label>
+                        {formData.logo_url && (
+                          <div className="w-24 h-24 border-2 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center">
+                            <img src={formData.logo_url} alt="Logo principal" className="w-full h-full object-contain" />
+                          </div>
+                        )}
+                      </div>
+                      {errors.logo_url && <p className="text-sm text-red-500">{errors.logo_url}</p>}
+                    </div>
+
+                    {/* Secondary Logo */}
+                    <div className="space-y-2">
+                      <Label>Logo secondaire (optionnel)</Label>
+                      <div className="flex gap-4 items-start">
+                        <label className="flex-1 cursor-pointer">
+                          <div className={`border-2 border-dashed rounded-xl p-4 text-center transition-colors ${
+                            uploadingSecondaryLogo ? "border-purple-400 bg-purple-50" : "border-gray-300 hover:border-purple-400 hover:bg-purple-50"
+                          }`}>
+                            {uploadingSecondaryLogo ? (
+                              <div className="flex flex-col items-center gap-2">
+                                <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+                                <p className="text-sm text-gray-600">Upload en cours...</p>
+                              </div>
+                            ) : formData.logo_secondary_url ? (
+                              <div className="flex flex-col items-center gap-2">
+                                <ImageIcon className="w-8 h-8 text-green-600" />
+                                <p className="text-sm text-green-600 font-semibold">✓ Logo uploadé</p>
+                              </div>
+                            ) : (
+                              <div className="flex flex-col items-center gap-2">
+                                <Upload className="w-8 h-8 text-gray-400" />
+                                <p className="text-sm text-gray-600">Cliquez pour uploader</p>
+                                <p className="text-xs text-gray-400">JPG, PNG, WEBP, SVG (max 2MB)</p>
+                              </div>
+                            )}
+                          </div>
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/jpg,image/png,image/webp,image/svg+xml"
+                            onChange={handleSecondaryLogoUpload}
+                            className="hidden"
+                            disabled={uploadingSecondaryLogo}
+                          />
+                        </label>
+                        {formData.logo_secondary_url && (
+                          <div className="w-24 h-24 border-2 rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center">
+                            <img src={formData.logo_secondary_url} alt="Logo secondaire" className="w-full h-full object-contain" />
+                          </div>
+                        )}
+                      </div>
+                      {errors.logo_secondary_url && <p className="text-sm text-red-500">{errors.logo_secondary_url}</p>}
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-6">
