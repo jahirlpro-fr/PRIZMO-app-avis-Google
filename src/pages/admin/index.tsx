@@ -124,10 +124,18 @@ export default function AdminDashboard() {
                               </CardDescription>
                             </div>
                             <div 
-                              className="w-12 h-12 rounded-lg flex items-center justify-center"
+                              className="w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden"
                               style={{ backgroundColor: establishment.primaryColor }}
                             >
-                              <span className="text-2xl">🎡</span>
+                              {establishment.logo_url ? (
+                                <img 
+                                  src={establishment.logo_url} 
+                                  alt={`Logo ${establishment.name}`}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <span className="text-2xl">🎡</span>
+                              )}
                             </div>
                           </div>
                         </CardHeader>
