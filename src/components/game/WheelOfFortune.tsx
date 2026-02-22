@@ -48,8 +48,10 @@ const finalRotation = currentRotation + (360 - normalizedCurrent) + extraSpins +
         }
 
         const title = selectedSegment.title;
+        console.log("Segment sélectionné:", title);
         setTimeout(() => {
             setIsSpinning(false);
+            console.log("onSpinComplete appelé avec:", title);
             onSpinComplete(title);
         }, 5200);
     };
