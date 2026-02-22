@@ -323,14 +323,16 @@ export default function NewEstablishmentPage() {
                       <span className="text-sm text-gray-500">📍 Adresse</span>
                       <span className="font-semibold text-sm text-right max-w-48">{formData.address}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
-                      <span className="text-sm text-gray-500">🗺️ Google Maps</span>
-                      <span className="font-semibold text-sm text-green-600">✓ Configuré</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
-                      <span className="text-sm text-gray-500">📸 Instagram</span>
-                      <span className="font-semibold text-sm">{formData.instagramUrl ? "✓ Configuré" : "Non renseigné"}</span>
-                    </div>
+<div className="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
+  <span className="text-sm text-gray-500">🗺️ Google Maps</span>
+  <span className="font-semibold text-sm text-green-600">✓ Validé</span>
+</div>
+<div className="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
+  <span className="text-sm text-gray-500">📸 Instagram</span>
+  <span className={`font-semibold text-sm ${formData.instagramUrl ? "text-green-600" : "text-gray-400"}`}>
+    {formData.instagramUrl ? "✓ Validé" : "Non renseigné"}
+  </span>
+</div>
                     <div className="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
                       <span className="text-sm text-gray-500">🎨 Couleurs</span>
                       <div className="flex gap-2">
