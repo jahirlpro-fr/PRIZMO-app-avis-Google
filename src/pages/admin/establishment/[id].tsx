@@ -1,5 +1,5 @@
 import { SEO } from "@/components/SEO";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Save, Trash2, Plus, Eye, Users, Star, TrendingUp, Gift, Download, Search, Filter, Calendar, QrCode, LogOut } from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, Eye, Users, Star, TrendingUp, Gift, Download, Search, Filter, Calendar, QrCode, LogOut, Upload, ImageIcon, Settings, Printer } from "lucide-react";
 import { storageService } from "@/lib/storage";
 import { Establishment, WheelSegment, Participant } from "@/types";
 import { WheelPreview } from "@/components/admin/WheelPreview";
@@ -17,12 +17,18 @@ import { AnalyticsCharts } from "@/components/admin/AnalyticsCharts";
 import { generatePoster } from "@/lib/pdfGenerator"; 
 import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function EditEstablishmentPage() {
   const router = useRouter();
   const { id } = router.query;
   const { signOut } = useAuth();
   
+  const posterRef = useRef<HTMLDivElement>(null);
+  const [posterFormat, setPosterFormat] = useState<"A4" | "A5">("A4");
+
   const [establishment, setEstablishment] = useState<Establishment | null>(null);
   const [segments, setSegments] = useState<WheelSegment[]>([]);
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -40,6 +46,8 @@ export default function EditEstablishmentPage() {
   });
   const [isLogoUploading, setIsLogoUploading] = useState(false);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [uploadingPrimaryLogo, setUploadingPrimaryLogo] = useState(false);
+  const [uploadingSecondaryLogo, setUploadingSecondaryLogo] = useState(false);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -188,6 +196,50 @@ export default function EditEstablishmentPage() {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
 
+  const handleDeleteEstablishment = async () => {
+    if (!establishment || !confirm("Êtes-vous sûr de vouloir supprimer cet établissement ?")) return;
+
+    await storageService.deleteEstablishment(establishment.id);
+    router.push("/admin");
+  };
+
+  const handleDownloadPoster = async (type: "png" | "pdf") => {
+    if (!posterRef.current || !establishment) return;
+
+    try {
+      const canvas = await html2canvas(posterRef.current, {
+        scale: 2, // Better quality
+        useCORS: true, // For images from Supabase
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+      });
+
+      if (type === "png") {
+        const link = document.createElement("a");
+        link.download = `affiche-${establishment.slug}-${posterFormat}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      } else {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF({
+          orientation: "portrait",
+          unit: "mm",
+          format: posterFormat.toLowerCase(),
+        });
+
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`affiche-${establishment.slug}-${posterFormat}.pdf`);
+      }
+    } catch (error) {
+      console.error("Error generating poster:", error);
+      alert("Une erreur est survenue lors de la génération de l'affiche.");
+    }
+  };
+
   if (!establishment) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -234,9 +286,16 @@ export default function EditEstablishmentPage() {
             </div>
 
             <Tabs defaultValue="analytics" className="space-y-6">
-                          <TabsList className="grid w-full grid-cols-4">
+                          <TabsList className="grid w-full grid-cols-5">
                               <TabsTrigger value="wheel">🎡 Configuration Roue</TabsTrigger>
-                              <TabsTrigger value="general">⚙️ Informations</TabsTrigger>
+                              <TabsTrigger value="general">
+                                <Settings className="h-4 w-4 mr-2" />
+                                Informations
+                              </TabsTrigger>
+                              <TabsTrigger value="posters">
+                                <Printer className="h-4 w-4 mr-2" />
+                                Affiches
+                              </TabsTrigger>
                               <TabsTrigger value="clients">👥 Clients</TabsTrigger>
                               <TabsTrigger value="analytics">📊 Analytics</TabsTrigger>
                           </TabsList>
@@ -580,6 +639,139 @@ export default function EditEstablishmentPage() {
                 </div>
               </TabsContent>
 
+              {/* Tab: Affiches */}
+              <TabsContent value="posters">
+                <div className="grid lg:grid-cols-3 gap-6">
+                  {/* Left: Controls */}
+                  <Card className="border-2 shadow-xl lg:col-span-1 h-fit">
+                    <CardHeader>
+                      <CardTitle className="text-xl flex items-center gap-2">
+                        <Printer className="w-5 h-5" />
+                        Générateur d'affiches
+                      </CardTitle>
+                      <CardDescription>
+                        Créez une affiche QR Code pour votre établissement
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="space-y-3">
+                        <Label>Format de l'affiche</Label>
+                        <div className="flex gap-2">
+                          <Button 
+                            variant={posterFormat === "A4" ? "default" : "outline"}
+                            onClick={() => setPosterFormat("A4")}
+                            className="flex-1"
+                          >
+                            A4
+                          </Button>
+                          <Button 
+                            variant={posterFormat === "A5" ? "default" : "outline"}
+                            onClick={() => setPosterFormat("A5")}
+                            className="flex-1"
+                          >
+                            A5
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <Label>Téléchargement</Label>
+                        <div className="grid grid-cols-1 gap-2">
+                          <Button onClick={() => handleDownloadPoster("png")} variant="outline" className="w-full">
+                            <ImageIcon className="w-4 h-4 mr-2" />
+                            Télécharger en PNG
+                          </Button>
+                          <Button onClick={() => handleDownloadPoster("pdf")} className="w-full prizmo-gradient text-white">
+                            <Download className="w-4 h-4 mr-2" />
+                            Télécharger en PDF
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="p-4 bg-muted rounded-lg text-sm text-muted-foreground">
+                        <p className="font-semibold mb-1">Conseil d'impression :</p>
+                        <p>Pour une qualité optimale, imprimez sur du papier cartonné ou glacé. Placez l'affiche à un endroit visible (comptoir, tables, entrée).</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Right: Preview */}
+                  <div className="lg:col-span-2 flex justify-center bg-gray-100 p-8 rounded-xl border overflow-auto">
+                    <div 
+                      ref={posterRef}
+                      className="bg-white shadow-2xl relative flex flex-col items-center justify-between overflow-hidden"
+                      style={{
+                        width: posterFormat === "A4" ? "595px" : "420px",
+                        height: posterFormat === "A4" ? "842px" : "595px",
+                        padding: posterFormat === "A4" ? "40px" : "30px",
+                        transform: "scale(0.8)", // Visual scaling for preview
+                        transformOrigin: "top center",
+                      }}
+                    >
+                      {/* Background decoration */}
+                      <div className="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500" />
+                      
+                      {/* Header Section */}
+                      <div className="text-center w-full space-y-4 mt-4">
+                        {establishment.logo_url ? (
+                          <img 
+                            src={establishment.logo_url} 
+                            alt="Logo" 
+                            className="h-24 mx-auto object-contain"
+                            crossOrigin="anonymous"
+                          />
+                        ) : (
+                          <div className="h-24 flex items-center justify-center">
+                            <h2 className="text-3xl font-bold text-gray-800">{establishment.name}</h2>
+                          </div>
+                        )}
+                        
+                        <div className="space-y-2">
+                          <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 uppercase tracking-tight">
+                            Tentez votre chance !
+                          </h1>
+                          <p className="text-xl text-gray-600 font-medium">
+                            Tournez la roue et gagnez un cadeau 🎁
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Middle: Wheel Visual */}
+                      <div className="relative flex-1 flex items-center justify-center w-full my-4">
+                        <div className="transform scale-125">
+                          <WheelPreview segments={segments} size={300} pointerSize={40} />
+                        </div>
+                      </div>
+
+                      {/* Bottom: QR Code */}
+                      <div className="flex flex-col items-center space-y-4 mb-4">
+                        <div className="bg-white p-4 rounded-xl shadow-lg border-2 border-dashed border-gray-200">
+                          <QRCodeSVG
+                            value={`${window.location.origin}/game/${establishment.slug}`}
+                            size={180}
+                            level="H"
+                            includeMargin={true}
+                            fgColor={establishment.primaryColor || "#000000"}
+                          />
+                        </div>
+                        
+                        <div className="text-center">
+                          <p className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-1">
+                            Scannez pour jouer
+                          </p>
+                          <p className="font-bold text-xl text-gray-800">
+                            {establishment.name}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Footer decoration */}
+                      <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500" />
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+
               {/* Tab: Informations générales */}
               <TabsContent value="general">
                 <Card className="border-2 shadow-xl">
@@ -702,7 +894,6 @@ export default function EditEstablishmentPage() {
                 </Card>
               </TabsContent>
 
-              {/* Tab: Clients */}
               <TabsContent value="clients">
                 <Card className="border-2 shadow-xl">
                   <CardHeader>
