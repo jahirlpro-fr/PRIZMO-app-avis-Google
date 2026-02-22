@@ -78,6 +78,7 @@ export default function GamePage() {
     };
 
     const handleSpin1Complete = async (prize: string) => {
+        console.log("handleSpin1Complete appelé avec:", prize);
         setPrize1(prize);
 
         // Vérifier si c'est un lot gagnant (basé sur le type de segment)
