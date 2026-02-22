@@ -154,36 +154,39 @@ export default function NewEstablishmentPage() {
             <p className="text-gray-500">Configurez votre roue de la fortune en quelques étapes</p>
           </div>
 
-          {/* Stepper */}
-           <div className="flex items-center justify-between mb-8">
-            {STEPS.map((step, index) => {
-              const Icon = step.icon;
-              const isCompleted = currentStep > step.id;
-              const isActive = currentStep === step.id;
-              return (
-                  <div key={step.id} className="flex items-start flex-1 min-w-0 gap-3">
-                      <div className="flex flex-col items-center">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
-                      isCompleted ? "bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-lg" :
-                      isActive ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg scale-110" :
-                      "bg-gray-100 text-gray-400"
-                    }`}>
-                      {isCompleted ? "✓" : <Icon className="w-5 h-5" />}
-                    </div>
-                    <div className="mt-2 text-center">
-                      <p className={`text-xs font-semibold ${isActive ? "text-purple-600" : isCompleted ? "text-purple-400" : "text-gray-400"}`}>
-                        {step.title}
-                      </p>
-                    </div>
+                  {/* Stepper */}
+                  <div className="flex items-center justify-center mb-8 gap-0">
+                      {STEPS.map((step, index) => {
+                          const Icon = step.icon;
+                          const isCompleted = currentStep > step.id;
+                          const isActive = currentStep === step.id;
+                          return (
+                              <div key={step.id} className="flex items-center">
+                                  {/* Pastille */}
+                                  <div className="flex flex-col items-center w-16">
+                                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${isCompleted ? "bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-lg" :
+                                              isActive ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg scale-110" :
+                                                  "bg-gray-100 text-gray-400"
+                                          }`}>
+                                          {isCompleted ? "✓" : <Icon className="w-4 h-4" />}
+                                      </div>
+                                      <p className={`text-xs font-semibold mt-2 text-center ${isActive ? "text-purple-600" : isCompleted ? "text-purple-400" : "text-gray-400"
+                                          }`}>
+                                          {step.title}
+                                      </p>
+                                  </div>
+                                  {/* Trait */}
+                                  {index < STEPS.length - 1 && (
+                                      <div
+                                          className={`h-0.5 transition-all duration-300 ${currentStep > step.id ? "bg-gradient-to-r from-purple-600 to-pink-600" : "bg-gray-200"
+                                              }`}
+                                          style={{ width: "32px" }}
+                                      />
+                                  )}
+                              </div>
+                          );
+                      })}
                   </div>
-                      {index < STEPS.length - 1 && (
-                          <div className={`flex-1 h-1 mt-6 rounded transition-all duration-300 flex-shrink-0 ${currentStep > step.id ? "bg-gradient-to-r from-purple-600 to-pink-600" : "bg-gray-200"
-                              }`} />
-                      )}
-                </div>
-              );
-            })}
-          </div>
 
           {/* Card principale */}
           <Card className="border-2 shadow-xl">
