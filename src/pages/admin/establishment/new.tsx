@@ -53,10 +53,16 @@ export default function NewEstablishmentPage() {
       if (!formData.googleMapsUrl.trim()) newErrors.googleMapsUrl = "Le lien Google Maps est requis";
     }
     if (step === 5) {
-      if (!formData.email.trim()) newErrors.email = "L'email est requis";
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Email invalide";
-      if (!formData.password.trim()) newErrors.password = "Le mot de passe est requis";
-      if (formData.password.length < 6) newErrors.password = "Le mot de passe doit contenir au moins 6 caractères";
+      if (!formData.email.trim()) {
+        newErrors.email = "L'email est requis";
+      } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
+        newErrors.email = "Format d'email invalide (ex: exemple@domaine.com)";
+      }
+      if (!formData.password.trim()) {
+        newErrors.password = "Le mot de passe est requis";
+      } else if (formData.password.length < 6) {
+        newErrors.password = "Le mot de passe doit contenir au moins 6 caractères";
+      }
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -106,13 +112,19 @@ export default function NewEstablishmentPage() {
       await storageService.saveSegments(newEstablishment.id, defaultSegments);
 
       // Create merchant account
-      await authService.signUp(formData.email, formData.password, "merchant", newEstablishment.id);
-
-      // Redirect to admin dashboard
-      router.push("/admin");
-    } catch (error) {
-      console.error("Error creating establishment or account:", error);
-      setErrors({ submit: "Erreur lors de la création. Veuillez réessayer." });
+      try {
+        await authService.signUp(formData.email, formData.password, "merchant", newEstablishment.id);
+        
+        // Redirect to admin dashboard
+        router.push("/admin");
+      } catch (authError: any) {
+        // Display auth-specific error to user
+        console.error("Auth error:", authError);
+        setErrors({ submit: authError.message || "Erreur lors de la création du compte. Veuillez réessayer." });
+      }
+    } catch (error: any) {
+      console.error("Error creating establishment:", error);
+      setErrors({ submit: error.message || "Erreur lors de la création de l'établissement. Veuillez réessayer." });
     }
   };
 

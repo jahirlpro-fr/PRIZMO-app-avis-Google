@@ -18,15 +18,31 @@ export const authService = {
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/admin`,
+        },
       });
 
       if (authError) {
         console.error("Auth signup error:", authError);
-        throw authError;
+        
+        // Handle specific Supabase auth errors with user-friendly messages
+        if (authError.message.includes("User already registered")) {
+          throw new Error("Cet email est déjà utilisé. Veuillez vous connecter ou utiliser un autre email.");
+        }
+        if (authError.message.includes("invalid") || authError.message.includes("Invalid")) {
+          throw new Error("Format d'email invalide. Veuillez vérifier votre adresse email.");
+        }
+        if (authError.message.includes("weak password") || authError.message.includes("Password")) {
+          throw new Error("Le mot de passe doit contenir au moins 6 caractères.");
+        }
+        
+        // Generic error fallback
+        throw new Error(authError.message || "Erreur lors de la création du compte. Veuillez réessayer.");
       }
 
       if (!authData.user) {
-        throw new Error("No user returned from signup");
+        throw new Error("Aucun utilisateur retourné après l'inscription.");
       }
 
       // 2. Create profile
@@ -41,7 +57,7 @@ export const authService = {
 
       if (profileError) {
         console.error("Profile creation error:", profileError);
-        throw profileError;
+        throw new Error("Erreur lors de la création du profil utilisateur.");
       }
 
       return { user: authData.user, session: authData.session };
