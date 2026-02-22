@@ -26,12 +26,7 @@ export default function AdminDashboard() {
       const data = await storageService.getEstablishments();
       setEstablishments(data);
       
-      // Initialize demo data if empty (only for first run)
-      if (data.length === 0) {
-        await storageService.initializeDemoData();
-        const refreshedData = await storageService.getEstablishments();
-        setEstablishments(refreshedData);
-      }
+
     };
 
     loadEstablishments();
