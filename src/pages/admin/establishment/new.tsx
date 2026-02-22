@@ -14,10 +14,10 @@ import { Establishment, WheelSegment } from "@/types";
 
 const STEPS = [
   { id: 1, title: "Identité", description: "Votre restaurant", icon: Store },
-  { id: 2, title: "Connexion digitale", description: "Vos liens", icon: Link },
+  { id: 2, title: "Digital", description: "Vos liens", icon: Link },
   { id: 3, title: "Personnalisation", description: "Vos couleurs", icon: Palette },
   { id: 4, title: "Confirmation", description: "C'est parti !", icon: CheckCircle },
-  { id: 5, title: "Compte commerçant", description: "Accès au dashboard", icon: UserPlus },
+  { id: 5, title: "Compte", description: "Accès au dashboard", icon: UserPlus },
 ];
 
 export default function NewEstablishmentPage() {
