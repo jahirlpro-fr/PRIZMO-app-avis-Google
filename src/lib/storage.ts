@@ -273,40 +273,5 @@ export const storageService = {
     }
   },
 
-  // Initialize demo data (for first use)
-  async initializeDemoData(): Promise<void> {
-    try {
-      const establishments = await this.getEstablishments();
-      
-      if (establishments.length === 0) {
-        const demoEstablishment: Establishment = {
-          id: "demo-restaurant",
-          name: "Restaurant Demo",
-          slug: "demo-restaurant",
-          address: "123 Rue de la Gastronomie, Paris",
-          googleMapsUrl: "https://www.google.com/maps",
-          instagramUrl: "https://www.instagram.com",
-          primaryColor: "#8b5cf6",
-          secondaryColor: "#d946ef",
-          enableInstagramWheel: true,
-          createdAt: new Date().toISOString(),
-        };
-        
-        await this.saveEstablishment(demoEstablishment);
 
-        const demoSegments: WheelSegment[] = [
-          { id: "1", establishmentId: "demo-restaurant", title: "Boisson maison offerte", color: "#8b5cf6", type: "prize", probability: 25, order: 1 },
-          { id: "2", establishmentId: "demo-restaurant", title: "Merci !", color: "#ec4899", type: "no-prize", probability: 20, order: 2 },
-          { id: "3", establishmentId: "demo-restaurant", title: "Dessert offert", color: "#f59e0b", type: "prize", probability: 20, order: 3 },
-          { id: "4", establishmentId: "demo-restaurant", title: "Merci !", color: "#10b981", type: "no-prize", probability: 15, order: 4 },
-          { id: "5", establishmentId: "demo-restaurant", title: "Café offert", color: "#3b82f6", type: "prize", probability: 15, order: 5 },
-          { id: "6", establishmentId: "demo-restaurant", title: "Merci !", color: "#ef4444", type: "no-prize", probability: 5, order: 6 },
-        ];
-        
-        await this.saveSegments("demo-restaurant", demoSegments);
-      }
-    } catch (error) {
-      console.error("Exception in initializeDemoData:", error);
-    }
-  },
 };
