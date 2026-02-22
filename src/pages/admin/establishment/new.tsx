@@ -177,7 +177,7 @@ export default function NewEstablishmentPage() {
                     </div>
                   </div>
                       {index < STEPS.length - 1 && (
-                          <div className={`w-8 h-1 mx-1 mt-6 rounded transition-all duration-300 flex-shrink-0 ${currentStep > step.id ? "bg-gradient-to-r from-purple-600 to-pink-600" : "bg-gray-200"
+                          <div className={`w-full h-1 mx-3 mt-6 rounded transition-all duration-300 flex-shrink-0 ${currentStep > step.id ? "bg-gradient-to-r from-purple-600 to-pink-600" : "bg-gray-200"
                               }`} />
                       )}
                 </div>
