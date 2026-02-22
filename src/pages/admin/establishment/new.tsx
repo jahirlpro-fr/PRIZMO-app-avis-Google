@@ -176,11 +176,10 @@ export default function NewEstablishmentPage() {
                       </p>
                     </div>
                   </div>
-                  {index < STEPS.length - 1 && (
-                    <div className={`flex-1 h-1 mx-2 rounded transition-all duration-300 ${
-                      currentStep > step.id ? "bg-gradient-to-r from-purple-600 to-pink-600" : "bg-gray-200"
-                    }`} />
-                  )}
+                      {index < STEPS.length - 1 && (
+                          <div className={`w-8 h-1 mx-1 rounded transition-all duration-300 flex-shrink-0 ${currentStep > step.id ? "bg-gradient-to-r from-purple-600 to-pink-600" : "bg-gray-200"
+                              }`} />
+                      )}
                 </div>
               );
             })}
