@@ -38,6 +38,8 @@ export default function EditEstablishmentPage() {
     secondaryColor: "#d946ef",
     enableInstagramWheel: false,
   });
+  const [isLogoUploading, setIsLogoUploading] = useState(false);
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -587,6 +589,22 @@ export default function EditEstablishmentPage() {
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="logo">Logo de l'établissement</Label>
+                        <div className="flex items-center justify-between p-4 border rounded-lg">
+                          <div className="space-y-1">
+                            <Label>Uploader un logo</Label>
+                            <p className="text-sm text-muted-foreground">
+                              Taille recommandée : 200x200px, format : PNG ou JPEG
+                            </p>
+                          </div>
+                          <Button variant="outline" size="sm" onClick={() => {}}>
+                            <QrCode className="w-4 h-4 mr-2" />
+                            {isLogoUploading ? "Envoi en cours..." : "Uploader"}
+                          </Button>
+                        </div>
+                      </div>
+
                       <div className="space-y-2">
                         <Label htmlFor="name">Nom de l'établissement</Label>
                         <Input
