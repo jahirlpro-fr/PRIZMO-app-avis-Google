@@ -161,8 +161,8 @@ export default function NewEstablishmentPage() {
               const isCompleted = currentStep > step.id;
               const isActive = currentStep === step.id;
               return (
-                  <div key={step.id} className="flex items-start flex-1 min-w-0">
-                  <div className="flex flex-col items-center">
+                  <div key={step.id} className="flex items-start flex-1 min-w-0 gap-3">
+                      <div className="flex flex-col items-center">
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
                       isCompleted ? "bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-lg" :
                       isActive ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg scale-110" :
@@ -177,7 +177,7 @@ export default function NewEstablishmentPage() {
                     </div>
                   </div>
                       {index < STEPS.length - 1 && (
-                          <div className={`w-full h-1 mx-3 mt-6 rounded transition-all duration-300 flex-shrink-0 ${currentStep > step.id ? "bg-gradient-to-r from-purple-600 to-pink-600" : "bg-gray-200"
+                          <div className={`flex-1 h-1 mt-6 rounded transition-all duration-300 flex-shrink-0 ${currentStep > step.id ? "bg-gradient-to-r from-purple-600 to-pink-600" : "bg-gray-200"
                               }`} />
                       )}
                 </div>
