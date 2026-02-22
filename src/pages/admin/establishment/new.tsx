@@ -121,7 +121,7 @@ export default function NewEstablishmentPage() {
           </div>
 
           {/* Stepper */}
-          <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center justify-between mb-8 px-4">
             {STEPS.map((step, index) => {
               const Icon = step.icon;
               const isCompleted = currentStep > step.id;
