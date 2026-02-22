@@ -59,6 +59,7 @@ export type Database = {
           created_at: string
           email: string
           establishment_id: string
+          has_spun_wheel1: boolean | null
           has_spun_wheel2: boolean
           id: string
           phone: string | null
@@ -69,6 +70,7 @@ export type Database = {
           created_at?: string
           email: string
           establishment_id: string
+          has_spun_wheel1?: boolean | null
           has_spun_wheel2?: boolean
           id: string
           phone?: string | null
@@ -79,6 +81,7 @@ export type Database = {
           created_at?: string
           email?: string
           establishment_id?: string
+          has_spun_wheel1?: boolean | null
           has_spun_wheel2?: boolean
           id?: string
           phone?: string | null
