@@ -4,9 +4,10 @@ import { useEffect, useRef } from "react";
 interface WheelPreviewProps {
   segments: WheelSegment[];
   size?: number;
+  pointerSize?: number;
 }
 
-export function WheelPreview({ segments, size = 400 }: WheelPreviewProps) {
+export function WheelPreview({ segments, size = 300, pointerSize = 40 }: WheelPreviewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -103,8 +104,25 @@ export function WheelPreview({ segments, size = 400 }: WheelPreviewProps) {
         className="rounded-full shadow-2xl"
       />
       {/* Pointer */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-10">
-        <div className="w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-t-[40px] border-t-red-500 drop-shadow-lg" />
+      <div 
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
+        style={{ marginTop: -(size / 2) + 10 }} // Position at top
+      >
+        <svg 
+          width={pointerSize} 
+          height={pointerSize} 
+          viewBox="0 0 40 40" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          className="filter drop-shadow-lg"
+        >
+          <path 
+            d="M20 40L37.3205 10H2.67949L20 40Z" 
+            fill="#FACC15" 
+            stroke="white" 
+            strokeWidth="2"
+          />
+        </svg>
       </div>
     </div>
   );

@@ -20,6 +20,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { QRCodeSVG } from "qrcode.react";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function EditEstablishmentPage() {
   const router = useRouter();
@@ -197,10 +198,25 @@ export default function EditEstablishmentPage() {
     .slice(0, 5);
 
   const handleDeleteEstablishment = async () => {
-    if (!establishment || !confirm("Êtes-vous sûr de vouloir supprimer cet établissement ?")) return;
+    if (!establishment || !confirm("Êtes-vous sûr de vouloir supprimer cet établissement ? Cette action est irréversible et supprimera toutes les données associées (participants, segments, logos, compte utilisateur).")) return;
 
-    await storageService.deleteEstablishment(establishment.id);
-    router.push("/admin");
+    try {
+      const { data, error } = await supabase.functions.invoke("delete-establishment", {
+        body: { establishmentId: establishment.id }
+      });
+
+      if (error) {
+        console.error("Error deleting establishment:", error);
+        alert("Erreur lors de la suppression de l'établissement : " + error.message);
+        return;
+      }
+
+      alert("Établissement supprimé avec succès !");
+      router.push("/admin");
+    } catch (error) {
+      console.error("Error calling delete function:", error);
+      alert("Une erreur est survenue lors de la suppression.");
+    }
   };
 
   const handleDownloadPoster = async (type: "png" | "pdf") => {
