@@ -736,76 +736,90 @@ export default function EditEstablishmentPage() {
 
                   {/* Right: Preview */}
                   <div className="lg:col-span-2 flex justify-center bg-gray-100 p-8 rounded-xl border overflow-auto">
-                    <div 
+                    <div
                       ref={posterRef}
-                      className="bg-white shadow-2xl relative flex flex-col items-center justify-between overflow-hidden"
+                      className="shadow-2xl relative flex flex-col items-center overflow-hidden"
                       style={{
-                        width: posterFormat === "A4" ? "595px" : "420px",
-                        height: posterFormat === "A4" ? "842px" : "595px",
-                        padding: posterFormat === "A4" ? "40px" : "30px",
-                        transform: "scale(0.8)", // Visual scaling for preview
+                        width: "595px",
+                        height: "842px",
+                        padding: "40px 40px 32px 40px",
+                        backgroundColor: formData.secondaryColor,
+                        transform: posterFormat === "A4" ? "scale(0.75)" : "scale(0.53)",
                         transformOrigin: "top center",
+                        flexShrink: 0,
                       }}
                     >
-                      {/* Background decoration */}
-                      <div className="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500" />
-                      
-                      {/* Header Section */}
-                      <div className="text-center w-full space-y-4 mt-4">
+                      {/* Header — Logos */}
+                      <div className="flex flex-col items-center w-full mb-6">
                         {establishment.logo_url ? (
-                          <img 
-                            src={establishment.logo_url} 
-                            alt="Logo" 
-                            className="h-24 mx-auto object-contain"
+                          <img
+                            src={establishment.logo_url}
+                            alt="Logo principal"
                             crossOrigin="anonymous"
+                            className="object-contain mb-2"
+                            style={{
+                              maxHeight: "80px",
+                              maxWidth: "260px",
+                              filter: `brightness(0) saturate(100%) invert(${formData.primaryColor === "#ffffff" ? "1" : "0"})`,
+                            }}
                           />
-                        ) : (
-                          <div className="h-24 flex items-center justify-center">
-                            <h2 className="text-3xl font-bold text-gray-800">{establishment.name}</h2>
-                          </div>
-                        )}
-                        
-                        <div className="space-y-2">
-                          <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 uppercase tracking-tight">
-                            Tentez votre chance !
-                          </h1>
-                          <p className="text-xl text-gray-600 font-medium">
-                            Tournez la roue et gagnez un cadeau 🎁
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Middle: Wheel Visual */}
-                      <div className="relative flex-1 flex items-center justify-center w-full my-4">
-                        <div className="transform scale-125">
-                          <WheelPreview segments={segments} size={300} pointerSize={40} />
-                        </div>
-                      </div>
-
-                      {/* Bottom: QR Code */}
-                      <div className="flex flex-col items-center space-y-4 mb-4">
-                        <div className="bg-white p-4 rounded-xl shadow-lg border-2 border-dashed border-gray-200">
-<QRCodeSVG
-  value={`${window.location.origin}/game/${establishment.slug}`}
-  size={180}
-  level="H"
-  includeMargin={true}
-  fgColor="#000000"
-/>
-                        </div>
-                        
-                        <div className="text-center">
-                          <p className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-1">
-                            Scannez pour jouer
-                          </p>
-                          <p className="font-bold text-xl text-gray-800">
+                        ) : null}
+                        {establishment.logo_secondary_url ? (
+                          <img
+                            src={establishment.logo_secondary_url}
+                            alt="Logo secondaire"
+                            crossOrigin="anonymous"
+                            className="object-contain"
+                            style={{
+                              maxHeight: "50px",
+                              maxWidth: "200px",
+                              filter: `brightness(0) saturate(100%) invert(${formData.primaryColor === "#ffffff" ? "1" : "0"})`,
+                            }}
+                          />
+                        ) : null}
+                        {!establishment.logo_url && !establishment.logo_secondary_url && (
+                          <h2 className="text-2xl font-bold" style={{ color: formData.primaryColor }}>
                             {establishment.name}
-                          </p>
-                        </div>
+                          </h2>
+                        )}
                       </div>
 
-                      {/* Footer decoration */}
-                      <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500" />
+                      {/* Titre */}
+                      <div className="text-center mb-4">
+                        <h1
+                          className="text-4xl font-black uppercase tracking-tight mb-2"
+                          style={{ color: formData.primaryColor }}
+                        >
+                          Tentez votre chance !
+                        </h1>
+                        <p className="text-lg font-medium" style={{ color: formData.primaryColor, opacity: 0.8 }}>
+                          Tournez la roue et gagnez un cadeau 🎁
+                        </p>
+                      </div>
+
+                      {/* Roue */}
+                      <div className="flex items-center justify-center my-4">
+                        <WheelPreview segments={segments} size={240} pointerSize={30} />
+                      </div>
+
+                      {/* QR Code */}
+                      <div className="flex flex-col items-center mt-4">
+                        <div className="bg-white p-3 rounded-xl shadow-lg">
+                          <QRCodeSVG
+                            value={`${window.location.origin}/game/${establishment.slug}`}
+                            size={140}
+                            level="H"
+                            includeMargin={true}
+                            fgColor="#000000"
+                          />
+                        </div>
+                        <p
+                          className="text-sm font-bold uppercase tracking-widest mt-3"
+                          style={{ color: formData.primaryColor, opacity: 0.7 }}
+                        >
+                          Scannez pour jouer
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
