@@ -670,6 +670,29 @@ export default function EditEstablishmentPage() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
+                      {/* Couleurs */}
+                      <div className="space-y-3">
+                        <Label>Couleur du logo</Label>
+                        <div className="flex gap-2 items-center">
+                          <input type="color" value={formData.primaryColor}
+                            onChange={(e) => setFormData({ ...formData, primaryColor: e.target.value })}
+                            className="w-10 h-10 rounded cursor-pointer border" />
+                          <Input value={formData.primaryColor}
+                            onChange={(e) => setFormData({ ...formData, primaryColor: e.target.value })}
+                            className="font-mono text-sm" />
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        <Label>Couleur de fond</Label>
+                        <div className="flex gap-2 items-center">
+                          <input type="color" value={formData.secondaryColor}
+                            onChange={(e) => setFormData({ ...formData, secondaryColor: e.target.value })}
+                            className="w-10 h-10 rounded cursor-pointer border" />
+                          <Input value={formData.secondaryColor}
+                            onChange={(e) => setFormData({ ...formData, secondaryColor: e.target.value })}
+                            className="font-mono text-sm" />
+                        </div>
+                      </div>
                       <div className="space-y-3">
                         <Label>Format de l'affiche</Label>
                         <div className="flex gap-2">
