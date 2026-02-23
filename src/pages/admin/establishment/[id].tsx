@@ -903,41 +903,7 @@ export default function EditEstablishmentPage() {
                         />
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label>Couleur principale</Label>
-                          <div className="flex gap-2">
-                            <Input
-                              type="color"
-                              value={formData.primaryColor}
-                              onChange={(e) => setFormData({ ...formData, primaryColor: e.target.value })}
-                              className="w-20 h-10"
-                            />
-                            <Input
-                              type="text"
-                              value={formData.primaryColor}
-                              onChange={(e) => setFormData({ ...formData, primaryColor: e.target.value })}
-                            />
-                          </div>
-                        </div>
 
-                        <div className="space-y-2">
-                          <Label>Couleur secondaire</Label>
-                          <div className="flex gap-2">
-                            <Input
-                              type="color"
-                              value={formData.secondaryColor}
-                              onChange={(e) => setFormData({ ...formData, secondaryColor: e.target.value })}
-                              className="w-20 h-10"
-                            />
-                            <Input
-                              type="text"
-                              value={formData.secondaryColor}
-                              onChange={(e) => setFormData({ ...formData, secondaryColor: e.target.value })}
-                            />
-                          </div>
-                        </div>
-                      </div>
                     </div>
 
                     <Button onClick={handleSaveEstablishment} className="w-full prizmo-gradient text-white" size="lg">
