@@ -459,15 +459,6 @@ export default function NewEstablishmentPage() {
                       </div>
                     </div>
                   </div>
-
-                  {/* Preview */}
-                  <div className="mt-4 p-4 rounded-xl border-2 border-dashed border-gray-200 text-center">
-                    <p className="text-xs text-gray-400 mb-3">Aperçu du dégradé</p>
-                    <div
-                      className="h-16 rounded-xl shadow-inner"
-                      style={{ background: `linear-gradient(135deg, ${formData.primaryColor}, ${formData.secondaryColor})` }}
-                    />
-                  </div>
                 </div>
               )}
 
