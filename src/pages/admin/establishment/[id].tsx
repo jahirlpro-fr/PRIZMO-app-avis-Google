@@ -797,59 +797,41 @@ export default function EditEstablishmentPage() {
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="space-y-4">
-                                          <div className="space-y-2">
-                                              <Label>Logo de l'établissement</Label>
-                                              <div className="flex items-center gap-4 p-4 border rounded-lg">
-                                                  {establishment.logo_url ? (
-                                                      <img
-                                                          src={establishment.logo_url}
-                                                          alt="Logo"
-                                                          className="w-20 h-20 object-contain rounded-lg border"
-                                                      />
-                                                  ) : (
-                                                      <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
-                                                          <ImageIcon className="w-8 h-8 text-gray-400" />
-                                                      </div>
-                                                  )}
-                                                  <div className="flex-1">
-                                                      <p className="text-sm font-medium">
-                                                          {establishment.logo_url ? "Logo actuel" : "Aucun logo uploadé"}
-                                                      </p>
-                                                      <p className="text-xs text-muted-foreground mb-2">
-                                                          PNG ou JPEG, 200x200px recommandé
-                                                      </p>
-                                                      <label className="cursor-pointer">
-                                                          <Button variant="outline" size="sm" asChild>
-                                                              <span>
-                                                                  <Upload className="w-4 h-4 mr-2" />
-                                                                  {establishment.logo_url ? "Changer le logo" : "Uploader un logo"}
-                                                              </span>
-                                                          </Button>
-                                                          <input
-                                                              type="file"
-                                                              accept="image/*"
-                                                              className="hidden"
-                                                              onChange={async (e) => {
-                                                                  const file = e.target.files?.[0];
-                                                                  if (!file || !establishment) return;
-                                                                  setIsLogoUploading(true);
-                                                                  try {
-                                                                      const { storageService: fileStorage } = await import("@/services/storageService");
-                                                                      const url = await fileStorage.uploadLogo(file, establishment.id, "primary");
-                                                                      const updated = { ...establishment, logo_url: url };
-                                                                      await storageService.saveEstablishment(updated);
-                                                                      setEstablishment(updated);
-                                                                  } catch (err) {
-                                                                      alert("Erreur lors de l'upload du logo");
-                                                                  } finally {
-                                                                      setIsLogoUploading(false);
-                                                                  }
-                                                              }}
-                                                          />
-                                                      </label>
-                                                  </div>
-                                              </div>
-                                          </div>
+                      <div className="space-y-4">
+                        <Label>Logos de l'établissement</Label>
+                        {/* Logo principal */}
+                        <div className="flex items-center gap-4 p-4 border rounded-lg">
+                          {establishment.logo_url ? (
+                            <img src={establishment.logo_url} alt="Logo principal" className="w-20 h-20 object-contain rounded-lg border" />
+                          ) : (
+                            <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                              <ImageIcon className="w-8 h-8 text-gray-400" />
+                            </div>
+                          )}
+                          <div>
+                            <p className="text-sm font-medium">Logo principal</p>
+                            <p className="text-xs text-muted-foreground">
+                              {establishment.logo_url ? "✓ Uploadé lors de l'inscription" : "Aucun logo uploadé"}
+                            </p>
+                          </div>
+                        </div>
+                        {/* Logo secondaire */}
+                        <div className="flex items-center gap-4 p-4 border rounded-lg">
+                          {establishment.logo_secondary_url ? (
+                            <img src={establishment.logo_secondary_url} alt="Logo secondaire" className="w-20 h-20 object-contain rounded-lg border" />
+                          ) : (
+                            <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                              <ImageIcon className="w-8 h-8 text-gray-400" />
+                            </div>
+                          )}
+                          <div>
+                            <p className="text-sm font-medium">Logo secondaire</p>
+                            <p className="text-xs text-muted-foreground">
+                              {establishment.logo_secondary_url ? "✓ Uploadé lors de l'inscription" : "Aucun logo secondaire uploadé"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="name">Nom de l'établissement</Label>
