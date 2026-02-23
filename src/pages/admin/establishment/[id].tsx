@@ -785,13 +785,13 @@ export default function EditEstablishmentPage() {
                       {/* Bottom: QR Code */}
                       <div className="flex flex-col items-center space-y-4 mb-4">
                         <div className="bg-white p-4 rounded-xl shadow-lg border-2 border-dashed border-gray-200">
-                          <QRCodeSVG
-                            value={`${window.location.origin}/game/${establishment.slug}`}
-                            size={180}
-                            level="H"
-                            includeMargin={true}
-                            fgColor={establishment.primaryColor || "#000000"}
-                          />
+<QRCodeSVG
+  value={`${window.location.origin}/game/${establishment.slug}`}
+  size={180}
+  level="H"
+  includeMargin={true}
+  fgColor="#000000"
+/>
                         </div>
                         
                         <div className="text-center">
