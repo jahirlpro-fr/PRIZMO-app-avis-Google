@@ -510,7 +510,9 @@ export default function NewEstablishmentPage() {
                     </div>
                     <div className="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
                       <span className="text-sm text-gray-500">🎡 2ème roue Instagram</span>
-                      <span className="font-semibold text-sm">{formData.enableInstagramWheel ? "✓ Activée" : "Désactivée"}</span>
+                      <span className={`font-semibold text-sm ${formData.enableInstagramWheel ? "text-green-600" : "text-gray-400"}`}>
+                        {formData.enableInstagramWheel ? "✓ Activée" : "Désactivée"}
+                      </span>
                     </div>
                   </div>
                 </div>
