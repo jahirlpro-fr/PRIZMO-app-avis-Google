@@ -424,7 +424,7 @@ export default function NewEstablishmentPage() {
 
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-3">
-                      <Label>Couleur principale</Label>
+                      <Label>Couleur du logo</Label>
                       <div className="flex gap-3 items-center">
                         <input
                           type="color"
@@ -442,7 +442,7 @@ export default function NewEstablishmentPage() {
                     </div>
 
                     <div className="space-y-3">
-                      <Label>Couleur secondaire</Label>
+                      <Label>Couleur de fond</Label>
                       <div className="flex gap-3 items-center">
                         <input
                           type="color"
