@@ -74,28 +74,28 @@ serve(async (req) => {
       if (storageError) console.error("Error deleting logos:", storageError);
     }
 
-    // 6. Supprime l'établissement
-    const { error: establishmentError } = await supabaseAdmin
-      .from("establishments")
-      .delete()
-      .eq("id", establishmentId);
+      // 6. Supprime le profil (AVANT l'établissement pour éviter les contraintes FK)
+      const { error: deleteProfileError } = await supabaseAdmin
+          .from("profiles")
+          .delete()
+          .eq("id", profileId);
 
-    if (establishmentError) {
-      throw establishmentError;
-    }
+      if (deleteProfileError) console.error("Error deleting profile:", deleteProfileError);
 
-    // 7. Supprime le profil
-    const { error: deleteProfileError } = await supabaseAdmin
-      .from("profiles")
-      .delete()
-      .eq("id", profileId);
-    
-    if (deleteProfileError) console.error("Error deleting profile:", deleteProfileError);
+      // 7. Supprime l'utilisateur Auth
+      const { error: deleteUserError } = await supabaseAdmin.auth.admin.deleteUser(profileId);
 
-    // 8. Supprime l'utilisateur Auth
-    const { error: deleteUserError } = await supabaseAdmin.auth.admin.deleteUser(profileId);
-    
-    if (deleteUserError) console.error("Error deleting auth user:", deleteUserError);
+      if (deleteUserError) console.error("Error deleting auth user:", deleteUserError);
+
+      // 8. Supprime l'établissement (EN DERNIER, une fois le profil libéré)
+      const { error: establishmentError } = await supabaseAdmin
+          .from("establishments")
+          .delete()
+          .eq("id", establishmentId);
+
+      if (establishmentError) {
+          throw establishmentError;
+      }
 
     return new Response(
       JSON.stringify({ success: true }),
