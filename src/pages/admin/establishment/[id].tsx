@@ -773,7 +773,7 @@ export default function EditEstablishmentPage() {
                         padding: "24px 40px 12px 40px",
                         flex: "0 0 auto",
                       }}>
-                        {establishment?.logo_url ? (
+                        {establishment?.logoUrl ? (
                           <img
                             src={establishment.logoUrl}
                             alt="Logo principal"
