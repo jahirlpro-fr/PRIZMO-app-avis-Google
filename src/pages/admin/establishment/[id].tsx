@@ -769,7 +769,7 @@ export default function EditEstablishmentPage() {
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
-                        padding: "12px 40px 8px 40px",
+                        padding: "24px 40px 12px 40px",
                       }}>
                         {establishment.logoUrl ? (
                           <img
