@@ -849,6 +849,7 @@ export default function EditEstablishmentPage() {
                         alignItems: "center",
                         justifyContent: "center",
                         padding: "12px 40px 24px 40px",
+                        flex: "0 0 auto",
                       }}>
                         <div style={{
                           backgroundColor: "white",
