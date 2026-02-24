@@ -46,7 +46,8 @@ export default function EditEstablishmentPage() {
     enableInstagramWheel: false,
   });
   const [uploadingPrimaryLogo, setUploadingPrimaryLogo] = useState(false);
-  const [uploadingSecondaryLogo, setUploadingSecondaryLogo] = useState(false);
+    const [uploadingSecondaryLogo, setUploadingSecondaryLogo] = useState(false);
+    const [posterTextColor, setPosterTextColor] = useState("#000000");
 
   useEffect(() => {
     if (!router.isReady) return;
