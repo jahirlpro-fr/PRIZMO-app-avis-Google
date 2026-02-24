@@ -770,7 +770,7 @@ export default function EditEstablishmentPage() {
                         alignItems: "center",
                         justifyContent: "center",
                         padding: "24px 40px 12px 40px",
-                      }}
+                      }}>
                         {establishment.logo_url ? (
                           <img
                             src={establishment.logo_url}
