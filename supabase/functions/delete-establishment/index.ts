@@ -85,9 +85,9 @@ serve(async (req) => {
         console.log("Deleted profile data:", JSON.stringify(deletedProfile));
         console.log("Delete profile error:", JSON.stringify(deleteProfileError));
 
-        // 6. Supprime l'utilisateur Auth
-        console.log("STEP 6 - Deleting auth user...");
-        const { error: deleteUserError } = await supabaseAdmin.auth.admin.deleteUser(profileId);
+        // 6. Supprime l'utilisateur Auth via SQL direct
+        console.log("STEP 6 - Deleting auth user via SQL...");
+        const { error: deleteUserError } = await supabaseAdmin.rpc('delete_auth_user', { user_id: profileId });
         console.log("Delete auth user error:", JSON.stringify(deleteUserError));
 
         // 7. Supprime l'établissement
