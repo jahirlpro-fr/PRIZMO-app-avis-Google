@@ -759,8 +759,8 @@ export default function EditEstablishmentPage() {
                         transform: posterFormat === "A4" ? "scale(0.75)" : "scale(0.53)",
                         transformOrigin: "top center",
                         flexShrink: 0,
-                        display: "grid",
-                        gridTemplateRows: "1fr 1fr 1fr",
+                          display: "flex",
+                          flexDirection: "column",
                       }}
                     >
                       {/* BLOC HAUT — Logos */}
