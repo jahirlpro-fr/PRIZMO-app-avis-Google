@@ -771,9 +771,9 @@ export default function EditEstablishmentPage() {
                         justifyContent: "center",
                         padding: "24px 40px 12px 40px",
                       }}>
-                        {establishment.logo_url ? (
+                        {establishment.logoUrl ? (
                           <img
-                            src={establishment.logo_url}
+                            src={establishment.logoUrl}
                             alt="Logo principal"
                             crossOrigin="anonymous"
                             style={{
@@ -892,8 +892,8 @@ export default function EditEstablishmentPage() {
                         <Label>Logos de l'établissement</Label>
                         {/* Logo principal */}
                         <div className="flex items-center gap-4 p-4 border rounded-lg">
-                          {establishment.logo_url ? (
-                            <img src={establishment.logo_url} alt="Logo principal" className="w-20 h-20 object-contain rounded-lg border" />
+                          {establishment.logoUrl ? (
+                            <img src={establishment.logoUrl} alt="Logo principal" className="w-20 h-20 object-contain rounded-lg border" />
                           ) : (
                             <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
                               <ImageIcon className="w-8 h-8 text-gray-400" />
@@ -902,13 +902,13 @@ export default function EditEstablishmentPage() {
                           <div className="flex-1">
                             <p className="text-sm font-medium">Logo principal</p>
                             <p className="text-xs text-muted-foreground mb-2">
-                              {establishment.logo_url ? "✓ Logo uploadé" : "Aucun logo uploadé"}
+                              {establishment.logoUrl ? "✓ Logo uploadé" : "Aucun logo uploadé"}
                             </p>
                             <label className="cursor-pointer">
                               <Button variant="outline" size="sm" asChild>
                                 <span>
                                   <Upload className="w-4 h-4 mr-2" />
-                                  {establishment.logo_url ? "Changer" : "Uploader"}
+                                  {establishment.logoUrl ? "Changer" : "Uploader"}
                                 </span>
                               </Button>
                               <input
