@@ -845,13 +845,44 @@ export default function EditEstablishmentPage() {
                               <ImageIcon className="w-8 h-8 text-gray-400" />
                             </div>
                           )}
-                          <div>
+                          <div className="flex-1">
                             <p className="text-sm font-medium">Logo principal</p>
-                            <p className="text-xs text-muted-foreground">
-                              {establishment.logo_url ? "✓ Uploadé lors de l'inscription" : "Aucun logo uploadé"}
+                            <p className="text-xs text-muted-foreground mb-2">
+                              {establishment.logo_url ? "✓ Logo uploadé" : "Aucun logo uploadé"}
                             </p>
+                            <label className="cursor-pointer">
+                              <Button variant="outline" size="sm" asChild>
+                                <span>
+                                  <Upload className="w-4 h-4 mr-2" />
+                                  {establishment.logo_url ? "Changer" : "Uploader"}
+                                </span>
+                              </Button>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (!file || !establishment) return;
+                                  setUploadingPrimaryLogo(true);
+                                  try {
+                                    const { storageService: fileStorage } = await import("@/services/storageService");
+                                    const url = await fileStorage.uploadLogo(file, establishment.id, "primary");
+                                    const updated = { ...establishment, logo_url: url };
+                                    await storageService.saveEstablishment(updated);
+                                    setEstablishment(updated);
+                                  } catch (err) {
+                                    alert("Erreur lors de l'upload du logo");
+                                  } finally {
+                                    setUploadingPrimaryLogo(false);
+                                  }
+                                }}
+                              />
+                            </label>
+                            {uploadingPrimaryLogo && <p className="text-xs text-purple-600 mt-1">Envoi en cours...</p>}
                           </div>
                         </div>
+
                         {/* Logo secondaire */}
                         <div className="flex items-center gap-4 p-4 border rounded-lg">
                           {establishment.logo_secondary_url ? (
@@ -861,11 +892,41 @@ export default function EditEstablishmentPage() {
                               <ImageIcon className="w-8 h-8 text-gray-400" />
                             </div>
                           )}
-                          <div>
+                          <div className="flex-1">
                             <p className="text-sm font-medium">Logo secondaire</p>
-                            <p className="text-xs text-muted-foreground">
-                              {establishment.logo_secondary_url ? "✓ Uploadé lors de l'inscription" : "Aucun logo secondaire uploadé"}
+                            <p className="text-xs text-muted-foreground mb-2">
+                              {establishment.logo_secondary_url ? "✓ Logo uploadé" : "Aucun logo secondaire uploadé"}
                             </p>
+                            <label className="cursor-pointer">
+                              <Button variant="outline" size="sm" asChild>
+                                <span>
+                                  <Upload className="w-4 h-4 mr-2" />
+                                  {establishment.logo_secondary_url ? "Changer" : "Uploader"}
+                                </span>
+                              </Button>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (!file || !establishment) return;
+                                  setUploadingSecondaryLogo(true);
+                                  try {
+                                    const { storageService: fileStorage } = await import("@/services/storageService");
+                                    const url = await fileStorage.uploadLogo(file, establishment.id, "secondary");
+                                    const updated = { ...establishment, logo_secondary_url: url };
+                                    await storageService.saveEstablishment(updated);
+                                    setEstablishment(updated);
+                                  } catch (err) {
+                                    alert("Erreur lors de l'upload du logo secondaire");
+                                  } finally {
+                                    setUploadingSecondaryLogo(false);
+                                  }
+                                }}
+                              />
+                            </label>
+                            {uploadingSecondaryLogo && <p className="text-xs text-purple-600 mt-1">Envoi en cours...</p>}
                           </div>
                         </div>
                       </div>
