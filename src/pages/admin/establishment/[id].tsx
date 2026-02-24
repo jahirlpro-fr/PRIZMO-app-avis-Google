@@ -789,9 +789,9 @@ export default function EditEstablishmentPage() {
                         ) : (
                           <div style={{ height: "90px" }} />
                         )}
-                        {establishment.logo_secondary_url ? (
+                        {establishment.logoSecondaryUrl ? (
                           <img
-                            src={establishment.logo_secondary_url}
+                            src={establishment.logoSecondaryUrl}
                             alt="Logo secondaire"
                             crossOrigin="anonymous"
                             style={{
@@ -939,8 +939,8 @@ export default function EditEstablishmentPage() {
 
                         {/* Logo secondaire */}
                         <div className="flex items-center gap-4 p-4 border rounded-lg">
-                          {establishment.logo_secondary_url ? (
-                            <img src={establishment.logo_secondary_url} alt="Logo secondaire" className="w-20 h-20 object-contain rounded-lg border" />
+                          {establishment.logoSecondaryUrl ? (
+                            <img src={establishment.logoSecondaryUrl} alt="Logo secondaire" className="w-20 h-20 object-contain rounded-lg border" />
                           ) : (
                             <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
                               <ImageIcon className="w-8 h-8 text-gray-400" />
@@ -949,13 +949,13 @@ export default function EditEstablishmentPage() {
                           <div className="flex-1">
                             <p className="text-sm font-medium">Logo secondaire</p>
                             <p className="text-xs text-muted-foreground mb-2">
-                              {establishment.logo_secondary_url ? "✓ Logo uploadé" : "Aucun logo secondaire uploadé"}
+                              {establishment.logoSecondaryUrl ? "✓ Logo uploadé" : "Aucun logo secondaire uploadé"}
                             </p>
                             <label className="cursor-pointer">
                               <Button variant="outline" size="sm" asChild>
                                 <span>
                                   <Upload className="w-4 h-4 mr-2" />
-                                  {establishment.logo_secondary_url ? "Changer" : "Uploader"}
+                                  {establishment.logoSecondaryUrl ? "Changer" : "Uploader"}
                                 </span>
                               </Button>
                               <input
