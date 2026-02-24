@@ -13,6 +13,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import type React from "react";
 import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function AdminDashboard() {
   const router = useRouter();
