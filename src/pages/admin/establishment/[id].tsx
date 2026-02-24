@@ -841,7 +841,7 @@ export default function EditEstablishmentPage() {
                             Tournez la roue et gagnez un cadeau 🎁
                           </p>
                         </div>
-                        <WheelPreview segments={segments} size={220} pointerSize={28} />
+                        <WheelPreview segments={segments} size={270} pointerSize={34} />
                       </div>
 
                       {/* BLOC BAS — QR Code */}
