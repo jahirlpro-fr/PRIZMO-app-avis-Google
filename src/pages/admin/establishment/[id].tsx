@@ -818,6 +818,8 @@ export default function EditEstablishmentPage() {
                         padding: "0 40px",
                         gap: "16px",
                         flex: "1 1 auto",
+                        justifyContent: "flex-start",
+                        paddingTop: "8px",
                       }}>
                         <div style={{ textAlign: "center" }}>
                           <h1 style={{
