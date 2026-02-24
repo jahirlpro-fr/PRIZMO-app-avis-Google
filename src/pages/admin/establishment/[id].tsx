@@ -991,60 +991,7 @@ export default function EditEstablishmentPage() {
                                               </div>
                                           </div>
 
-                        <div className="space-y-2">
-                          <Label htmlFor="name">Nom de l'établissement</Label>
-                          <Input
-                            id="name"
-                            value={formData.name}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="address">Adresse</Label>
-                          <Textarea
-                            id="address"
-                            value={formData.address}
-                            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                            rows={2}
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="googleMapsUrl">Lien Google Maps (avis)</Label>
-                          <Input
-                            id="googleMapsUrl"
-                            type="url"
-                            value={formData.googleMapsUrl}
-                            onChange={(e) => setFormData({ ...formData, googleMapsUrl: e.target.value })}
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <Label htmlFor="instagramUrl">Lien Instagram (optionnel)</Label>
-                          <Input
-                            id="instagramUrl"
-                            type="url"
-                            value={formData.instagramUrl}
-                            onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
-                          />
-                        </div>
-
-                        <div className="flex items-center justify-between p-4 border rounded-lg">
-                          <div className="space-y-1">
-                            <Label>Activer la 2ème roue Instagram</Label>
-                            <p className="text-sm text-muted-foreground">
-                              Offrir un 2ème cadeau si le client s'abonne à Instagram
-                            </p>
-                          </div>
-                          <Switch
-                            checked={formData.enableInstagramWheel}
-                            onCheckedChange={(checked) => setFormData({ ...formData, enableInstagramWheel: checked })}
-                          />
-                        </div>
-
-
-                      </div>
+                                          <Button onClick={handleSaveEstablishment}
 
                       <div className="space-y-2">
                         <Label htmlFor="name">Nom de l'établissement</Label>
