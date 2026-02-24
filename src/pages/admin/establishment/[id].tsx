@@ -21,7 +21,7 @@ import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { QRCodeSVG } from "qrcode.react";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+
 
 export default function EditEstablishmentPage() {
   const router = useRouter();
