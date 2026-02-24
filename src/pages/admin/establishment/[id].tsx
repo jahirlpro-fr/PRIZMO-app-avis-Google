@@ -993,7 +993,7 @@ export default function EditEstablishmentPage() {
 
                                           <Button onClick={handleSaveEstablishment}
 
-                      <div className="space-y-2">
+
                         <Label htmlFor="name">Nom de l'établissement</Label>
                         <Input
                           id="name"
