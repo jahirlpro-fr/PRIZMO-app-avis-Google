@@ -28,7 +28,8 @@ export default function EditEstablishmentPage() {
   const { signOut } = useAuth();
   
   const posterRef = useRef<HTMLDivElement>(null);
-  const [posterFormat, setPosterFormat] = useState<"A4" | "A5">("A4");
+  const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
+  const [posterTextColor, setPosterTextColor] = useState("#000000");
 
   const [establishment, setEstablishment] = useState<Establishment | null>(null);
   const [segments, setSegments] = useState<WheelSegment[]>([]);
