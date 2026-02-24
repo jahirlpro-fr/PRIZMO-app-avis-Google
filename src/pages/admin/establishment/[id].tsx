@@ -12,9 +12,7 @@ import { ArrowLeft, Save, Trash2, Plus, Eye, Users, Star, TrendingUp, Gift, Down
 import { storageService } from "@/lib/storage";
 import { Establishment, WheelSegment, Participant } from "@/types";
 import { WheelPreview } from "@/components/admin/WheelPreview";
-import { AnalyticsCharts } from "@/components/admin/AnalyticsCharts";
-// Fix import - importing generatePoster instead if generateQRCodePDF doesn't exist, or check pdfGenerator.ts
-import { generatePoster } from "@/lib/pdfGenerator"; 
+import { AnalyticsCharts } from "@/components/admin/AnalyticsCharts"; 
 import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
 import html2canvas from "html2canvas";
