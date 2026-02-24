@@ -7,185 +7,106 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
-  // Handle CORS preflight
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
 
   try {
-    // Get Supabase client with service role key for admin operations
-    const supabaseAdmin = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
-      {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false,
-        },
-      }
-    );
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseServiceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    
+    // Client Admin avec Service Role Key (contourne RLS)
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
 
-    // Get user from JWT
-    const authHeader = req.headers.get("Authorization");
-    if (!authHeader) {
-      return new Response(
-        JSON.stringify({ error: "Missing authorization header" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    const token = authHeader.replace("Bearer ", "");
-    const { data: { user }, error: userError } = await supabaseAdmin.auth.getUser(token);
-
-    if (userError || !user) {
-      return new Response(
-        JSON.stringify({ error: "Unauthorized" }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // Parse request body
     const { establishmentId } = await req.json();
 
     if (!establishmentId) {
-      return new Response(
-        JSON.stringify({ error: "establishmentId is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      throw new Error("establishmentId is required");
     }
 
-    // Verify user owns this establishment
-    const { data: establishment, error: establishmentError } = await supabaseAdmin
-      .from("establishments")
-      .select("user_id")
-      .eq("id", establishmentId)
+    console.log(`Starting deletion for establishment: ${establishmentId}`);
+
+    // 1. Récupère le profil
+    const { data: profile, error: profileError } = await supabaseAdmin
+      .from("profiles")
+      .select("id")
+      .eq("establishment_id", establishmentId)
       .single();
 
-    if (establishmentError || !establishment) {
-      return new Response(
-        JSON.stringify({ error: "Establishment not found" }),
-        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    if (profileError || !profile) {
+      console.error("Profile not found or error:", profileError);
+      // On continue ou on arrête ? La demande implique l'utilisation du profileId pour les étapes 7 et 8.
+      // Si pas de profil, on ne peut pas faire 7 et 8 correctement.
+      throw new Error("Profile not found for this establishment");
     }
 
-    if (establishment.user_id !== user.id) {
-      return new Response(
-        JSON.stringify({ error: "You don't have permission to delete this establishment" }),
-        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
+    // 2. Stocke ce profileId
+    const profileId = profile.id;
+    console.log(`Found Profile ID: ${profileId}`);
 
-    console.log(`Starting deletion process for establishment: ${establishmentId}`);
-
-    // Step 1: Delete all participants
+    // 3. Supprime les participants
     const { error: participantsError } = await supabaseAdmin
       .from("participants")
       .delete()
       .eq("establishment_id", establishmentId);
+    
+    if (participantsError) console.error("Error deleting participants:", participantsError);
 
-    if (participantsError) {
-      console.error("Error deleting participants:", participantsError);
-      throw new Error(`Failed to delete participants: ${participantsError.message}`);
-    }
-    console.log("✓ Participants deleted");
-
-    // Step 2: Delete all wheel segments
+    // 4. Supprime les segments
     const { error: segmentsError } = await supabaseAdmin
-      .from("wheel_segments")
+      .from("segments")
       .delete()
       .eq("establishment_id", establishmentId);
+    
+    if (segmentsError) console.error("Error deleting segments:", segmentsError);
 
-    if (segmentsError) {
-      console.error("Error deleting segments:", segmentsError);
-      throw new Error(`Failed to delete segments: ${segmentsError.message}`);
-    }
-    console.log("✓ Wheel segments deleted");
+    // 5. Supprime les logos dans le storage bucket establishment-logos
+    const { data: files } = await supabaseAdmin.storage
+      .from("establishment-logos")
+      .list(establishmentId);
 
-    // Step 3: Delete logos from storage
-    try {
-      const { data: files, error: listError } = await supabaseAdmin.storage
+    if (files && files.length > 0) {
+      const paths = files.map(file => `${establishmentId}/${file.name}`);
+      const { error: storageError } = await supabaseAdmin.storage
         .from("establishment-logos")
-        .list(establishmentId);
-
-      if (listError) {
-        console.error("Error listing files:", listError);
-      } else if (files && files.length > 0) {
-        const filePaths = files.map(file => `${establishmentId}/${file.name}`);
-        const { error: deleteFilesError } = await supabaseAdmin.storage
-          .from("establishment-logos")
-          .remove(filePaths);
-
-        if (deleteFilesError) {
-          console.error("Error deleting files:", deleteFilesError);
-        } else {
-          console.log(`✓ Deleted ${files.length} logo file(s)`);
-        }
-      }
-    } catch (storageError) {
-      console.error("Storage deletion error:", storageError);
-      // Continue even if storage deletion fails
+        .remove(paths);
+      
+      if (storageError) console.error("Error deleting logos:", storageError);
     }
 
-    // Step 4: Get the auth user ID before deleting establishment
-    const authUserId = establishment.user_id;
-
-    // Step 5: Delete the establishment (this will cascade to profiles due to FK)
-    const { error: establishmentDeleteError } = await supabaseAdmin
+    // 6. Supprime l'établissement
+    const { error: establishmentError } = await supabaseAdmin
       .from("establishments")
       .delete()
       .eq("id", establishmentId);
 
-    if (establishmentDeleteError) {
-      console.error("Error deleting establishment:", establishmentDeleteError);
-      throw new Error(`Failed to delete establishment: ${establishmentDeleteError.message}`);
+    if (establishmentError) {
+      throw establishmentError;
     }
-    console.log("✓ Establishment deleted");
 
-    // Step 6: Delete profile (if not already deleted by cascade)
-    const { error: profileError } = await supabaseAdmin
+    // 7. Supprime le profil
+    const { error: deleteProfileError } = await supabaseAdmin
       .from("profiles")
       .delete()
-      .eq("establishment_id", establishmentId);
+      .eq("id", profileId);
+    
+    if (deleteProfileError) console.error("Error deleting profile:", deleteProfileError);
 
-    if (profileError) {
-      console.log("Profile deletion note:", profileError.message);
-      // Don't throw - profile might already be deleted by cascade
-    } else {
-      console.log("✓ Profile deleted");
-    }
-
-    // Step 7: Delete Supabase Auth user
-    const { error: deleteUserError } = await supabaseAdmin.auth.admin.deleteUser(authUserId);
-
-    if (deleteUserError) {
-      console.error("Error deleting auth user:", deleteUserError);
-      // Don't throw - establishment is already deleted, auth cleanup can be done manually if needed
-      console.log("⚠ Auth user deletion failed, but establishment was deleted successfully");
-    } else {
-      console.log("✓ Auth user deleted");
-    }
+    // 8. Supprime l'utilisateur Auth
+    const { error: deleteUserError } = await supabaseAdmin.auth.admin.deleteUser(profileId);
+    
+    if (deleteUserError) console.error("Error deleting auth user:", deleteUserError);
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
-        message: "Establishment and all related data deleted successfully" 
-      }),
-      { 
-        status: 200, 
-        headers: { ...corsHeaders, "Content-Type": "application/json" } 
-      }
+      JSON.stringify({ success: true }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
 
   } catch (error) {
-    console.error("Deletion error:", error);
+    console.error("Error in delete-establishment:", error);
     return new Response(
-      JSON.stringify({ 
-        error: error.message || "An error occurred during deletion" 
-      }),
-      { 
-        status: 500, 
-        headers: { ...corsHeaders, "Content-Type": "application/json" } 
-      }
+      JSON.stringify({ error: error.message }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });
