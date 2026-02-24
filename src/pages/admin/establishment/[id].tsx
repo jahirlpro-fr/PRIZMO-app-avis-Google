@@ -695,6 +695,18 @@ export default function EditEstablishmentPage() {
                         </div>
                       </div>
                       <div className="space-y-3">
+                        <Label>Couleur de la police</Label>
+                        <div className="flex gap-2 items-center">
+                          <input type="color" value={posterTextColor}
+                            onChange={(e) => setPosterTextColor(e.target.value)}
+                            className="w-10 h-10 rounded cursor-pointer border" />
+                          <Input value={posterTextColor}
+                            onChange={(e) => setPosterTextColor(e.target.value)}
+                            className="font-mono text-sm" />
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
                         <Label>Format de l'affiche</Label>
                         <div className="flex gap-2">
                           <Button 
