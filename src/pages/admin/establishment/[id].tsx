@@ -196,38 +196,34 @@ export default function EditEstablishmentPage() {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
 
-  const handleDeleteEstablishment = async () => {
-    if (!establishment || !confirm("Êtes-vous sûr de vouloir supprimer cet établissement ? Cette action est irréversible et supprimera toutes les données associées (participants, segments, logos, compte utilisateur).")) return;
+    const handleDeleteEstablishment = async () => {
+        if (!establishment || !confirm("Êtes-vous sûr ?")) return;
 
-    try {
-        const { data, error } = await supabase.functions.invoke("delete-establishment", {
-            body: { establishmentId: establishment.id }
-        });
+        try {
+            // Appel fetch direct pour voir la réponse brute
+            const session = await supabase.auth.getSession();
+            const token = session.data.session?.access_token;
 
-        if (error) {
-            console.error("Error deleting establishment:", error);
-            // Essaye de récupérer le message détaillé de l'Edge Function
-            let errorMessage = error.message;
-            try {
-                const errData = JSON.parse(error.message);
-                errorMessage = errData.error || error.message;
-            } catch { }
-            alert("Erreur détaillée : " + errorMessage + "\n\nErreur brute : " + JSON.stringify(error));
-            return;
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/delete-establishment`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                        "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "",
+                    },
+                    body: JSON.stringify({ establishmentId: establishment.id }),
+                }
+            );
+
+            const responseText = await response.text();
+            alert(`Status: ${response.status}\nRéponse: ${responseText}`);
+
+        } catch (error: any) {
+            alert("Catch error: " + error.message);
         }
-
-        if (data?.error) {
-            alert("Erreur Edge Function : " + data.error);
-            return;
-        }
-
-      alert("Établissement supprimé avec succès !");
-      router.push("/admin");
-    } catch (error) {
-      console.error("Error calling delete function:", error);
-      alert("Une erreur est survenue lors de la suppression.");
-    }
-  };
+    };
 
   const handleDownloadPoster = async (type: "png" | "pdf") => {
     if (!posterRef.current || !establishment) return;
