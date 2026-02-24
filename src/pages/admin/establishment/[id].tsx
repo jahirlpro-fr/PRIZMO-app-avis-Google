@@ -861,14 +861,14 @@ export default function EditEstablishmentPage() {
                         }}>
                           <QRCodeSVG
                             value={`${window.location.origin}/game/${establishment.slug}`}
-                            size={130}
+                            size={160}
                             level="H"
                             includeMargin={true}
                             fgColor="#000000"
                           />
                         </div>
                         <p style={{
-                          fontSize: "12px",
+                          fontSize: "15px",
                           fontWeight: "700",
                           letterSpacing: "3px",
                           textTransform: "uppercase",
