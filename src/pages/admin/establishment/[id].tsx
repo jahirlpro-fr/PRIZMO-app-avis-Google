@@ -200,15 +200,26 @@ export default function EditEstablishmentPage() {
     if (!establishment || !confirm("Êtes-vous sûr de vouloir supprimer cet établissement ? Cette action est irréversible et supprimera toutes les données associées (participants, segments, logos, compte utilisateur).")) return;
 
     try {
-      const { data, error } = await supabase.functions.invoke("delete-establishment", {
-        body: { establishmentId: establishment.id }
-      });
+        const { data, error } = await supabase.functions.invoke("delete-establishment", {
+            body: { establishmentId: establishment.id }
+        });
 
-      if (error) {
-        console.error("Error deleting establishment:", error);
-        alert("Erreur lors de la suppression de l'établissement : " + error.message);
-        return;
-      }
+        if (error) {
+            console.error("Error deleting establishment:", error);
+            // Essaye de récupérer le message détaillé de l'Edge Function
+            let errorMessage = error.message;
+            try {
+                const errData = JSON.parse(error.message);
+                errorMessage = errData.error || error.message;
+            } catch { }
+            alert("Erreur détaillée : " + errorMessage + "\n\nErreur brute : " + JSON.stringify(error));
+            return;
+        }
+
+        if (data?.error) {
+            alert("Erreur Edge Function : " + data.error);
+            return;
+        }
 
       alert("Établissement supprimé avec succès !");
       router.push("/admin");
