@@ -817,6 +817,7 @@ export default function EditEstablishmentPage() {
                         justifyContent: "center",
                         padding: "0 40px",
                         gap: "16px",
+                        flex: "1 1 auto",
                       }}>
                         <div style={{ textAlign: "center" }}>
                           <h1 style={{
