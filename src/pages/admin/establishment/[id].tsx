@@ -45,8 +45,6 @@ export default function EditEstablishmentPage() {
     secondaryColor: "#d946ef",
     enableInstagramWheel: false,
   });
-  const [isLogoUploading, setIsLogoUploading] = useState(false);
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [uploadingPrimaryLogo, setUploadingPrimaryLogo] = useState(false);
   const [uploadingSecondaryLogo, setUploadingSecondaryLogo] = useState(false);
 
