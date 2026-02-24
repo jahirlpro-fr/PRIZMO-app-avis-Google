@@ -751,85 +751,126 @@ export default function EditEstablishmentPage() {
                   <div className="lg:col-span-2 flex justify-center bg-gray-100 p-8 rounded-xl border overflow-auto">
                     <div
                       ref={posterRef}
-                      className="shadow-2xl relative flex flex-col items-center overflow-hidden"
+                      className="shadow-2xl relative overflow-hidden"
                       style={{
                         width: "595px",
                         height: "842px",
-                        padding: "40px 40px 32px 40px",
                         backgroundColor: formData.secondaryColor,
                         transform: posterFormat === "A4" ? "scale(0.75)" : "scale(0.53)",
                         transformOrigin: "top center",
                         flexShrink: 0,
+                        display: "grid",
+                        gridTemplateRows: "1fr 1fr 1fr",
                       }}
                     >
-                      {/* Header — Logos */}
-                      <div className="flex flex-col items-center w-full mb-6">
+                      {/* BLOC HAUT — Logos */}
+                      <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "24px 40px 12px 40px",
+                      }}>
                         {establishment.logo_url ? (
                           <img
                             src={establishment.logo_url}
                             alt="Logo principal"
                             crossOrigin="anonymous"
-                            className="object-contain mb-2"
                             style={{
-                              maxHeight: "80px",
-                              maxWidth: "260px",
-                              filter: `brightness(0) saturate(100%) invert(${formData.primaryColor === "#ffffff" ? "1" : "0"})`,
+                              maxHeight: "90px",
+                              maxWidth: "280px",
+                              objectFit: "contain",
+                              marginBottom: "12px",
+                              filter: formData.primaryColor === "#ffffff"
+                                ? "brightness(0) invert(1)"
+                                : "brightness(0)",
                             }}
                           />
-                        ) : null}
+                        ) : (
+                          <div style={{ height: "90px" }} />
+                        )}
                         {establishment.logo_secondary_url ? (
                           <img
                             src={establishment.logo_secondary_url}
                             alt="Logo secondaire"
                             crossOrigin="anonymous"
-                            className="object-contain"
                             style={{
-                              maxHeight: "50px",
-                              maxWidth: "200px",
-                              filter: `brightness(0) saturate(100%) invert(${formData.primaryColor === "#ffffff" ? "1" : "0"})`,
+                              maxHeight: "60px",
+                              maxWidth: "220px",
+                              objectFit: "contain",
+                              filter: formData.primaryColor === "#ffffff"
+                                ? "brightness(0) invert(1)"
+                                : "brightness(0)",
                             }}
                           />
-                        ) : null}
-                        {!establishment.logo_url && !establishment.logo_secondary_url && (
-                          <h2 className="text-2xl font-bold" style={{ color: formData.primaryColor }}>
-                            {establishment.name}
-                          </h2>
+                        ) : (
+                          <div style={{ height: "60px" }} />
                         )}
                       </div>
 
-                      {/* Titre */}
-                      <div className="text-center mb-4">
-                        <h1
-                          className="text-4xl font-black uppercase tracking-tight mb-2"
-                          style={{ color: formData.primaryColor }}
-                        >
-                          Tentez votre chance !
-                        </h1>
-                        <p className="text-lg font-medium" style={{ color: formData.primaryColor, opacity: 0.8 }}>
-                          Tournez la roue et gagnez un cadeau 🎁
-                        </p>
+                      {/* BLOC MILIEU — Texte + Roue */}
+                      <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "0 40px",
+                        gap: "16px",
+                      }}>
+                        <div style={{ textAlign: "center" }}>
+                          <h1 style={{
+                            fontSize: "36px",
+                            fontWeight: "900",
+                            textTransform: "uppercase",
+                            letterSpacing: "-0.5px",
+                            color: posterTextColor,
+                            margin: "0 0 8px 0",
+                          }}>
+                            Tentez votre chance !
+                          </h1>
+                          <p style={{
+                            fontSize: "16px",
+                            color: posterTextColor,
+                            opacity: 0.8,
+                            margin: 0,
+                          }}>
+                            Tournez la roue et gagnez un cadeau 🎁
+                          </p>
+                        </div>
+                        <WheelPreview segments={segments} size={220} pointerSize={28} />
                       </div>
 
-                      {/* Roue */}
-                      <div className="flex items-center justify-center my-4">
-                        <WheelPreview segments={segments} size={240} pointerSize={30} />
-                      </div>
-
-                      {/* QR Code */}
-                      <div className="flex flex-col items-center mt-4">
-                        <div className="bg-white p-3 rounded-xl shadow-lg">
+                      {/* BLOC BAS — QR Code */}
+                      <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "12px 40px 24px 40px",
+                      }}>
+                        <div style={{
+                          backgroundColor: "white",
+                          padding: "12px",
+                          borderRadius: "12px",
+                          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                        }}>
                           <QRCodeSVG
                             value={`${window.location.origin}/game/${establishment.slug}`}
-                            size={140}
+                            size={130}
                             level="H"
                             includeMargin={true}
                             fgColor="#000000"
                           />
                         </div>
-                        <p
-                          className="text-sm font-bold uppercase tracking-widest mt-3"
-                          style={{ color: formData.primaryColor, opacity: 0.7 }}
-                        >
+                        <p style={{
+                          fontSize: "12px",
+                          fontWeight: "700",
+                          letterSpacing: "3px",
+                          textTransform: "uppercase",
+                          color: posterTextColor,
+                          opacity: 0.7,
+                          marginTop: "12px",
+                        }}>
                           Scannez pour jouer
                         </p>
                       </div>
