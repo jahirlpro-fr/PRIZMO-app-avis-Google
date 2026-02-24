@@ -812,7 +812,6 @@ export default function EditEstablishmentPage() {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        justifyContent: "center",
                         padding: "0 40px",
                         gap: "16px",
                         flex: "1 1 auto",
