@@ -48,14 +48,28 @@ export default function AdminDashboard() {
     }
   };
 
-  const confirmDelete = async () => {
-    if (establishmentToDelete) {
-      await storageService.deleteEstablishment(establishmentToDelete.id);
-      const updated = await storageService.getEstablishments();
-      setEstablishments(updated);
-      setEstablishmentToDelete(null);
-    }
-  };
+    const confirmDelete = async () => {
+        if (establishmentToDelete) {
+            try {
+                const { error } = await supabase.functions.invoke("delete-establishment", {
+                    body: { establishmentId: establishmentToDelete.id }
+                });
+
+                if (error) {
+                    console.error("Error deleting establishment:", error);
+                    alert("Erreur lors de la suppression : " + error.message);
+                    return;
+                }
+
+                const updated = await storageService.getEstablishments();
+                setEstablishments(updated);
+                setEstablishmentToDelete(null);
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Une erreur est survenue lors de la suppression.");
+            }
+        }
+    };
 
   return (
     <ProtectedRoute requireRole="superadmin">
