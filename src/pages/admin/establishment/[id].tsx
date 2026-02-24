@@ -948,7 +948,7 @@ export default function EditEstablishmentPage() {
                               <div className="relative group w-full flex justify-center">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img 
-                                  src={establishment.logo_secondary_url} 
+                                  src={establishment.establishment.logoSecondaryUrl} 
                                   alt="Logo secondaire" 
                                   className="h-32 object-contain"
                                 />
