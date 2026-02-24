@@ -5,9 +5,11 @@ export interface Establishment {
   address: string;
   googleMapsUrl: string;
   instagramUrl?: string;
-  logo?: string;
-  logo_url?: string;
-  logo_secondary_url?: string;
+    logo?: string;
+    logo_url?: string;
+    logo_secondary_url?: string;
+    logoUrl?: string;
+    logoSecondaryUrl?: string;
   primaryColor: string;
   secondaryColor: string;
   enableInstagramWheel: boolean;
