@@ -52,22 +52,24 @@ export default function AdminDashboard() {
     const confirmDelete = async () => {
         if (establishmentToDelete) {
             try {
-                const { error } = await supabase.functions.invoke("delete-establishment", {
-                    body: { establishmentId: establishmentToDelete.id }
+                const response = await fetch("/api/delete-establishment", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ establishmentId: establishmentToDelete.id }),
                 });
 
-                if (error) {
-                    console.error("Error deleting establishment:", error);
-                    alert("Erreur lors de la suppression : " + error.message);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    alert("Erreur : " + data.error);
                     return;
                 }
 
                 const updated = await storageService.getEstablishments();
                 setEstablishments(updated);
                 setEstablishmentToDelete(null);
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Une erreur est survenue lors de la suppression.");
+            } catch (error: any) {
+                alert("Erreur : " + error.message);
             }
         }
     };
