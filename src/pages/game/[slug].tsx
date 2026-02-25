@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { SEO } from "@/components/SEO";
 import { EmailForm } from "@/components/game/EmailForm";
 import { ReviewStep } from "@/components/game/ReviewStep";
+import { InstagramStep } from "@/components/game/InstagramStep";
 import { WheelOfFortune } from "@/components/game/WheelOfFortune";
 import { PrizeResult } from "@/components/game/PrizeResult";
 import { storageService } from "@/lib/storage";
@@ -11,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, AlertCircle } from "lucide-react";
 
-type GameStep = "loading" | "email" | "review" | "wheel1" | "result1" | "instagram" | "wheel2" | "result2" | "already-played" | "error";
+type GameStep = "loading" | "email" | "review" | "instagram" | "wheel1" | "result1" | "already-played" | "error";
 
 export default function GamePage() {
     const router = useRouter();
@@ -22,11 +23,8 @@ export default function GamePage() {
     const [segments, setSegments] = useState < WheelSegment[] > ([]);
     const [participant, setParticipant] = useState < Partial < Participant >> ({});
     const [prize1, setPrize1] = useState < string > ("");
-    const [prize2, setPrize2] = useState < string > ("");
     const [isWinner1, setIsWinner1] = useState(false);
-    const [isWinner2, setIsWinner2] = useState(false);
 
-    // Initialiser les données et charger l'établissement
     useEffect(() => {
         if (!router.isReady || !router.query.slug) return;
 
@@ -52,7 +50,6 @@ export default function GamePage() {
     const handleEmailSubmit = async (email: string, phone: string) => {
         if (!establishment) return;
 
-        // Vérification anti-abus
         const existingByEmail = await storageService.getParticipantByEmail(establishment.id, email);
         const existingByPhone = await storageService.getParticipantByPhone(establishment.id, phone);
 
@@ -74,19 +71,25 @@ export default function GamePage() {
     };
 
     const handleReviewConfirmed = () => {
+        // Si l'établissement a un Instagram, on affiche l'étape Instagram
+        if (establishment?.instagramUrl) {
+            setStep("instagram");
+        } else {
+            setStep("wheel1");
+        }
+    };
+
+    const handleInstagramDone = () => {
         setStep("wheel1");
     };
 
     const handleSpin1Complete = async (prize: string) => {
-        console.log("handleSpin1Complete appelé avec:", prize);
         setPrize1(prize);
 
-        // Vérifier si c'est un lot gagnant (basé sur le type de segment)
         const segment = segments.find(s => s.title === prize);
         const hasWon = segment?.type === "prize";
         setIsWinner1(hasWon);
 
-        // Sauvegarder la participation partielle
         if (participant.email && establishment) {
             const newParticipant: Participant = {
                 ...(participant as Participant),
@@ -101,42 +104,11 @@ export default function GamePage() {
         setTimeout(() => setStep("result1"), 200);
     };
 
-    const handleContinueToInstagram = () => {
-        if (establishment?.instagramUrl) {
-            window.open(establishment.instagramUrl, "_blank");
-            setStep("wheel2");
-        }
-    };
-
-    const handleSpin2Complete = async (prize: string) => {
-        setPrize2(prize);
-
-        // Pour la 2ème roue, on utilise les mêmes segments pour l'instant
-        // Idéalement, on aurait des segments spécifiques "Bonus"
-        const segment = segments.find(s => s.title === prize);
-        const hasWon = segment?.type === "prize";
-        setIsWinner2(hasWon);
-
-        // Mettre à jour la participation
-        if (participant.id) {
-            const updatedParticipant: Participant = {
-                ...(participant as Participant),
-                hasSpunWheel2: true,
-                prize2: prize
-            };
-            await storageService.saveParticipant(updatedParticipant);
-            setParticipant(updatedParticipant);
-        }
-
-        setTimeout(() => setStep("result2"), 200);
-    };
-
     const handleFinish = () => {
-        // Recharger la page ou rediriger vers l'accueil
         router.push("/");
     };
 
-    // Rendu des différentes étapes
+    // Etats de chargement et erreurs
     if (step === "loading") {
         return (
             <div className="min-h-screen flex items-center justify-center prizmo-gradient">
@@ -203,6 +175,16 @@ export default function GamePage() {
                     googleMapsUrl={establishment.googleMapsUrl}
                     establishmentName={establishment.name}
                     onReviewConfirmed={handleReviewConfirmed}
+                    hasInstagram={!!establishment.instagramUrl}
+                />
+            )}
+
+            {step === "instagram" && establishment.instagramUrl && (
+                <InstagramStep
+                    instagramUrl={establishment.instagramUrl}
+                    establishmentName={establishment.name}
+                    onFollowConfirmed={handleInstagramDone}
+                    onSkip={handleInstagramDone}
                 />
             )}
 
@@ -221,28 +203,7 @@ export default function GamePage() {
                     isWinner={isWinner1}
                     wheelNumber={1}
                     establishmentName={establishment.name}
-                    hasInstagramWheel={establishment.enableInstagramWheel}
-                    onContinueToInstagram={handleContinueToInstagram}
-                    onFinish={handleFinish}
-                />
-            )}
-
-            {step === "wheel2" && (
-                <WheelOfFortune
-                    segments={segments} // On pourrait utiliser des segments différents ici
-                    onSpinComplete={handleSpin2Complete}
-                    wheelNumber={2}
-                    establishmentName={establishment.name}
-                />
-            )}
-
-            {step === "result2" && (
-                <PrizeResult
-                    prize={prize2}
-                    isWinner={isWinner2}
-                    wheelNumber={2}
-                    establishmentName={establishment.name}
-                    hasInstagramWheel={false} // Pas de 3ème roue
+                    hasInstagramWheel={false}
                     onFinish={handleFinish}
                 />
             )}
