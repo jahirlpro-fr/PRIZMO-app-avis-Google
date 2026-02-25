@@ -144,15 +144,20 @@ export default function AdminDashboard() {
                               className="w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden"
                               style={{ backgroundColor: establishment.primaryColor }}
                             >
-                              {establishment.logo_url ? (
-                                <img 
-                                  src={establishment.logo_url} 
-                                  alt={`Logo ${establishment.name}`}
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <span className="text-2xl">🎡</span>
-                              )}
+                                        {establishment.logoUrl ? (
+                                            <img
+                                                src={establishment.logoUrl}
+                                                alt={`Logo ${establishment.name}`}
+                                                className="w-full h-full object-contain p-1"
+                                                style={{
+                                                    filter: establishment.primaryColor === "#ffffff"
+                                                        ? "brightness(0) invert(1)"
+                                                        : "brightness(0)"
+                                                }}
+                                            />
+                                        ) : (
+                                            <span className="text-2xl">🎡</span>
+                                        )}
                             </div>
                           </div>
                         </CardHeader>
