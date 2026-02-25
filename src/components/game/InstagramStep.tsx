@@ -53,7 +53,7 @@ export function InstagramStep({ instagramUrl, establishmentName, onFollowConfirm
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-4 prizmo-gradient">
             <ProgressBar step={2} />
-            <Card className="w-full max-w-md shadow-2xl" style={{ backgroundColor: secondaryColor }}>
+            <Card className="w-full max-w-md shadow-2xl">
                 <CardHeader className="text-center space-y-2">
                     <div className="mx-auto w-16 h-16 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 rounded-full flex items-center justify-center mb-4">
                         <Instagram className="w-8 h-8 text-white" />
