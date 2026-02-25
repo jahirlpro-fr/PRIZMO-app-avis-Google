@@ -167,6 +167,9 @@ export default function GamePage() {
                 <EmailForm
                     onSubmit={handleEmailSubmit}
                     establishmentName={establishment.name}
+                    logoUrl={establishment.logoUrl}
+                    primaryColor={establishment.primaryColor}
+                    secondaryColor={establishment.secondaryColor}
                 />
             )}
 
