@@ -92,7 +92,7 @@ export function EmailForm({ onSubmit, establishmentName, logoUrl, primaryColor =
                                 placeholder="votre@email.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className={errors.email ? "border-red-500" : ""}
+                                className={errors.email ? "border-red-500" : "border-black"}
                             />
                             {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
                         </div>
@@ -108,7 +108,7 @@ export function EmailForm({ onSubmit, establishmentName, logoUrl, primaryColor =
                                 placeholder="+33 6 12 34 56 78"
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
-                                className={errors.phone ? "border-red-500" : ""}
+                                className={errors.phone ? "border-red-500" : "border-black"}
                             />
                             {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
                         </div>
