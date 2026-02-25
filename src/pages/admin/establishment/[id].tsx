@@ -303,6 +303,7 @@ export default function EditEstablishmentPage() {
               <p className="text-muted-foreground">Gérez votre établissement et personnalisez l'expérience client</p>
             </div>
 
+                      <Tabs defaultValue="analytics" className="space-y-6">
                       <div className="overflow-x-auto pb-1">
                           <TabsList className="flex w-max min-w-full">
                               <TabsTrigger value="wheel" className="flex-1 min-w-[120px] text-xs sm:text-sm">
