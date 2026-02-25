@@ -8,9 +8,10 @@ interface ReviewStepProps {
     establishmentName: string;
     onReviewConfirmed: () => void;
     hasInstagram: boolean;
+    secondaryColor?: string;
 }
 
-export function ReviewStep({ googleMapsUrl, establishmentName, onReviewConfirmed, hasInstagram }: ReviewStepProps) {
+export function ReviewStep({ googleMapsUrl, establishmentName, onReviewConfirmed, hasInstagram, secondaryColor = "#ffffff" }: ReviewStepProps) {
     const handleOpenReview = () => {
         window.open(googleMapsUrl, "_blank");
     };
@@ -18,7 +19,7 @@ export function ReviewStep({ googleMapsUrl, establishmentName, onReviewConfirmed
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-4 prizmo-gradient">
             <ProgressBar step={1} />
-            <Card className="w-full max-w-md shadow-2xl">
+            <Card className="w-full max-w-md shadow-2xl" style={{ backgroundColor: secondaryColor }}>
                 <CardHeader className="text-center space-y-2">
                     <div className="mx-auto w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mb-4">
                         <Star className="w-8 h-8 text-white fill-white" />
