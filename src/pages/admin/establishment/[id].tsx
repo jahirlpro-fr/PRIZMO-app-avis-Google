@@ -302,20 +302,27 @@ export default function EditEstablishmentPage() {
               <p className="text-muted-foreground">Gérez votre établissement et personnalisez l'expérience client</p>
             </div>
 
-            <Tabs defaultValue="analytics" className="space-y-6">
-                          <TabsList className="grid w-full grid-cols-5">
-                              <TabsTrigger value="wheel">🎡 Configuration Roue</TabsTrigger>
-                              <TabsTrigger value="general">
-                                <Settings className="h-4 w-4 mr-2" />
-                                Informations
+                      <div className="overflow-x-auto pb-1">
+                          <TabsList className="flex w-max min-w-full">
+                              <TabsTrigger value="wheel" className="flex-1 min-w-[120px] text-xs sm:text-sm">
+                                  🎡 Roue
                               </TabsTrigger>
-                              <TabsTrigger value="posters">
-                                <Printer className="h-4 w-4 mr-2" />
-                                Affiches
+                              <TabsTrigger value="general" className="flex-1 min-w-[120px] text-xs sm:text-sm">
+                                  <Settings className="h-4 w-4 mr-1" />
+                                  Infos
                               </TabsTrigger>
-                              <TabsTrigger value="clients">👥 Clients</TabsTrigger>
-                              <TabsTrigger value="analytics">📊 Analytics</TabsTrigger>
+                              <TabsTrigger value="posters" className="flex-1 min-w-[120px] text-xs sm:text-sm">
+                                  <Printer className="h-4 w-4 mr-1" />
+                                  Affiches
+                              </TabsTrigger>
+                              <TabsTrigger value="clients" className="flex-1 min-w-[120px] text-xs sm:text-sm">
+                                  👥 Clients
+                              </TabsTrigger>
+                              <TabsTrigger value="analytics" className="flex-1 min-w-[120px] text-xs sm:text-sm">
+                                  📊 Analytics
+                              </TabsTrigger>
                           </TabsList>
+                      </div>
 
               {/* Tab: Analytics - NEW PRIORITY */}
               <TabsContent value="analytics">
