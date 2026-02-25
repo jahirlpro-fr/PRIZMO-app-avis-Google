@@ -274,25 +274,26 @@ export default function EditEstablishmentPage() {
 
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
         <header className="bg-white border-b shadow-sm sticky top-0 z-50">
-          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <Button onClick={() => router.push("/admin")} variant="ghost">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Retour au dashboard
-            </Button>
-            <div className="flex items-center gap-2">
-              <Button 
-                onClick={() => window.open(`/game/${establishment.slug}`, "_blank")}
-                variant="outline"
-              >
-                <Eye className="w-4 h-4 mr-2" />
-                Prévisualiser le jeu
-              </Button>
-              <Button onClick={() => signOut()} variant="outline" className="text-red-600 hover:text-red-700 hover:bg-red-50">
-                <LogOut className="w-4 h-4 mr-2" />
-                Déconnexion
-              </Button>
-            </div>
-          </div>
+                  <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-2">
+                      <Button onClick={() => router.push("/admin")} variant="ghost" size="sm">
+                          <ArrowLeft className="w-4 h-4 mr-1" />
+                          <span className="hidden sm:inline">Retour</span>
+                      </Button>
+                      <div className="flex items-center gap-2">
+                          <Button
+                              onClick={() => window.open(`/game/${establishment.slug}`, "_blank")}
+                              variant="outline"
+                              size="sm"
+                          >
+                              <Eye className="w-4 h-4 sm:mr-2" />
+                              <span className="hidden sm:inline">Prévisualiser</span>
+                          </Button>
+                          <Button onClick={() => signOut()} variant="outline" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50">
+                              <LogOut className="w-4 h-4 sm:mr-2" />
+                              <span className="hidden sm:inline">Déconnexion</span>
+                          </Button>
+                      </div>
+                  </div>
         </header>
 
         <div className="container mx-auto px-4 py-8">
