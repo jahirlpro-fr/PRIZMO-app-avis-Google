@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Instagram, ExternalLink, CheckCircle2, SkipForward } from "lucide-react";
+import { Instagram, ExternalLink, CheckCircle2 } from "lucide-react";
 
 interface InstagramStepProps {
     instagramUrl: string;
     establishmentName: string;
     onFollowConfirmed: () => void;
     onSkip: () => void;
+    secondaryColor?: string;
 }
 
-// Barre de progression partagée
 export function ProgressBar({ step }: { step: 1 | 2 | 3 }) {
     const steps = [
         { id: 1, label: "Avis Google" },
@@ -26,7 +26,7 @@ export function ProgressBar({ step }: { step: 1 | 2 | 3 }) {
                                 ? "bg-green-500 text-white"
                                 : step === s.id
                                     ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white"
-                                    : "bg-gray-200 text-gray-400"
+                                    : "bg-white opacity-50 text-gray-400"
                             }`}>
                             {step > s.id ? "✓" : s.id}
                         </div>
@@ -36,7 +36,7 @@ export function ProgressBar({ step }: { step: 1 | 2 | 3 }) {
                         </span>
                     </div>
                     {index < steps.length - 1 && (
-                        <div className={`w-12 h-1 mb-4 mx-1 rounded transition-all duration-300 ${step > s.id + 0 ? "bg-green-400" : "bg-gray-200"
+                        <div className={`w-12 h-1 mb-4 mx-1 rounded transition-all duration-300 ${step > s.id ? "bg-green-400" : "bg-white opacity-30"
                             }`} />
                     )}
                 </div>
@@ -45,7 +45,7 @@ export function ProgressBar({ step }: { step: 1 | 2 | 3 }) {
     );
 }
 
-export function InstagramStep({ instagramUrl, establishmentName, onFollowConfirmed, onSkip }: InstagramStepProps) {
+export function InstagramStep({ instagramUrl, establishmentName, onFollowConfirmed, onSkip, secondaryColor = "#ffffff" }: InstagramStepProps) {
     const handleOpenInstagram = () => {
         window.open(instagramUrl, "_blank");
     };
@@ -53,7 +53,7 @@ export function InstagramStep({ instagramUrl, establishmentName, onFollowConfirm
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-4 prizmo-gradient">
             <ProgressBar step={2} />
-            <Card className="w-full max-w-md shadow-2xl">
+            <Card className="w-full max-w-md shadow-2xl" style={{ backgroundColor: secondaryColor }}>
                 <CardHeader className="text-center space-y-2">
                     <div className="mx-auto w-16 h-16 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 rounded-full flex items-center justify-center mb-4">
                         <Instagram className="w-8 h-8 text-white" />
