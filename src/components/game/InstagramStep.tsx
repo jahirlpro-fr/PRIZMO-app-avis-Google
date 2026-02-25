@@ -92,7 +92,6 @@ export function InstagramStep({ instagramUrl, establishmentName, onFollowConfirm
                         variant="outline"
                         className="w-full border-3 border-green-600 text-green-700 hover:bg-green-50 hover:border-green-700 text-xl font-bold py-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                     >
-                        <CheckCircle2 className="w-6 h-6 mr-2" />
                         ✅ Je suis abonné(e) !
                     </Button>
 
