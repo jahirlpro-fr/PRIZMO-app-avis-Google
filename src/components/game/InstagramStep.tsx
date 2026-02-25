@@ -74,7 +74,6 @@ export function InstagramStep({ instagramUrl, establishmentName, onFollowConfirm
                         onClick={handleOpenInstagram}
                         className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 hover:from-purple-600 hover:via-pink-600 hover:to-orange-500 text-white text-xl font-bold py-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
                     >
-                        <ExternalLink className="w-6 h-6 mr-2" />
                         <Instagram className="w-6 h-6 mr-2" />
                         S'abonner sur Instagram
                     </Button>
