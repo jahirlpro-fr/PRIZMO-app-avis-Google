@@ -57,7 +57,7 @@ export function EmailForm({ onSubmit, establishmentName, logoUrl, primaryColor =
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4 prizmo-gradient">
-            <Card className="w-full max-w-md shadow-2xl"
+            <Card className="w-full max-w-md shadow-2xl">
                 <CardHeader className="text-center space-y-2">
                     {/* Logo ou icône par défaut */}
                     <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 overflow-hidden"
