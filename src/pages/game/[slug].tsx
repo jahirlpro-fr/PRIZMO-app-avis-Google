@@ -179,6 +179,7 @@ export default function GamePage() {
                     establishmentName={establishment.name}
                     onReviewConfirmed={handleReviewConfirmed}
                     hasInstagram={!!establishment.instagramUrl}
+                    secondaryColor={establishment.secondaryColor}
                 />
             )}
 
@@ -188,6 +189,7 @@ export default function GamePage() {
                     establishmentName={establishment.name}
                     onFollowConfirmed={handleInstagramDone}
                     onSkip={handleInstagramDone}
+                    secondaryColor={establishment.secondaryColor}
                 />
             )}
 
@@ -197,6 +199,7 @@ export default function GamePage() {
                     onSpinComplete={handleSpin1Complete}
                     wheelNumber={1}
                     establishmentName={establishment.name}
+                    secondaryColor={establishment.secondaryColor}
                 />
             )}
 
