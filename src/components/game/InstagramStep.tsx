@@ -30,7 +30,7 @@ export function ProgressBar({ step }: { step: 1 | 2 | 3 }) {
                             }`}>
                             {step > s.id ? "✓" : s.id}
                         </div>
-                        <span className={`text-xs mt-1 font-medium ${step >= s.id ? "text-purple-700" : "text-gray-400"
+                        <span className={`text-xs mt-1 font-medium ${step >= s.id ? "text-white" : "text-white opacity-60"
                             }`}>
                             {s.label}
                         </span>
