@@ -14,7 +14,7 @@ export function ProgressBar({ step }: { step: 1 | 2 | 3 }) {
     const steps = [
         { id: 1, label: "Avis Google" },
         { id: 2, label: "Instagram" },
-        { id: 3, label: "Roue" },
+        { id: 3, label: "Jeu" },
     ];
 
     return (
