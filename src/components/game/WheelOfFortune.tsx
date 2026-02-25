@@ -61,7 +61,7 @@ export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establis
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-4 prizmo-gradient">
             <ProgressBar step={3} />
-            <Card className="w-full max-w-2xl shadow-2xl" style={{ backgroundColor: secondaryColor }}>
+            <Card className="w-full max-w-2xl shadow-2xl">
                 <CardHeader className="text-center space-y-2">
                     <CardTitle className="text-3xl">
                         🎡 Tournez la roue !
