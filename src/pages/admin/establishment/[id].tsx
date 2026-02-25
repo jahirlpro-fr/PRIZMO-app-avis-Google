@@ -1032,19 +1032,6 @@ export default function EditEstablishmentPage() {
                         />
                       </div>
 
-                      <div className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="space-y-1">
-                          <Label>Activer la 2ème roue Instagram</Label>
-                          <p className="text-sm text-muted-foreground">
-                            Offrir un 2ème cadeau si le client s'abonne à Instagram
-                          </p>
-                        </div>
-                        <Switch
-                          checked={formData.enableInstagramWheel}
-                          onCheckedChange={(checked) => setFormData({ ...formData, enableInstagramWheel: checked })}
-                        />
-                      </div>
-
 
                     </div>
                     <Button onClick={handleSaveEstablishment} className="w-full prizmo-gradient text-white" size="lg">
