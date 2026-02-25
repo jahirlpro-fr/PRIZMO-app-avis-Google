@@ -309,16 +309,6 @@ export default function NewEstablishmentPage() {
                     />
                   </div>
 
-                  <div className="flex items-center justify-between p-4 border-2 rounded-xl bg-purple-50">
-                    <div>
-                      <p className="font-semibold text-sm">🎡 Activer la 2ème roue Instagram</p>
-                      <p className="text-xs text-gray-500 mt-1">Offrir un 2ème cadeau si le client s'abonne</p>
-                    </div>
-                    <Switch
-                      checked={formData.enableInstagramWheel}
-                      onCheckedChange={(checked) => handleChange("enableInstagramWheel", checked)}
-                    />
-                  </div>
                 </div>
               )}
 
