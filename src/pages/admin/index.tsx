@@ -140,9 +140,7 @@ export default function AdminDashboard() {
                                 {establishment.address}
                               </CardDescription>
                             </div>
-                                    <div className="w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden"
-                                        style={{ backgroundColor: establishment.primaryColor || "#8b5cf6" }}
-                                    >
+                                    <div className="w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden bg-gray-100 border border-gray-200">
                                         {establishment.logoUrl ? (
                                             <img
                                                 src={establishment.logoUrl}
@@ -150,9 +148,13 @@ export default function AdminDashboard() {
                                                 className="w-full h-full object-contain p-1"
                                             />
                                         ) : (
-                                            <span className="text-2xl">🎡</span>
+                                            <div className="w-full h-full rounded-lg flex items-center justify-center"
+                                                style={{ backgroundColor: establishment.primaryColor || "#8b5cf6" }}
+                                            >
+                                                <span className="text-xl">🎡</span>
+                                            </div>
                                         )}
-                            </div>
+                                    </div>
                           </div>
                         </CardHeader>
                         <CardContent className="space-y-3">
