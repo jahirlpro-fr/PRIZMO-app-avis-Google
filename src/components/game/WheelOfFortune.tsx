@@ -140,7 +140,7 @@ export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establis
                         ) : (
                             <>
                                 <Sparkles className="w-6 h-6 mr-2 animate-pulse" />
-                                🎰 TOURNER LA ROUE !
+                                TOURNER LA ROUE !
                             </>
                         )}
                     </Button>
