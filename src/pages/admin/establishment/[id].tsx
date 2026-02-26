@@ -1053,7 +1053,7 @@ export default function EditEstablishmentPage() {
                   </Card>
 
                   {/* Right: Preview */}
-                  <div className="lg:col-span-2 flex justify-start bg-gray-100 p-8 rounded-xl border overflow-auto" style={{height: "fit-content"}}>
+                  <div className="lg:col-span-2 flex justify-center bg-gray-100 p-8 rounded-xl border overflow-hidden self-start">
                     <div
                       ref={posterRef}
                       className="shadow-2xl relative overflow-hidden"
