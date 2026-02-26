@@ -738,106 +738,131 @@ export default function EditEstablishmentPage() {
                       </CardHeader>
                       <CardContent className="flex flex-col items-center gap-8">
 
-                        {/* RECTO */}
-                        <div className="flex flex-col items-center gap-2 w-full">
-                          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Recto</p>
-                          <div
-                            className="relative flex flex-col items-center justify-center rounded-2xl shadow-xl overflow-hidden"
-                            style={{
-                              width: "340px",
-                              height: "215px",
-                              backgroundColor: formData.secondaryColor,
-                            }}
-                          >
-                            {/* Cercles décoratifs */}
-                            <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-10 bg-white" />
-                            <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full opacity-10 bg-white" />
+                                              {/* RECTO */}
+                                              <div className="flex flex-col items-center gap-2 w-full">
+                                                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Recto</p>
+                                                  <div
+                                                      style={{
+                                                          width: "340px",
+                                                          height: "215px",
+                                                          backgroundColor: formData.secondaryColor,
+                                                          borderRadius: "16px",
+                                                          boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+                                                          display: "flex",
+                                                          flexDirection: "column",
+                                                          alignItems: "center",
+                                                          justifyContent: "center",
+                                                          padding: "24px",
+                                                          overflow: "hidden",
+                                                          position: "relative",
+                                                      }}
+                                                  >
+                                                      {establishment.logoUrl ? (
+                                                          <img
+                                                              src={establishment.logoUrl}
+                                                              alt="Logo principal"
+                                                              style={{
+                                                                  maxHeight: "90px",
+                                                                  maxWidth: "220px",
+                                                                  objectFit: "contain",
+                                                                  filter: formData.primaryColor === "#ffffff"
+                                                                      ? "brightness(0) invert(1)"
+                                                                      : "brightness(0)",
+                                                              }}
+                                                          />
+                                                      ) : (
+                                                          <CreditCard className="w-12 h-12 text-white/40" />
+                                                      )}
+                                                      {establishment.logoSecondaryUrl && (
+                                                          <img
+                                                              src={establishment.logoSecondaryUrl}
+                                                              alt="Logo secondaire"
+                                                              style={{
+                                                                  maxHeight: "40px",
+                                                                  maxWidth: "160px",
+                                                                  objectFit: "contain",
+                                                                  marginTop: "10px",
+                                                                  filter: formData.primaryColor === "#ffffff"
+                                                                      ? "brightness(0) invert(1)"
+                                                                      : "brightness(0)",
+                                                              }}
+                                                          />
+                                                      )}
+                                                  </div>
+                                              </div>
 
-                            {/* Logos */}
-                            <div className="flex flex-col items-center justify-center gap-2 px-8 z-10">
-                              {establishment.logoUrl ? (
-                                <img
-                                  src={establishment.logoUrl}
-                                  alt="Logo principal"
-                                  style={{
-                                    maxHeight: "80px",
-                                    maxWidth: "200px",
-                                    objectFit: "contain",
-                                    filter: formData.primaryColor === "#ffffff"
-                                      ? "brightness(0) invert(1)"
-                                      : "brightness(0)",
-                                  }}
-                                />
-                              ) : (
-                                <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
-                                  <CreditCard className="w-8 h-8 text-white/60" />
-                                </div>
-                              )}
-                              {establishment.logoSecondaryUrl && (
-                                <img
-                                  src={establishment.logoSecondaryUrl}
-                                  alt="Logo secondaire"
-                                  style={{
-                                    maxHeight: "40px",
-                                    maxWidth: "140px",
-                                    objectFit: "contain",
-                                    filter: formData.primaryColor === "#ffffff"
-                                      ? "brightness(0) invert(1)"
-                                      : "brightness(0)",
-                                  }}
-                                />
-                              )}
-                            </div>
-                          </div>
-                        </div>
+                                              {/* VERSO */}
+                                              <div className="flex flex-col items-center gap-2 w-full">
+                                                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Verso</p>
+                                                  <div
+                                                      style={{
+                                                          width: "340px",
+                                                          minHeight: "215px",
+                                                          backgroundColor: formData.secondaryColor,
+                                                          borderRadius: "16px",
+                                                          boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+                                                          display: "flex",
+                                                          flexDirection: "column",
+                                                          alignItems: "center",
+                                                          justifyContent: "center",
+                                                          padding: "20px 16px 16px 16px",
+                                                          overflow: "hidden",
+                                                      }}
+                                                  >
+                                                      {/* Grille de stamps — max 6 par ligne */}
+                                                      <div style={{
+                                                          display: "flex",
+                                                          flexWrap: "wrap",
+                                                          justifyContent: "center",
+                                                          gap: "8px",
+                                                          maxWidth: "300px",
+                                                      }}>
+                                                          {Array.from({ length: loyaltyConfig.stamps_required || 10 }).map((_, i) => (
+                                                              <div
+                                                                  key={i}
+                                                                  style={{
+                                                                      width: "38px",
+                                                                      height: "38px",
+                                                                      borderRadius: "50%",
+                                                                      border: "2px solid rgba(80,80,80,0.5)",
+                                                                      backgroundColor: "transparent",
+                                                                      flexShrink: 0,
+                                                                      ...(i > 0 && i % 6 === 0 ? { marginLeft: "0" } : {}),
+                                                                  }}
+                                                              />
+                                                          ))}
+                                                          {/* Emplacement Prize doré */}
+                                                          <div
+                                                              style={{
+                                                                  width: "38px",
+                                                                  height: "38px",
+                                                                  borderRadius: "50%",
+                                                                  backgroundColor: "#FFD700",
+                                                                  border: "2px solid #FFA500",
+                                                                  display: "flex",
+                                                                  alignItems: "center",
+                                                                  justifyContent: "center",
+                                                                  flexShrink: 0,
+                                                              }}
+                                                          >
+                                                              <Gift className="w-4 h-4 text-white" />
+                                                          </div>
+                                                      </div>
 
-                        {/* VERSO */}
-                        <div className="flex flex-col items-center gap-2 w-full">
-                          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Verso</p>
-                          <div
-                            className="relative flex flex-col items-center justify-center rounded-2xl shadow-xl overflow-hidden p-5"
-                            style={{
-                              width: "340px",
-                              minHeight: "215px",
-                              backgroundColor: formData.secondaryColor,
-                            }}
-                          >
-                            {/* Cercles décoratifs */}
-                            <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-10 bg-white" />
-                            <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full opacity-10 bg-white" />
-
-                            {/* Grille de stamps */}
-                            <div className="z-10 w-full">
-                              <div className="flex flex-wrap justify-center gap-2 mb-3">
-                                {Array.from({ length: loyaltyConfig.stamps_required }).map((_, i) => (
-                                  <div
-                                    key={i}
-                                    className="w-10 h-10 rounded-full border-2 border-white/60 bg-white/20 flex items-center justify-center"
-                                  />
-                                ))}
-                                {/* Emplacement Prize */}
-                                <div
-                                  className="w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
-                                  style={{ backgroundColor: "#FFD700", border: "2px solid #FFA500" }}
-                                >
-                                  <Gift className="w-5 h-5 text-white" />
-                                </div>
-                              </div>
-
-                              {/* Prize description */}
-                              {loyaltyConfig.prize_description && (
-                                <p
-                                  className="text-center text-xs font-semibold mt-2"
-                                  style={{
-                                    color: formData.primaryColor === "#ffffff" ? "white" : "rgba(0,0,0,0.6)",
-                                  }}
-                                >
-                                  🎁 {loyaltyConfig.prize_description}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
+                                                      {/* Prize description en bas */}
+                                                      {loyaltyConfig.prize_description && (
+                                                          <div style={{
+                                                              marginTop: "14px",
+                                                              textAlign: "center",
+                                                              fontSize: "11px",
+                                                              color: "rgba(0,0,0,0.55)",
+                                                              fontWeight: "600",
+                                                          }}>
+                                                              {loyaltyConfig.stamps_required} plats achetés = 🎁 {loyaltyConfig.prize_description}
+                                                          </div>
+                                                      )}
+                                                  </div>
+                                              </div>
 
                       </CardContent>
                     </Card>
