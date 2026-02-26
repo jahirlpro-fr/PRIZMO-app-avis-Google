@@ -73,6 +73,7 @@ export default function LoyaltyPage() {
                 setLoading(false);
                 return;
             }
+            console.log("Establishment data:", estData);
             setEstablishment(estData);
 
             // Fetch loyalty config
