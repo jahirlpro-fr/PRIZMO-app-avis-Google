@@ -83,12 +83,39 @@ export default function EditEstablishmentPage() {
         const establishmentSegments = await storageService.getSegments(establishmentId);
         setSegments(establishmentSegments);
         
-        const establishmentParticipants = await storageService.getParticipants(establishmentId);
-        setParticipants(establishmentParticipants);
-      }
-    };
+              const establishmentParticipants = await storageService.getParticipants(establishmentId);
+              setParticipants(establishmentParticipants);
 
-    fetchData();
+              // Charger config fidélité
+              const { data: loyaltyData } = await supabase
+                  .from("loyalty_config")
+                  .select("*")
+                  .eq("establishment_id", establishmentId)
+                  .single();
+
+              if (loyaltyData) {
+                  setLoyaltyConfig({
+                      card_name: loyaltyData.card_name,
+                      stamps_required: loyaltyData.stamps_required,
+                      prize_description: loyaltyData.prize_description,
+                      secret_code: loyaltyData.secret_code,
+                      is_active: loyaltyData.is_active,
+                  });
+                  setLoyaltyConfigExists(true);
+              }
+
+              // Charger porteurs de carte
+              const { data: cardsData } = await supabase
+                  .from("loyalty_cards")
+                  .select("*")
+                  .eq("establishment_id", establishmentId)
+                  .order("created_at", { ascending: false });
+
+              if (cardsData) setLoyaltyCards(cardsData);
+          }
+      };
+
+      fetchData();
   }, [router.isReady, id]);
 
   const handleSaveEstablishment = async () => {
