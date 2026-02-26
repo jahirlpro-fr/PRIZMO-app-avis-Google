@@ -606,8 +606,141 @@ export default function EditEstablishmentPage() {
                 </div>
               </TabsContent>
 
-              {/* Tab: Configuration de la roue - SPLIT SCREEN */}
-              <TabsContent value="wheel">
+{/* Tab: Fidélité */}
+              <TabsContent value="loyalty">
+                <div className="space-y-6">
+
+                  {/* Configuration */}
+                  <Card className="border-2 shadow-xl">
+                    <CardHeader>
+                      <CardTitle className="text-2xl flex items-center gap-2">
+                        <CreditCard className="w-6 h-6 text-purple-600" />
+                        Carte de Fidélité Digitale
+                      </CardTitle>
+                      <CardDescription>
+                        Configurez la carte fidélité de vos clients — accessible via QR code, sans application
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+
+                      {/* Toggle activation */}
+                      <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl border border-purple-200">
+                        <div>
+                          <p className="font-semibold text-purple-900">Activer la carte fidélité</p>
+                          <p className="text-sm text-purple-600">Vos clients pourront accéder à leur carte via QR code</p>
+                        </div>
+                        <Switch
+                          checked={loyaltyConfig.is_active}
+                          onCheckedChange={(v) => setLoyaltyConfig({ ...loyaltyConfig, is_active: v })}
+                        />
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-6">
+                        {/* Nom de la carte */}
+                        <div className="space-y-2">
+                          <Label className="flex items-center gap-2">
+                            <CreditCard className="w-4 h-4 text-purple-600" />
+                            Nom de la carte *
+                          </Label>
+                          <Input
+                            placeholder="Ex: Carte Fidélité Bimbambao"
+                            value={loyaltyConfig.card_name}
+                            onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, card_name: e.target.value })}
+                          />
+                        </div>
+
+                        {/* Prize */}
+                        <div className="space-y-2">
+                          <Label className="flex items-center gap-2">
+                            <Gift className="w-4 h-4 text-purple-600" />
+                            Prize (récompense) *
+                          </Label>
+                          <Input
+                            placeholder="Ex: 1 repas offert"
+                            value={loyaltyConfig.prize_description}
+                            onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, prize_description: e.target.value })}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Nombre de stamps */}
+                      <div className="space-y-3">
+                        <Label className="flex items-center gap-2">
+                          <Hash className="w-4 h-4 text-purple-600" />
+                          Nombre de repas avant le prize : <span className="font-bold text-purple-600 ml-1">{loyaltyConfig.stamps_required}</span>
+                        </Label>
+                        <input
+                          type="range"
+                          min={5}
+                          max={15}
+                          value={loyaltyConfig.stamps_required}
+                          onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, stamps_required: parseInt(e.target.value) })}
+                          className="w-full accent-purple-600"
+                        />
+                        <div className="flex justify-between text-xs text-gray-400">
+                          <span>5 repas</span>
+                          <span>10 repas</span>
+                          <span>15 repas</span>
+                        </div>
+                      </div>
+
+                      {/* Code secret */}
+                      <div className="space-y-2">
+                        <Label className="flex items-center gap-2">
+                          <Lock className="w-4 h-4 text-purple-600" />
+                          Code secret commerçant * (minimum 6 chiffres)
+                        </Label>
+                        <Input
+                          type="password"
+                          placeholder="Ex: 123456"
+                          value={loyaltyConfig.secret_code}
+                          onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, secret_code: e.target.value })}
+                          maxLength={10}
+                        />
+                        <p className="text-xs text-gray-400">
+                          Ce code est communiqué verbalement par vous au client pour valider sa visite. Ne le partagez pas publiquement.
+                        </p>
+                      </div>
+
+                      <Button
+                        onClick={handleSaveLoyaltyConfig}
+                        className="w-full prizmo-gradient text-white"
+                        size="lg"
+                        disabled={loyaltySaving}
+                      >
+                        <Save className="w-4 h-4 mr-2" />
+                        {loyaltySaving ? "Sauvegarde..." : "Sauvegarder la configuration"}
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  {/* QR Code fidélité */}
+                  {loyaltyConfigExists && loyaltyConfig.is_active && (
+                    <Card className="border-2 shadow-xl">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <QrCode className="w-5 h-5 text-purple-600" />
+                          QR Code Fidélité
+                        </CardTitle>
+                        <CardDescription>
+                          Affichez ce QR code dans votre restaurant — distinct du QR code de la roue
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex flex-col items-center gap-4">
+                        <div className="p-4 bg-white border-2 border-purple-200 rounded-xl shadow-lg">
+                          <QRCodeSVG
+                            value={`${window.location.origin}/loyalty/${establishment.slug}`}
+                            size={180}
+                            level="H"
+                            includeMargin={true}
+                            fgColor="#8b5cf6"
+                          />
+                        </div>
+                        <p className="text-sm text-gray-500 text-center">
+                          URL : <span className="font-mono text-purple-600">/loyalty/{establishment.slug}</span>
+                        </p>
+                        <Button
+                          variant="outline"
                 <div className="grid lg:grid-cols-2 gap-6">
                   {/* LEFT: Preview */}
                   <Card className="border-2 shadow-xl lg:sticky lg:top-24 h-fit">
