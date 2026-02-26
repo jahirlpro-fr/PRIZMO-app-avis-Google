@@ -739,8 +739,10 @@ export default function EditEstablishmentPage() {
                         <p className="text-sm text-gray-500 text-center">
                           URL : <span className="font-mono text-purple-600">/loyalty/{establishment.slug}</span>
                         </p>
-                        <Button
-                          variant="outline"
+                                              <Button
+                                                  variant="outline"
+                                                  onClick={() => window.open(`/loyalty/${establishment.slug}`, "_blank")}
+                                              >
                 <div className="grid lg:grid-cols-2 gap-6">
                   {/* LEFT: Preview */}
                   <Card className="border-2 shadow-xl lg:sticky lg:top-24 h-fit">
