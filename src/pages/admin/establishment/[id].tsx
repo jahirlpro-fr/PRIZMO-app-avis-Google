@@ -407,10 +407,14 @@ export default function EditEstablishmentPage() {
                               <TabsTrigger value="analytics" className="flex-1 min-w-[120px] text-xs sm:text-sm">
                                   📊 Analytics
                               </TabsTrigger>
-                          </TabsList>
-                      </div>
+                                  <TabsTrigger value="loyalty" className="flex-1 min-w-[120px] text-xs sm:text-sm">
+                                      <CreditCard className="h-4 w-4 mr-1" />
+                                      Fidélité
+                                  </TabsTrigger>
+                              </TabsList>
+                          </div>
 
-              {/* Tab: Analytics - NEW PRIORITY */}
+                          {/* Tab: Analytics - NEW PRIORITY */}
               <TabsContent value="analytics">
                 <div className="space-y-6">
                   {/* Period Filter */}
