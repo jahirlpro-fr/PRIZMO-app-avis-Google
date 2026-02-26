@@ -78,7 +78,6 @@ export default function NewEstablishmentPage() {
 
     setIsLoadingSuggestions(true);
     try {
-      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY;
         const response = await fetch(
             `/api/places-autocomplete?input=${encodeURIComponent(input)}`
         );
