@@ -81,6 +81,10 @@ export default function NewEstablishmentPage() {
         const response = await fetch(
             `/api/places-autocomplete?input=${encodeURIComponent(input)}`
         );
+        if (!response.ok) {
+            console.error("API Route error:", response.status);
+            return;
+        }
         const data = await response.json();
         console.log("Google Places response:", data);
         if (data.suggestions) {
