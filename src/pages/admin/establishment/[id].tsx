@@ -235,6 +235,51 @@ export default function EditEstablishmentPage() {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
 
+    const handleSaveLoyaltyConfig = async () => {
+        if (!establishment) return;
+        if (!loyaltyConfig.secret_code || loyaltyConfig.secret_code.length < 6) {
+            alert("Le code secret doit contenir au moins 6 chiffres !");
+            return;
+        }
+        if (!loyaltyConfig.prize_description.trim()) {
+            alert("Veuillez renseigner la description du prize !");
+            return;
+        }
+
+        setLoyaltySaving(true);
+        try {
+            if (loyaltyConfigExists) {
+                await supabase
+                    .from("loyalty_config")
+                    .update({
+                        card_name: loyaltyConfig.card_name,
+                        stamps_required: loyaltyConfig.stamps_required,
+                        prize_description: loyaltyConfig.prize_description,
+                        secret_code: loyaltyConfig.secret_code,
+                        is_active: loyaltyConfig.is_active,
+                    })
+                    .eq("establishment_id", establishment.id);
+            } else {
+                await supabase
+                    .from("loyalty_config")
+                    .insert({
+                        establishment_id: establishment.id,
+                        card_name: loyaltyConfig.card_name,
+                        stamps_required: loyaltyConfig.stamps_required,
+                        prize_description: loyaltyConfig.prize_description,
+                        secret_code: loyaltyConfig.secret_code,
+                        is_active: loyaltyConfig.is_active,
+                    });
+                setLoyaltyConfigExists(true);
+            }
+            alert("Configuration fidélité sauvegardée !");
+        } catch (error: any) {
+            alert("Erreur : " + error.message);
+        } finally {
+            setLoyaltySaving(false);
+        }
+    };
+
     const handleDeleteEstablishment = async () => {
         if (!establishment || !confirm("Êtes-vous sûr de vouloir supprimer cet établissement ? Cette action est irréversible.")) return;
 
