@@ -81,11 +81,12 @@ export default function NewEstablishmentPage() {
         const response = await fetch(
             `/api/places-autocomplete?input=${encodeURIComponent(input)}`
         );
-      const data = await response.json();
-      if (data.predictions) {
-        setSuggestions(data.predictions);
-        setShowSuggestions(true);
-      }
+        const data = await response.json();
+        console.log("Google Places response:", data);
+        if (data.predictions) {
+            setSuggestions(data.predictions);
+            setShowSuggestions(true);
+        }
     } catch (error) {
       console.error("Erreur autocomplete:", error);
     } finally {
