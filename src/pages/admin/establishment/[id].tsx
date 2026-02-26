@@ -735,7 +735,6 @@ export default function EditEstablishmentPage() {
                           <Eye className="w-5 h-5 text-purple-600" />
                           Aperçu de la carte
                         </CardTitle>
-                        <CardDescription>Visualisation en temps réel</CardDescription>
                       </CardHeader>
                       <CardContent className="flex flex-col items-center gap-8">
 
