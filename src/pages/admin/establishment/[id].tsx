@@ -884,12 +884,12 @@ export default function EditEstablishmentPage() {
                         </Button>
                       </CardContent>
                     </Card>
-                  </div>
-                </div>
-              </TabsContent>
+                                                      </div>
+                                                  </div>
+                                              </TabsContent>
 
-              {/* Tab: Affiches */}
-              <TabsContent value="posters">
+                                              {/* Tab: Affiches */}
+                                              <TabsContent value="posters">
                 <div className="grid lg:grid-cols-3 gap-6">
                   {/* Left: Controls */}
                   <Card className="border-2 shadow-xl lg:col-span-1 h-fit">
