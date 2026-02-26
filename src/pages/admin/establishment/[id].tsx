@@ -87,11 +87,11 @@ export default function EditEstablishmentPage() {
               setParticipants(establishmentParticipants);
 
               // Charger config fidélité
-              const { data: loyaltyData } = await supabase
-                  .from("loyalty_config")
-                  .select("*")
-                  .eq("establishment_id", establishmentId)
-                  .single();
+          const { data: loyaltyData } = await supabase
+              .from("loyalty_config")
+              .select("*")
+              .eq("establishment_id", establishmentId)
+              .maybeSingle();
 
               if (loyaltyData) {
                   setLoyaltyConfig({
