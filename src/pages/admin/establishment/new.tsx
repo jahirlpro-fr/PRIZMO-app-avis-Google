@@ -83,8 +83,16 @@ export default function NewEstablishmentPage() {
         );
         const data = await response.json();
         console.log("Google Places response:", data);
-        if (data.predictions) {
-            setSuggestions(data.predictions);
+        if (data.suggestions) {
+            const predictions = data.suggestions.map((s: any) => ({
+                place_id: s.placePrediction?.placeId,
+                description: s.placePrediction?.text?.text,
+                structured_formatting: {
+                    main_text: s.placePrediction?.structuredFormat?.mainText?.text,
+                    secondary_text: s.placePrediction?.structuredFormat?.secondaryText?.text,
+                }
+            }));
+            setSuggestions(predictions);
             setShowSuggestions(true);
         }
     } catch (error) {
