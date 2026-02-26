@@ -608,46 +608,21 @@ export default function EditEstablishmentPage() {
 
 {/* Tab: Fidélité */}
               <TabsContent value="loyalty">
-                <div className="space-y-6">
+                <div className="grid lg:grid-cols-2 gap-6">
 
-                  {/* Configuration */}
-                  <Card className="border-2 shadow-xl">
-                    <CardHeader>
-                      <CardTitle className="text-2xl flex items-center gap-2">
-                        <CreditCard className="w-6 h-6 text-purple-600" />
-                        Carte de Fidélité Digitale
-                      </CardTitle>
-                      <CardDescription>
-                        Configurez la carte fidélité de vos clients — accessible via QR code, sans application
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-
-                      {/* Toggle activation */}
-                      <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl border border-purple-200">
-                        <div>
-                          <p className="font-semibold text-purple-900">Activer la carte fidélité</p>
-                          <p className="text-sm text-purple-600">Vos clients pourront accéder à leur carte via QR code</p>
-                        </div>
-                        <Switch
-                          checked={loyaltyConfig.is_active}
-                          onCheckedChange={(v) => setLoyaltyConfig({ ...loyaltyConfig, is_active: v })}
-                        />
-                      </div>
-
-                      <div className="grid md:grid-cols-2 gap-6">
-                        {/* Nom de la carte */}
-                        <div className="space-y-2">
-                          <Label className="flex items-center gap-2">
-                            <CreditCard className="w-4 h-4 text-purple-600" />
-                            Nom de la carte *
-                          </Label>
-                          <Input
-                            placeholder="Ex: Carte Fidélité Bimbambao"
-                            value={loyaltyConfig.card_name}
-                            onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, card_name: e.target.value })}
-                          />
-                        </div>
+                  {/* GAUCHE — Configuration */}
+                  <div className="space-y-4">
+                    <Card className="border-2 shadow-xl h-fit">
+                      <CardHeader>
+                        <CardTitle className="text-xl flex items-center gap-2">
+                          <CreditCard className="w-5 h-5 text-purple-600" />
+                          Carte de Fidélité Digitale
+                        </CardTitle>
+                        <CardDescription>
+                          Configurez la carte fidélité de vos clients
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-5">
 
                         {/* Prize */}
                         <div className="space-y-2">
@@ -661,158 +636,278 @@ export default function EditEstablishmentPage() {
                             onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, prize_description: e.target.value })}
                           />
                         </div>
-                      </div>
 
-                      {/* Nombre de stamps */}
-                      <div className="space-y-3">
-                        <Label className="flex items-center gap-2">
-                          <Hash className="w-4 h-4 text-purple-600" />
-                          Nombre de repas avant le prize : <span className="font-bold text-purple-600 ml-1">{loyaltyConfig.stamps_required}</span>
-                        </Label>
-                        <input
-                          type="range"
-                          min={5}
-                          max={15}
-                          value={loyaltyConfig.stamps_required}
-                          onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, stamps_required: parseInt(e.target.value) })}
-                          className="w-full accent-purple-600"
-                        />
-                        <div className="flex justify-between text-xs text-gray-400">
-                          <span>5 repas</span>
-                          <span>10 repas</span>
-                          <span>15 repas</span>
+                        {/* Nombre de repas */}
+                        <div className="space-y-2">
+                          <Label className="flex items-center gap-2">
+                            <Hash className="w-4 h-4 text-purple-600" />
+                            Nombre de repas avant le prize *
+                          </Label>
+                          <Input
+                            type="number"
+                            placeholder="Ex: 10"
+                            min={5}
+                            max={15}
+                            value={loyaltyConfig.stamps_required}
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value) || 0;
+                              setLoyaltyConfig({ ...loyaltyConfig, stamps_required: val });
+                            }}
+                            className={
+                              loyaltyConfig.stamps_required < 5 || loyaltyConfig.stamps_required > 15
+                                ? "border-red-500"
+                                : ""
+                            }
+                          />
+                          {(loyaltyConfig.stamps_required < 5 || loyaltyConfig.stamps_required > 15) && loyaltyConfig.stamps_required !== 0 && (
+                            <p className="text-sm text-red-500">
+                              Le nombre de repas doit être entre 5 et 15
+                            </p>
+                          )}
+                          <p className="text-xs text-gray-400">
+                            Le client aura {loyaltyConfig.stamps_required || "?"} emplacements + 1 emplacement prize
+                          </p>
                         </div>
-                      </div>
 
-                      {/* Code secret */}
-                      <div className="space-y-2">
-                        <Label className="flex items-center gap-2">
-                          <Lock className="w-4 h-4 text-purple-600" />
-                          Code secret commerçant * (minimum 6 chiffres)
-                        </Label>
-                        <Input
-                          type="password"
-                          placeholder="Ex: 123456"
-                          value={loyaltyConfig.secret_code}
-                          onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, secret_code: e.target.value })}
-                          maxLength={10}
-                        />
-                        <p className="text-xs text-gray-400">
-                          Ce code est communiqué verbalement par vous au client pour valider sa visite. Ne le partagez pas publiquement.
-                        </p>
-                      </div>
-
-                      <Button
-                        onClick={handleSaveLoyaltyConfig}
-                        className="w-full prizmo-gradient text-white"
-                        size="lg"
-                        disabled={loyaltySaving}
-                      >
-                        <Save className="w-4 h-4 mr-2" />
-                        {loyaltySaving ? "Sauvegarde..." : "Sauvegarder la configuration"}
-                      </Button>
-                    </CardContent>
-                  </Card>
-
-                  {/* QR Code fidélité */}
-                  {loyaltyConfigExists && loyaltyConfig.is_active && (
-                    <Card className="border-2 shadow-xl">
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <QrCode className="w-5 h-5 text-purple-600" />
-                          QR Code Fidélité
-                        </CardTitle>
-                        <CardDescription>
-                          Affichez ce QR code dans votre restaurant — distinct du QR code de la roue
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="flex flex-col items-center gap-4">
-                        <div className="p-4 bg-white border-2 border-purple-200 rounded-xl shadow-lg">
-                          <QRCodeSVG
-                            value={`${window.location.origin}/loyalty/${establishment.slug}`}
-                            size={180}
-                            level="H"
-                            includeMargin={true}
-                            fgColor="#8b5cf6"
+                        {/* Code secret */}
+                        <div className="space-y-2">
+                          <Label className="flex items-center gap-2">
+                            <Lock className="w-4 h-4 text-purple-600" />
+                            Code secret * (minimum 6 chiffres)
+                          </Label>
+                          <Input
+                            type="password"
+                            placeholder="Ex: 123456"
+                            value={loyaltyConfig.secret_code}
+                            onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, secret_code: e.target.value })}
+                            maxLength={10}
                           />
                         </div>
-                                              <p className="text-sm text-gray-500 text-center">
-                                                  URL : <span className="font-mono text-purple-600">/loyalty/{establishment.slug}</span>
-                                              </p>
-                                              <Button
-                                                  variant="outline"
-                                                  onClick={() => window.open(`/loyalty/${establishment.slug}`, "_blank")}
-                                              >
-                                                  <Eye className="w-4 h-4 mr-2" />
-                                                  Prévisualiser la carte client
-                                              </Button>
-                                          </CardContent>
-                                      </Card>
-                                  )}
 
-                                  {/* Porteurs de carte */}
-                                  <Card className="border-2 shadow-xl">
-                                      <CardHeader>
-                                          <CardTitle className="flex items-center gap-2">
-                                              <Users className="w-5 h-5 text-purple-600" />
-                                              Porteurs de carte
-                                          </CardTitle>
-                                          <CardDescription>
-                                              {loyaltyCards.length} client{loyaltyCards.length > 1 ? "s" : ""} avec une carte fidélité active
-                                          </CardDescription>
-                                      </CardHeader>
-                                      <CardContent>
-                                          {loyaltyCards.length > 0 ? (
-                                              <div className="overflow-x-auto rounded-lg border">
-                                                  <table className="w-full">
-                                                      <thead className="bg-muted">
-                                                          <tr>
-                                                              <th className="text-left p-3 font-semibold text-sm">Email</th>
-                                                              <th className="text-left p-3 font-semibold text-sm">Téléphone</th>
-                                                              <th className="text-left p-3 font-semibold text-sm">Stamps</th>
-                                                              <th className="text-left p-3 font-semibold text-sm">Prizes obtenus</th>
-                                                              <th className="text-left p-3 font-semibold text-sm">Dernière visite</th>
-                                                          </tr>
-                                                      </thead>
-                                                      <tbody>
-                                                          {loyaltyCards.map((card, index) => (
-                                                              <tr key={card.id} className={`border-b hover:bg-muted/50 ${index % 2 === 0 ? "bg-white" : "bg-muted/20"}`}>
-                                                                  <td className="p-3 font-medium text-sm">{card.email}</td>
-                                                                  <td className="p-3 text-sm">{card.phone}</td>
-                                                                  <td className="p-3">
-                                                                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800">
-                                                                          {card.stamp_count} / {loyaltyConfig.stamps_required}
-                                                                      </span>
-                                                                  </td>
-                                                                  <td className="p-3">
-                                                                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">
-                                                                          🎁 {card.reset_count}x
-                                                                      </span>
-                                                                  </td>
-                                                                  <td className="p-3 text-sm text-gray-500">
-                                                                      {card.last_stamp_at
-                                                                          ? new Date(card.last_stamp_at).toLocaleDateString("fr-FR")
-                                                                          : "—"}
-                                                                  </td>
-                                                              </tr>
-                                                          ))}
-                                                      </tbody>
-                                                  </table>
-                                              </div>
-                                          ) : (
-                                              <div className="text-center py-12">
-                                                  <CreditCard className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-                                                  <p className="text-muted-foreground">Aucun porteur de carte pour le moment</p>
-                                                  <p className="text-sm text-muted-foreground mt-1">
-                                                      Les clients qui créeront leur carte apparaîtront ici
-                                                  </p>
-                                              </div>
-                                          )}
-                                      </CardContent>
-                                  </Card>
+                        <Button
+                          onClick={handleSaveLoyaltyConfig}
+                          className="w-full prizmo-gradient text-white"
+                          size="lg"
+                          disabled={loyaltySaving}
+                        >
+                          <Save className="w-4 h-4 mr-2" />
+                          {loyaltySaving ? "Sauvegarde..." : "Sauvegarder"}
+                        </Button>
+                      </CardContent>
+                    </Card>
 
+                    {/* QR Code */}
+                    {loyaltyConfigExists && loyaltyConfig.is_active && (
+                      <Card className="border-2 shadow-xl h-fit">
+                        <CardHeader>
+                          <CardTitle className="flex items-center gap-2 text-lg">
+                            <QrCode className="w-5 h-5 text-purple-600" />
+                            QR Code Fidélité
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col items-center gap-3">
+                          <div className="p-3 bg-white border-2 border-purple-200 rounded-xl shadow-lg">
+                            <QRCodeSVG
+                              value={`${window.location.origin}/loyalty/${establishment.slug}`}
+                              size={150}
+                              level="H"
+                              includeMargin={true}
+                              fgColor="#8b5cf6"
+                            />
+                          </div>
+                          <p className="text-xs text-gray-500 text-center font-mono text-purple-600">
+                            /loyalty/{establishment.slug}
+                          </p>
+                          <Button variant="outline" size="sm" onClick={() => window.open(`/loyalty/${establishment.slug}`, "_blank")}>
+                            <Eye className="w-4 h-4 mr-2" />
+                            Prévisualiser côté client
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
+
+                  {/* DROITE — Prévisualisation carte */}
+                  <div className="space-y-4">
+                    <Card className="border-2 shadow-xl h-fit">
+                      <CardHeader>
+                        <CardTitle className="text-xl flex items-center gap-2">
+                          <Eye className="w-5 h-5 text-purple-600" />
+                          Aperçu de la carte
+                        </CardTitle>
+                        <CardDescription>Visualisation en temps réel</CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex flex-col items-center gap-8">
+
+                        {/* RECTO */}
+                        <div className="flex flex-col items-center gap-2 w-full">
+                          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Recto</p>
+                          <div
+                            className="relative flex flex-col items-center justify-center rounded-2xl shadow-xl overflow-hidden"
+                            style={{
+                              width: "340px",
+                              height: "215px",
+                              backgroundColor: formData.secondaryColor,
+                            }}
+                          >
+                            {/* Cercles décoratifs */}
+                            <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-10 bg-white" />
+                            <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full opacity-10 bg-white" />
+
+                            {/* Logos */}
+                            <div className="flex flex-col items-center justify-center gap-2 px-8 z-10">
+                              {establishment.logoUrl ? (
+                                <img
+                                  src={establishment.logoUrl}
+                                  alt="Logo principal"
+                                  style={{
+                                    maxHeight: "80px",
+                                    maxWidth: "200px",
+                                    objectFit: "contain",
+                                    filter: formData.primaryColor === "#ffffff"
+                                      ? "brightness(0) invert(1)"
+                                      : "brightness(0)",
+                                  }}
+                                />
+                              ) : (
+                                <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
+                                  <CreditCard className="w-8 h-8 text-white/60" />
+                                </div>
+                              )}
+                              {establishment.logoSecondaryUrl && (
+                                <img
+                                  src={establishment.logoSecondaryUrl}
+                                  alt="Logo secondaire"
+                                  style={{
+                                    maxHeight: "40px",
+                                    maxWidth: "140px",
+                                    objectFit: "contain",
+                                    filter: formData.primaryColor === "#ffffff"
+                                      ? "brightness(0) invert(1)"
+                                      : "brightness(0)",
+                                  }}
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* VERSO */}
+                        <div className="flex flex-col items-center gap-2 w-full">
+                          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Verso</p>
+                          <div
+                            className="relative flex flex-col items-center justify-center rounded-2xl shadow-xl overflow-hidden p-5"
+                            style={{
+                              width: "340px",
+                              minHeight: "215px",
+                              backgroundColor: formData.secondaryColor,
+                            }}
+                          >
+                            {/* Cercles décoratifs */}
+                            <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-10 bg-white" />
+                            <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full opacity-10 bg-white" />
+
+                            {/* Grille de stamps */}
+                            <div className="z-10 w-full">
+                              <div className="flex flex-wrap justify-center gap-2 mb-3">
+                                {Array.from({ length: loyaltyConfig.stamps_required }).map((_, i) => (
+                                  <div
+                                    key={i}
+                                    className="w-10 h-10 rounded-full border-2 border-white/60 bg-white/20 flex items-center justify-center"
+                                  />
+                                ))}
+                                {/* Emplacement Prize */}
+                                <div
+                                  className="w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
+                                  style={{ backgroundColor: "#FFD700", border: "2px solid #FFA500" }}
+                                >
+                                  <Gift className="w-5 h-5 text-white" />
+                                </div>
                               </div>
-                          </TabsContent>
+
+                              {/* Prize description */}
+                              {loyaltyConfig.prize_description && (
+                                <p
+                                  className="text-center text-xs font-semibold mt-2"
+                                  style={{
+                                    color: formData.primaryColor === "#ffffff" ? "white" : "rgba(0,0,0,0.6)",
+                                  }}
+                                >
+                                  🎁 {loyaltyConfig.prize_description}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+
+                {/* Porteurs de carte — pleine largeur en bas */}
+                <div className="mt-6">
+                  <Card className="border-2 shadow-xl">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Users className="w-5 h-5 text-purple-600" />
+                        Porteurs de carte
+                      </CardTitle>
+                      <CardDescription>
+                        {loyaltyCards.length} client{loyaltyCards.length > 1 ? "s" : ""} avec une carte fidélité active
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      {loyaltyCards.length > 0 ? (
+                        <div className="overflow-x-auto rounded-lg border">
+                          <table className="w-full">
+                            <thead className="bg-muted">
+                              <tr>
+                                <th className="text-left p-3 font-semibold text-sm">Email</th>
+                                <th className="text-left p-3 font-semibold text-sm">Téléphone</th>
+                                <th className="text-left p-3 font-semibold text-sm">Stamps</th>
+                                <th className="text-left p-3 font-semibold text-sm">Prizes obtenus</th>
+                                <th className="text-left p-3 font-semibold text-sm">Dernière visite</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {loyaltyCards.map((card, index) => (
+                                <tr key={card.id} className={`border-b hover:bg-muted/50 ${index % 2 === 0 ? "bg-white" : "bg-muted/20"}`}>
+                                  <td className="p-3 font-medium text-sm">{card.email}</td>
+                                  <td className="p-3 text-sm">{card.phone}</td>
+                                  <td className="p-3">
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800">
+                                      {card.stamp_count} / {loyaltyConfig.stamps_required}
+                                    </span>
+                                  </td>
+                                  <td className="p-3">
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">
+                                      🎁 {card.reset_count}x
+                                    </span>
+                                  </td>
+                                  <td className="p-3 text-sm text-gray-500">
+                                    {card.last_stamp_at
+                                      ? new Date(card.last_stamp_at).toLocaleDateString("fr-FR")
+                                      : "—"}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      ) : (
+                        <div className="text-center py-12">
+                          <CreditCard className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                          <p className="text-muted-foreground">Aucun porteur de carte pour le moment</p>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Les clients qui créeront leur carte apparaîtront ici
+                          </p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
 
                           {/* Tab: Configuration de la roue - SPLIT SCREEN */}
                           <TabsContent value="wheel">
