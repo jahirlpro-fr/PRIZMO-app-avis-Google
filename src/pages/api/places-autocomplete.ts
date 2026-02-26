@@ -10,7 +10,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         const response = await fetch(
-            `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&types=establishment&language=fr&key=${apiKey}`
+            `https://places.googleapis.com/v1/places:autocomplete`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Goog-Api-Key": apiKey!,
+                },
+                body: JSON.stringify({
+                    input,
+                    languageCode: "fr",
+                    includedPrimaryTypes: ["restaurant", "food", "bar", "cafe", "establishment"],
+                }),
+            }
         );
         const data = await response.json();
         return res.status(200).json(data);
