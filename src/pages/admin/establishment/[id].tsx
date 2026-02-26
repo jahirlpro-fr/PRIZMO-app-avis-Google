@@ -45,8 +45,20 @@ export default function EditEstablishmentPage() {
     secondaryColor: "#d946ef",
     enableInstagramWheel: false,
   });
-  const [uploadingPrimaryLogo, setUploadingPrimaryLogo] = useState(false);
-  const [uploadingSecondaryLogo, setUploadingSecondaryLogo] = useState(false);
+    const [uploadingPrimaryLogo, setUploadingPrimaryLogo] = useState(false);
+    const [uploadingSecondaryLogo, setUploadingSecondaryLogo] = useState(false);
+
+    // Loyalty
+    const [loyaltyConfig, setLoyaltyConfig] = useState({
+        card_name: "Carte Fidélité",
+        stamps_required: 10,
+        prize_description: "",
+        secret_code: "",
+        is_active: true,
+    });
+    const [loyaltyCards, setLoyaltyCards] = useState < any[] > ([]);
+    const [loyaltySaving, setLoyaltySaving] = useState(false);
+    const [loyaltyConfigExists, setLoyaltyConfigExists] = useState(false);
 
 
   useEffect(() => {
