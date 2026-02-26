@@ -265,8 +265,8 @@ export default function LoyaltyPage() {
             zIndex,
             transition: "all 0.3s ease",
         }}>
-            {establishment.logoUrl ? (
-                <img src={establishment.logoUrl} alt="Logo"
+            {logoUrl ? (
+                <img src={logoUrl} alt="Logo"
                     style={{
                         maxHeight: "80px", maxWidth: "200px", objectFit: "contain",
                         filter: primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)"
