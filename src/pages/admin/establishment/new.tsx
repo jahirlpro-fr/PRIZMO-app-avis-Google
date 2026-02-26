@@ -79,9 +79,9 @@ export default function NewEstablishmentPage() {
     setIsLoadingSuggestions(true);
     try {
       const apiKey = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY;
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&types=establishment&language=fr&key=${apiKey}`
-      );
+        const response = await fetch(
+            `/api/places-autocomplete?input=${encodeURIComponent(input)}`
+        );
       const data = await response.json();
       if (data.predictions) {
         setSuggestions(data.predictions);
