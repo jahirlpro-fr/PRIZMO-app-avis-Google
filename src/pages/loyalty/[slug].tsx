@@ -274,8 +274,8 @@ export default function LoyaltyPage() {
             ) : (
                 <CreditCard className="w-12 h-12 text-white/40" />
             )}
-            {establishment.logoSecondaryUrl && (
-                <img src={establishment.logoSecondaryUrl} alt="Logo 2"
+            {logoSecondaryUrl && (
+                <img src={logoSecondaryUrl} alt="Logo 2"
                     style={{
                         maxHeight: "35px", maxWidth: "140px", objectFit: "contain", marginTop: "8px",
                         filter: primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)"
