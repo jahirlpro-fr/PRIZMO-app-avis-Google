@@ -963,7 +963,7 @@ export default function EditEstablishmentPage() {
 
               {/* Tab: Affiches */}
               <TabsContent value="posters">
-                <div className="grid lg:grid-cols-3 gap-6">
+                <div className="grid lg:grid-cols-3 gap-6 items-start">
                   {/* Left: Controls */}
                   <Card className="border-2 shadow-xl lg:col-span-1 h-fit">
                     <CardHeader>
