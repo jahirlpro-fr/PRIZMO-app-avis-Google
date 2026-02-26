@@ -622,7 +622,7 @@ export default function EditEstablishmentPage() {
                           Configurez la carte fidélité de vos clients
                         </CardDescription>
                       </CardHeader>
-                      <CardContent className="space-y-5">
+                      <CardContent className="space-y-6 pt-2">
 
                         {/* Prize */}
                         <div className="space-y-2">
