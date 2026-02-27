@@ -7,6 +7,7 @@ import { InstagramStep } from "@/components/game/InstagramStep";
 import { WheelOfFortune } from "@/components/game/WheelOfFortune";
 import { PrizeResult } from "@/components/game/PrizeResult";
 import { storageService } from "@/lib/storage";
+import { supabase } from "@/integrations/supabase/client";
 import { Establishment, Participant, WheelSegment } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
