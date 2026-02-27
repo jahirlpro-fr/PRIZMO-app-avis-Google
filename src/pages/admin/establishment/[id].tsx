@@ -798,6 +798,22 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                   </div>
                                               </div>
 
+                                              {/* Couleur de la carte */}
+                                              <div className="w-full flex items-center gap-3 px-2">
+                                                  <Label className="text-sm whitespace-nowrap">Couleur de la carte :</Label>
+                                                  <input
+                                                      type="color"
+                                                      value={loyaltyConfig.card_color}
+                                                      onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, card_color: e.target.value })}
+                                                      className="w-10 h-10 rounded cursor-pointer border"
+                                                  />
+                                                  <Input
+                                                      value={loyaltyConfig.card_color}
+                                                      onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, card_color: e.target.value })}
+                                                      className="font-mono text-sm"
+                                                  />
+                                              </div>
+
                                               {/* VERSO */}
                                               <div className="flex flex-col items-center gap-2 w-full">
                                                   <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Verso</p>
