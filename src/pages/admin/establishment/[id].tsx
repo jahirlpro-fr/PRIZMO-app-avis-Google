@@ -1081,232 +1081,362 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                 </div>
               </TabsContent>
 
-              {/* Tab: Affiches */}
-              <TabsContent value="posters">
-                <div className="grid lg:grid-cols-3 gap-6 items-start">
-                  {/* Left: Controls */}
-                  <Card className="border-2 shadow-xl lg:col-span-1 h-fit">
-                    <CardHeader>
-                      <CardTitle className="text-xl flex items-center gap-2">
-                        <Printer className="w-5 h-5" />
-                        Générateur d'affiches
-                      </CardTitle>
-                      <CardDescription>
-                        Créez une affiche QR Code pour votre établissement
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      {/* Couleurs */}
-                      <div className="space-y-3">
-                        <Label>Couleur du logo</Label>
-                        <div className="flex gap-2 items-center">
-                          <input type="color" value={formData.primaryColor}
-                            onChange={(e) => setFormData({ ...formData, primaryColor: e.target.value })}
-                            className="w-10 h-10 rounded cursor-pointer border" />
-                          <Input value={formData.primaryColor}
-                            onChange={(e) => setFormData({ ...formData, primaryColor: e.target.value })}
-                            className="font-mono text-sm" />
-                        </div>
-                      </div>
-                      <div className="space-y-3">
-                        <Label>Couleur de fond</Label>
-                        <div className="flex gap-2 items-center">
-                          <input type="color" value={formData.secondaryColor}
-                            onChange={(e) => setFormData({ ...formData, secondaryColor: e.target.value })}
-                            className="w-10 h-10 rounded cursor-pointer border" />
-                          <Input value={formData.secondaryColor}
-                            onChange={(e) => setFormData({ ...formData, secondaryColor: e.target.value })}
-                            className="font-mono text-sm" />
-                        </div>
-                      </div>
-                      <div className="space-y-3">
-                        <Label>Couleur de la police</Label>
-                        <div className="flex gap-2 items-center">
-                          <input type="color" value={posterTextColor}
-                            onChange={(e) => setPosterTextColor(e.target.value)}
-                            className="w-10 h-10 rounded cursor-pointer border" />
-                          <Input value={posterTextColor}
-                            onChange={(e) => setPosterTextColor(e.target.value)}
-                            className="font-mono text-sm" />
-                        </div>
-                      </div>
+                          {/* Tab: Affiches */}
+                          <TabsContent value="posters">
+                              <div className="grid lg:grid-cols-3 gap-6 items-start">
+                                  {/* Left: Controls */}
+                                  <Card className="border-2 shadow-xl lg:col-span-1 h-fit">
+                                      <CardHeader>
+                                          <CardTitle className="text-xl flex items-center gap-2">
+                                              <Printer className="w-5 h-5" />
+                                              Générateur d'affiches
+                                          </CardTitle>
+                                          <CardDescription>
+                                              {posterType === "wheel" ? "Affiche Roue Fortune" : "Affiche Carte Fidélité"}
+                                          </CardDescription>
+                                      </CardHeader>
+                                      <CardContent className="space-y-6">
 
-                      <div className="space-y-3">
-                        <Label>Format de l'affiche</Label>
-                        <div className="flex gap-2">
-                          <Button 
-                            variant={posterFormat === "A4" ? "default" : "outline"}
-                            onClick={() => setPosterFormat("A4")}
-                            className="flex-1"
-                          >
-                            A4
-                          </Button>
-                          <Button 
-                            variant={posterFormat === "A5" ? "default" : "outline"}
-                            onClick={() => setPosterFormat("A5")}
-                            className="flex-1"
-                          >
-                            A5
-                          </Button>
-                        </div>
-                      </div>
+                                          {/* Couleurs partagées */}
+                                          <div className="space-y-3">
+                                              <Label>Couleur du logo</Label>
+                                              <div className="flex gap-2 items-center">
+                                                  <input type="color" value={formData.primaryColor}
+                                                      onChange={(e) => setFormData({ ...formData, primaryColor: e.target.value })}
+                                                      className="w-10 h-10 rounded cursor-pointer border" />
+                                                  <Input value={formData.primaryColor}
+                                                      onChange={(e) => setFormData({ ...formData, primaryColor: e.target.value })}
+                                                      className="font-mono text-sm" />
+                                              </div>
+                                          </div>
+                                          <div className="space-y-3">
+                                              <Label>Couleur de fond</Label>
+                                              <div className="flex gap-2 items-center">
+                                                  <input type="color" value={formData.secondaryColor}
+                                                      onChange={(e) => setFormData({ ...formData, secondaryColor: e.target.value })}
+                                                      className="w-10 h-10 rounded cursor-pointer border" />
+                                                  <Input value={formData.secondaryColor}
+                                                      onChange={(e) => setFormData({ ...formData, secondaryColor: e.target.value })}
+                                                      className="font-mono text-sm" />
+                                              </div>
+                                          </div>
+                                          <div className="space-y-3">
+                                              <Label>Couleur de la police</Label>
+                                              <div className="flex gap-2 items-center">
+                                                  <input type="color" value={posterTextColor}
+                                                      onChange={(e) => setPosterTextColor(e.target.value)}
+                                                      className="w-10 h-10 rounded cursor-pointer border" />
+                                                  <Input value={posterTextColor}
+                                                      onChange={(e) => setPosterTextColor(e.target.value)}
+                                                      className="font-mono text-sm" />
+                                              </div>
+                                          </div>
 
-                      <div className="space-y-3">
-                        <Label>Téléchargement</Label>
-                        <div className="grid grid-cols-1 gap-2">
-                          <Button onClick={() => handleDownloadPoster("png")} variant="outline" className="w-full">
-                            <ImageIcon className="w-4 h-4 mr-2" />
-                            Télécharger en PNG
-                          </Button>
-                          <Button onClick={() => handleDownloadPoster("pdf")} className="w-full prizmo-gradient text-white">
-                            <Download className="w-4 h-4 mr-2" />
-                            Télécharger en PDF
-                          </Button>
-                        </div>
-                      </div>
+                                          <div className="space-y-3">
+                                              <Label>Format de l'affiche</Label>
+                                              <div className="flex gap-2">
+                                                  <Button
+                                                      variant={posterFormat === "A4" ? "default" : "outline"}
+                                                      onClick={() => setPosterFormat("A4")}
+                                                      className="flex-1"
+                                                  >A4</Button>
+                                                  <Button
+                                                      variant={posterFormat === "A5" ? "default" : "outline"}
+                                                      onClick={() => setPosterFormat("A5")}
+                                                      className="flex-1"
+                                                  >A5</Button>
+                                              </div>
+                                          </div>
 
-                      <div className="p-4 bg-muted rounded-lg text-sm text-muted-foreground">
-                        <p className="font-semibold mb-1">Conseil d'impression :</p>
-                        <p>Pour une qualité optimale, imprimez sur du papier cartonné ou glacé. Placez l'affiche à un endroit visible (comptoir, tables, entrée).</p>
-                      </div>
-                    </CardContent>
-                  </Card>
+                                          <div className="space-y-3">
+                                              <Label>Téléchargement</Label>
+                                              <div className="grid grid-cols-1 gap-2">
+                                                  <Button
+                                                      onClick={() => posterType === "wheel" ? handleDownloadPoster("png") : handleDownloadLoyaltyPoster("png")}
+                                                      variant="outline" className="w-full">
+                                                      <ImageIcon className="w-4 h-4 mr-2" />
+                                                      Télécharger en PNG
+                                                  </Button>
+                                                  <Button
+                                                      onClick={() => posterType === "wheel" ? handleDownloadPoster("pdf") : handleDownloadLoyaltyPoster("pdf")}
+                                                      className="w-full prizmo-gradient text-white">
+                                                      <Download className="w-4 h-4 mr-2" />
+                                                      Télécharger en PDF
+                                                  </Button>
+                                              </div>
+                                          </div>
 
-                  {/* Right: Preview */}
-                  <div className="lg:col-span-2 flex justify-center bg-gray-100 p-8 rounded-xl border overflow-hidden self-start">
-                    <div
-                      ref={posterRef}
-                      className="shadow-2xl relative overflow-hidden"
-                      style={{
-                        width: "595px",
-                        height: "842px",
-                        backgroundColor: formData.secondaryColor,
-                        transform: posterFormat === "A4" ? "scale(0.75)" : "scale(0.53)",
-                        transformOrigin: "top center",
-                        flexShrink: 0,
-                          display: "flex",
-                          flexDirection: "column",
-                      }}
-                    >
-                      {/* BLOC HAUT — Logos */}
-                      <div style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: "24px 40px 12px 40px",
-                        flex: "0 0 auto",
-                      }}>
-                        {establishment?.logoUrl ? (
-                          <img
-                            src={establishment.logoUrl}
-                            alt="Logo principal"
-                            crossOrigin="anonymous"
-                            style={{
-                              maxHeight: "90px",
-                              maxWidth: "280px",
-                              objectFit: "contain",
-                              marginBottom: "12px",
-                              filter: formData.primaryColor === "#ffffff"
-                                ? "brightness(0) invert(1)"
-                                : "brightness(0)",
-                            }}
-                          />
-                        ) : (
-                          <div style={{ height: "90px" }} />
-                        )}
-                        {establishment?.logoSecondaryUrl ? (
-                          <img
-                            src={establishment.logoSecondaryUrl}
-                            alt="Logo secondaire"
-                            crossOrigin="anonymous"
-                            style={{
-                              maxHeight: "60px",
-                              maxWidth: "220px",
-                              objectFit: "contain",
-                              filter: formData.primaryColor === "#ffffff"
-                                ? "brightness(0) invert(1)"
-                                : "brightness(0)",
-                            }}
-                          />
-                        ) : (
-                          <div style={{ height: "60px" }} />
-                        )}
-                      </div>
+                                          <div className="p-4 bg-muted rounded-lg text-sm text-muted-foreground">
+                                              <p className="font-semibold mb-1">Conseil d'impression :</p>
+                                              <p>{posterType === "wheel"
+                                                  ? "Placez l'affiche à un endroit visible (comptoir, tables, entrée)."
+                                                  : "Placez cette affiche près de la caisse pour inciter vos clients à souscrire."
+                                              }</p>
+                                          </div>
+                                      </CardContent>
+                                  </Card>
 
-                      {/* BLOC MILIEU — Texte + Roue */}
-                      <div style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        padding: "0 40px",
-                        gap: "16px",
-                        flex: "1 1 auto",
-                        justifyContent: "flex-start",
-                        paddingTop: "8px",
-                      }}>
-                        <div style={{ textAlign: "center" }}>
-                          <h1 style={{
-                            fontSize: "36px",
-                            fontWeight: "900",
-                            textTransform: "uppercase",
-                            letterSpacing: "-0.5px",
-                            color: posterTextColor,
-                            margin: "0 0 8px 0",
-                          }}>
-                            Tentez votre chance !
-                          </h1>
-                          <p style={{
-                            fontSize: "16px",
-                            color: posterTextColor,
-                            opacity: 0.8,
-                            margin: 0,
-                          }}>
-                            Tournez la roue et gagnez un cadeau 🎁
-                          </p>
-                        </div>
-                        <WheelPreview segments={segments} size={270} pointerSize={34} />
-                      </div>
+                                  {/* Right: Preview avec switcher */}
+                                  <div className="lg:col-span-2 flex flex-col gap-4">
 
-                      {/* BLOC BAS — QR Code */}
-                      <div style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: "12px 40px 24px 40px",
-                        flex: "0 0 auto",
-                      }}>
-                        <div style={{
-                          backgroundColor: "white",
-                          padding: "12px",
-                          borderRadius: "12px",
-                          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                        }}>
-                          <QRCodeSVG
-                            value={`${window.location.origin}/game/${establishment.slug}`}
-                            size={160}
-                            level="H"
-                            includeMargin={true}
-                            fgColor="#000000"
-                          />
-                        </div>
-                        <p style={{
-                          fontSize: "15px",
-                          fontWeight: "700",
-                          letterSpacing: "3px",
-                          textTransform: "uppercase",
-                          color: posterTextColor,
-                          opacity: 0.7,
-                          marginTop: "12px",
-                        }}>
-                          Scannez pour jouer
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
+                                      {/* Switcher */}
+                                      <div className="flex items-center justify-between bg-white border-2 rounded-xl px-4 py-3 shadow-sm">
+                                          <button
+                                              onClick={() => setPosterType("wheel")}
+                                              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all font-semibold text-sm ${posterType === "wheel" ? "bg-purple-100 text-purple-700" : "text-gray-400 hover:text-gray-600"}`}
+                                          >
+                                              🎡 Roue Fortune
+                                          </button>
+
+                                          <div className="flex items-center gap-3">
+                                              <button
+                                                  onClick={() => setPosterType("wheel")}
+                                                  className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${posterType === "wheel" ? "border-purple-400 text-purple-600" : "border-gray-200 text-gray-300 hover:border-gray-400"}`}
+                                              >
+                                                  ←
+                                              </button>
+                                              <button
+                                                  onClick={() => loyaltyConfigExists ? setPosterType("loyalty") : null}
+                                                  className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${posterType === "loyalty" ? "border-purple-400 text-purple-600" : loyaltyConfigExists ? "border-gray-200 text-gray-300 hover:border-gray-400" : "border-gray-100 text-gray-200 cursor-not-allowed"}`}
+                                              >
+                                                  →
+                                              </button>
+                                          </div>
+
+                                          <button
+                                              onClick={() => loyaltyConfigExists ? setPosterType("loyalty") : null}
+                                              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all font-semibold text-sm ${posterType === "loyalty" ? "bg-purple-100 text-purple-700" : loyaltyConfigExists ? "text-gray-400 hover:text-gray-600" : "text-gray-200 cursor-not-allowed"}`}
+                                          >
+                                              <CreditCard className="w-4 h-4" />
+                                              Fidélité
+                                              {!loyaltyConfigExists && <span className="text-xs font-normal">(non configurée)</span>}
+                                          </button>
+                                      </div>
+
+                                      {/* Preview Roue */}
+                                      {posterType === "wheel" && (
+                                          <div className="flex justify-center bg-gray-100 p-8 rounded-xl border overflow-hidden">
+                                              <div
+                                                  ref={posterRef}
+                                                  className="shadow-2xl relative overflow-hidden"
+                                                  style={{
+                                                      width: "595px",
+                                                      height: "842px",
+                                                      backgroundColor: formData.secondaryColor,
+                                                      transform: posterFormat === "A4" ? "scale(0.75)" : "scale(0.53)",
+                                                      transformOrigin: "top center",
+                                                      flexShrink: 0,
+                                                      display: "flex",
+                                                      flexDirection: "column",
+                                                  }}
+                                              >
+                                                  {/* BLOC HAUT — Logos */}
+                                                  <div style={{
+                                                      display: "flex", flexDirection: "column", alignItems: "center",
+                                                      justifyContent: "center", padding: "24px 40px 12px 40px", flex: "0 0 auto",
+                                                  }}>
+                                                      {establishment?.logoUrl ? (
+                                                          <img src={establishment.logoUrl} alt="Logo principal" crossOrigin="anonymous"
+                                                              style={{
+                                                                  maxHeight: "90px", maxWidth: "280px", objectFit: "contain", marginBottom: "12px",
+                                                                  filter: formData.primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)"
+                                                              }} />
+                                                      ) : <div style={{ height: "90px" }} />}
+                                                      {establishment?.logoSecondaryUrl ? (
+                                                          <img src={establishment.logoSecondaryUrl} alt="Logo secondaire" crossOrigin="anonymous"
+                                                              style={{
+                                                                  maxHeight: "60px", maxWidth: "220px", objectFit: "contain",
+                                                                  filter: formData.primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)"
+                                                              }} />
+                                                      ) : <div style={{ height: "60px" }} />}
+                                                  </div>
+
+                                                  {/* BLOC MILIEU — Texte + Roue */}
+                                                  <div style={{
+                                                      display: "flex", flexDirection: "column", alignItems: "center",
+                                                      padding: "0 40px", gap: "16px", flex: "1 1 auto",
+                                                      justifyContent: "flex-start", paddingTop: "8px",
+                                                  }}>
+                                                      <div style={{ textAlign: "center" }}>
+                                                          <h1 style={{
+                                                              fontSize: "36px", fontWeight: "900", textTransform: "uppercase",
+                                                              letterSpacing: "-0.5px", color: posterTextColor, margin: "0 0 8px 0"
+                                                          }}>
+                                                              Tentez votre chance !
+                                                          </h1>
+                                                          <p style={{ fontSize: "16px", color: posterTextColor, opacity: 0.8, margin: 0 }}>
+                                                              Tournez la roue et gagnez un cadeau 🎁
+                                                          </p>
+                                                      </div>
+                                                      <WheelPreview segments={segments} size={270} pointerSize={34} />
+                                                  </div>
+
+                                                  {/* BLOC BAS — QR Code */}
+                                                  <div style={{
+                                                      display: "flex", flexDirection: "column", alignItems: "center",
+                                                      justifyContent: "center", padding: "12px 40px 24px 40px", flex: "0 0 auto",
+                                                  }}>
+                                                      <div style={{
+                                                          backgroundColor: "white", padding: "12px",
+                                                          borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+                                                      }}>
+                                                          <QRCodeSVG
+                                                              value={`${window.location.origin}/game/${establishment.slug}`}
+                                                              size={160} level="H" includeMargin={true} fgColor="#000000" />
+                                                      </div>
+                                                      <p style={{
+                                                          fontSize: "15px", fontWeight: "700", letterSpacing: "3px",
+                                                          textTransform: "uppercase", color: posterTextColor, opacity: 0.7, marginTop: "12px"
+                                                      }}>
+                                                          Scannez pour jouer
+                                                      </p>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      )}
+
+                                      {/* Preview Fidélité */}
+                                      {posterType === "loyalty" && loyaltyConfigExists && (
+                                          <div className="flex justify-center bg-gray-100 p-8 rounded-xl border overflow-hidden">
+                                              <div
+                                                  ref={loyaltyPosterRef}
+                                                  style={{
+                                                      width: "595px",
+                                                      height: "842px",
+                                                      backgroundColor: formData.secondaryColor,
+                                                      transform: posterFormat === "A4" ? "scale(0.75)" : "scale(0.53)",
+                                                      transformOrigin: "top center",
+                                                      flexShrink: 0,
+                                                      display: "flex",
+                                                      flexDirection: "column",
+                                                      alignItems: "center",
+                                                      overflow: "hidden",
+                                                  }}
+                                              >
+                                                  {/* BLOC HAUT — Logos */}
+                                                  <div style={{
+                                                      display: "flex", flexDirection: "column", alignItems: "center",
+                                                      justifyContent: "center", padding: "28px 40px 16px 40px", flex: "0 0 auto",
+                                                  }}>
+                                                      {establishment.logoUrl ? (
+                                                          <img src={establishment.logoUrl} alt="Logo" crossOrigin="anonymous"
+                                                              style={{
+                                                                  maxHeight: "80px", maxWidth: "260px", objectFit: "contain", marginBottom: "10px",
+                                                                  filter: formData.primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)"
+                                                              }} />
+                                                      ) : <div style={{ height: "80px" }} />}
+                                                      {establishment.logoSecondaryUrl && (
+                                                          <img src={establishment.logoSecondaryUrl} alt="Logo 2" crossOrigin="anonymous"
+                                                              style={{
+                                                                  maxHeight: "50px", maxWidth: "200px", objectFit: "contain",
+                                                                  filter: formData.primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)"
+                                                              }} />
+                                                      )}
+                                                  </div>
+
+                                                  {/* BLOC MILIEU — Titre + Fan de cartes */}
+                                                  <div style={{
+                                                      display: "flex", flexDirection: "column", alignItems: "center",
+                                                      flex: "1 1 auto", justifyContent: "center", padding: "0 40px", gap: "28px",
+                                                  }}>
+                                                      <div style={{ textAlign: "center" }}>
+                                                          <h1 style={{
+                                                              fontSize: "34px", fontWeight: "900", textTransform: "uppercase",
+                                                              letterSpacing: "-0.5px", color: posterTextColor, margin: "0 0 10px 0"
+                                                          }}>
+                                                              Devenez client fidèle !
+                                                          </h1>
+                                                          <p style={{ fontSize: "15px", color: posterTextColor, opacity: 0.75, margin: 0 }}>
+                                                              {loyaltyConfig.stamps_required} repas achetés = 🎁 {loyaltyConfig.prize_description || "votre récompense"}
+                                                          </p>
+                                                      </div>
+
+                                                      {/* Fan de cartes */}
+                                                      <div style={{ position: "relative", width: "300px", height: "230px" }}>
+                                                          {/* Verso — derrière incliné */}
+                                                          <div style={{
+                                                              width: "270px", height: "170px",
+                                                              backgroundColor: formData.secondaryColor,
+                                                              border: "2px solid rgba(0,0,0,0.12)",
+                                                              borderRadius: "14px",
+                                                              boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+                                                              position: "absolute", zIndex: 1,
+                                                              transform: "rotate(8deg) translateX(20px) translateY(10px)",
+                                                              display: "flex", flexDirection: "column",
+                                                              alignItems: "center", justifyContent: "center", padding: "12px",
+                                                          }}>
+                                                              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "6px", maxWidth: "240px" }}>
+                                                                  {Array.from({ length: Math.min(loyaltyConfig.stamps_required, 10) }).map((_, i) => (
+                                                                      <div key={i} style={{
+                                                                          width: "28px", height: "28px", borderRadius: "50%",
+                                                                          border: "2px solid rgba(80,80,80,0.4)", backgroundColor: "transparent",
+                                                                      }} />
+                                                                  ))}
+                                                                  <div style={{
+                                                                      width: "28px", height: "28px", borderRadius: "50%",
+                                                                      backgroundColor: "#FFD700", border: "2px solid #FFA500",
+                                                                      display: "flex", alignItems: "center", justifyContent: "center",
+                                                                  }}>
+                                                                      <span style={{ fontSize: "12px" }}>🎁</span>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          {/* Recto — devant */}
+                                                          <div style={{
+                                                              width: "270px", height: "170px",
+                                                              backgroundColor: formData.secondaryColor,
+                                                              border: "2px solid rgba(0,0,0,0.08)",
+                                                              borderRadius: "14px",
+                                                              boxShadow: "0 12px 32px rgba(0,0,0,0.2)",
+                                                              position: "absolute", zIndex: 2,
+                                                              transform: "rotate(-3deg) translateX(-10px)",
+                                                              display: "flex", flexDirection: "column",
+                                                              alignItems: "center", justifyContent: "center", padding: "16px",
+                                                          }}>
+                                                              {establishment.logoUrl ? (
+                                                                  <img src={establishment.logoUrl} alt="Logo" crossOrigin="anonymous"
+                                                                      style={{
+                                                                          maxHeight: "70px", maxWidth: "180px", objectFit: "contain",
+                                                                          filter: formData.primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)"
+                                                                      }} />
+                                                              ) : <CreditCard style={{ width: "40px", height: "40px", opacity: 0.3 }} />}
+                                                              {establishment.logoSecondaryUrl && (
+                                                                  <img src={establishment.logoSecondaryUrl} alt="Logo 2" crossOrigin="anonymous"
+                                                                      style={{
+                                                                          maxHeight: "30px", maxWidth: "130px", objectFit: "contain", marginTop: "6px",
+                                                                          filter: formData.primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)"
+                                                                      }} />
+                                                              )}
+                                                          </div>
+                                                      </div>
+                                                  </div>
+
+                                                  {/* BLOC BAS — QR Code */}
+                                                  <div style={{
+                                                      display: "flex", flexDirection: "column", alignItems: "center",
+                                                      justifyContent: "center", padding: "12px 40px 28px 40px", flex: "0 0 auto",
+                                                  }}>
+                                                      <div style={{
+                                                          backgroundColor: "white", padding: "12px",
+                                                          borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+                                                      }}>
+                                                          <QRCodeSVG
+                                                              value={`${window.location.origin}/loyalty/${establishment.slug}`}
+                                                              size={150} level="H" includeMargin={true} fgColor="#8b5cf6" />
+                                                      </div>
+                                                      <p style={{
+                                                          fontSize: "14px", fontWeight: "700", letterSpacing: "3px",
+                                                          textTransform: "uppercase", color: posterTextColor, opacity: 0.7, marginTop: "12px"
+                                                      }}>
+                                                          Scannez pour votre carte
+                                                      </p>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      )}
+                                  </div>
+                              </div>
+                          </TabsContent>
 
               {/* Tab: Informations générales */}
               <TabsContent value="general">
