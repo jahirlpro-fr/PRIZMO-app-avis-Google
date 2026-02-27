@@ -743,9 +743,6 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                               fgColor="#8b5cf6"
                             />
                           </div>
-                          <p className="text-xs text-gray-500 text-center font-mono text-purple-600">
-                            /loyalty/{establishment.slug}
-                          </p>
                           <Button variant="outline" size="sm" onClick={() => window.open(`/loyalty/${establishment.slug}`, "_blank")}>
                             <Eye className="w-4 h-4 mr-2" />
                             Prévisualiser côté client
