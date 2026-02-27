@@ -1378,7 +1378,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                           {/* Verso — derrière incliné */}
                                                           <div style={{
                                                               width: "270px", height: "170px",
-                                                              backgroundColor: formData.secondaryColor,
+                                                              backgroundColor: loyaltyConfig.card_color,
                                                               border: "2px solid rgba(0,0,0,0.12)",
                                                               borderRadius: "14px",
                                                               boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
@@ -1406,7 +1406,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                           {/* Recto — devant */}
                                                           <div style={{
                                                               width: "270px", height: "170px",
-                                                              backgroundColor: formData.secondaryColor,
+                                                              backgroundColor: loyaltyConfig.card_color,
                                                               border: "2px solid rgba(0,0,0,0.08)",
                                                               borderRadius: "14px",
                                                               boxShadow: "0 12px 32px rgba(0,0,0,0.2)",
