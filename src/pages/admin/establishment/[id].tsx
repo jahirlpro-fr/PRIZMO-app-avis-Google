@@ -752,7 +752,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                       style={{
                                                           width: "340px",
                                                           height: "215px",
-                                                          backgroundColor: formData.secondaryColor,
+                                                          backgroundColor: loyaltyConfig.card_color,
                                                           borderRadius: "16px",
                                                           boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
                                                           display: "flex",
@@ -821,7 +821,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                       style={{
                                                           width: "340px",
                                                           minHeight: "215px",
-                                                          backgroundColor: formData.secondaryColor,
+                                                          backgroundColor: loyaltyConfig.card_color,
                                                           borderRadius: "16px",
                                                           boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
                                                           display: "flex",
