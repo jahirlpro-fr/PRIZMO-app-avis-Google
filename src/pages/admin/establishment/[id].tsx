@@ -275,6 +275,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                         prize_description: loyaltyConfig.prize_description,
                         secret_code: loyaltyConfig.secret_code,
                         is_active: loyaltyConfig.is_active,
+                        card_color: loyaltyConfig.card_color,
                     });
                 setLoyaltyConfigExists(true);
             }
