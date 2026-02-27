@@ -26,9 +26,10 @@ export default function EditEstablishmentPage() {
   const { id } = router.query;
   const { signOut } = useAuth();
   
-  const posterRef = useRef<HTMLDivElement>(null);
-  const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
+const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
   const [posterTextColor, setPosterTextColor] = useState("#000000");
+  const [posterType, setPosterType] = useState<"wheel" | "loyalty">("wheel");
+  const loyaltyPosterRef = useRef<HTMLDivElement>(null);
 
   const [establishment, setEstablishment] = useState<Establishment | null>(null);
   const [segments, setSegments] = useState<WheelSegment[]>([]);
