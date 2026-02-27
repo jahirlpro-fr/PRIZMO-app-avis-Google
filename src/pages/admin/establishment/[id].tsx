@@ -631,6 +631,27 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                       </CardHeader>
                       <CardContent className="space-y-6 pt-2">
 
+{/* Couleur de la carte */}
+                        <div className="space-y-2">
+                          <Label className="flex items-center gap-2">
+                            <CreditCard className="w-4 h-4 text-purple-600" />
+                            Couleur de la carte
+                          </Label>
+                          <div className="flex gap-2 items-center">
+                            <input
+                              type="color"
+                              value={loyaltyConfig.card_color}
+                              onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, card_color: e.target.value })}
+                              className="w-10 h-10 rounded cursor-pointer border"
+                            />
+                            <Input
+                              value={loyaltyConfig.card_color}
+                              onChange={(e) => setLoyaltyConfig({ ...loyaltyConfig, card_color: e.target.value })}
+                              className="font-mono text-sm"
+                            />
+                          </div>
+                        </div>
+
                         {/* Prize */}
                         <div className="space-y-2">
                           <Label className="flex items-center gap-2">
