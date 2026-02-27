@@ -97,16 +97,17 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
               .eq("establishment_id", establishmentId)
               .maybeSingle();
 
-              if (loyaltyData) {
-                  setLoyaltyConfig({
-                      card_name: loyaltyData.card_name,
-                      stamps_required: loyaltyData.stamps_required,
-                      prize_description: loyaltyData.prize_description,
-                      secret_code: loyaltyData.secret_code,
-                      is_active: loyaltyData.is_active,
-                  });
-                  setLoyaltyConfigExists(true);
-              }
+          if (loyaltyData) {
+              setLoyaltyConfig({
+                  card_name: loyaltyData.card_name,
+                  stamps_required: loyaltyData.stamps_required,
+                  prize_description: loyaltyData.prize_description,
+                  secret_code: loyaltyData.secret_code,
+                  is_active: loyaltyData.is_active,
+                  card_color: loyaltyData.card_color || "#e3d6c0",
+              });
+              setLoyaltyConfigExists(true);
+          }
 
               // Charger porteurs de carte
               const { data: cardsData } = await supabase
