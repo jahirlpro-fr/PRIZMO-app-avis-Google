@@ -12,6 +12,7 @@ interface LoyaltyConfig {
     stamps_required: number;
     prize_description: string;
     is_active: boolean;
+    card_color: string;
 }
 
 interface Establishment {
