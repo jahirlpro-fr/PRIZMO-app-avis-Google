@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Gift, PartyPopper, Frown } from "lucide-react";
+import { Gift, PartyPopper, Frown, CreditCard } from "lucide-react";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 import confetti from "canvas-confetti";
 
 interface PrizeResultProps {
@@ -12,6 +13,8 @@ interface PrizeResultProps {
     hasInstagramWheel: boolean;
     onContinueToInstagram?: () => void;
     onFinish?: () => void;
+    establishmentSlug?: string;
+    loyaltyActive?: boolean;
 }
 
 export function PrizeResult({
