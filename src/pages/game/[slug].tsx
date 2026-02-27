@@ -24,6 +24,7 @@ export default function GamePage() {
     const [participant, setParticipant] = useState < Partial < Participant >> ({});
     const [prize1, setPrize1] = useState < string > ("");
     const [isWinner1, setIsWinner1] = useState(false);
+    const [loyaltyActive, setLoyaltyActive] = useState(false);
 
     useEffect(() => {
         if (!router.isReady || !router.query.slug) return;
