@@ -294,7 +294,7 @@ export default function LoyaltyPage() {
             <div style={{
                 width: "300px",
                 minHeight: "190px",
-                backgroundColor: bgColor,
+                backgroundColor: cardColor,
                 borderRadius: "16px",
                 boxShadow: "0 12px 32px rgba(0,0,0,0.18)",
                 display: "flex",
