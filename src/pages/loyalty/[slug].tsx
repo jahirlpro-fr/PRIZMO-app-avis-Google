@@ -244,6 +244,7 @@ export default function LoyaltyPage() {
     }
 
     const bgColor = (establishment as any).secondary_color || establishment.secondaryColor || "#f3f0ff";
+    const cardColor = config?.card_color || bgColor;
     const primaryColor = (establishment as any).primary_color || establishment.primaryColor || "#8b5cf6";
     const logoUrl = (establishment as any).logo_url || establishment.logoUrl;
     const logoSecondaryUrl = (establishment as any).logo_secondary_url || establishment.logoSecondaryUrl;
