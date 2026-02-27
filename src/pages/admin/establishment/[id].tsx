@@ -28,8 +28,10 @@ export default function EditEstablishmentPage() {
   
 const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
   const [posterTextColor, setPosterTextColor] = useState("#000000");
-  const [posterType, setPosterType] = useState<"wheel" | "loyalty">("wheel");
-  const loyaltyPosterRef = useRef<HTMLDivElement>(null);
+    const [posterType, setPosterType] = useState < "wheel" | "loyalty" > ("wheel");
+    const posterRef = useRef < HTMLDivElement > (null);
+    const loyaltyPosterRef = useRef < HTMLDivElement > (null);
+  
 
   const [establishment, setEstablishment] = useState<Establishment | null>(null);
   const [segments, setSegments] = useState<WheelSegment[]>([]);
