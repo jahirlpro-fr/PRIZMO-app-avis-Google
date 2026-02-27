@@ -39,6 +39,14 @@ export default function GamePage() {
                 setEstablishment(found);
                 const establishmentSegments = await storageService.getSegments(found.id);
                 setSegments(establishmentSegments);
+
+                // Vérifie si carte fidélité active
+                const { data: loyaltyData } = await supabase
+                    .from("loyalty_config")
+                    .select("is_active")
+                    .eq("establishment_id", found.id)
+                    .maybeSingle();
+                if (loyaltyData?.is_active) setLoyaltyActive(true);
                 setStep("email");
             } else {
                 setStep("error");
