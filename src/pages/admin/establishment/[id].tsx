@@ -58,6 +58,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
         prize_description: "",
         secret_code: "",
         is_active: true,
+        card_color: "#e3d6c0",
     });
     const [loyaltyCards, setLoyaltyCards] = useState < any[] > ([]);
     const [loyaltySaving, setLoyaltySaving] = useState(false);
