@@ -51,12 +51,16 @@ export function PrizeResult({
     }, [isWinner]);
 
     const handleFinish = () => {
-        // Ferme l'onglet si possible, sinon redirige vers l'accueil
         window.close();
-        // Fallback si window.close() ne fonctionne pas (page ouverte via navigation directe)
         setTimeout(() => {
             if (onFinish) onFinish();
         }, 300);
+    };
+
+    const handleLoyaltyClick = () => {
+        if (establishmentSlug) {
+            router.push(`/loyalty/${establishmentSlug}`);
+        }
     };
 
     return (
