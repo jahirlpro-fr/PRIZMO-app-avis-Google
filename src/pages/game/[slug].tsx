@@ -221,6 +221,8 @@ export default function GamePage() {
                     establishmentName={establishment.name}
                     hasInstagramWheel={false}
                     onFinish={handleFinish}
+                    establishmentSlug={establishment.slug}
+                    loyaltyActive={loyaltyActive}
                 />
             )}
         </>
