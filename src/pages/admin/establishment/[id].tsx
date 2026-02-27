@@ -1440,14 +1440,14 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                   }}>
                                                       <div style={{
                                                           backgroundColor: "white", padding: "12px",
-                                                          borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+                                                          borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                                                       }}>
                                                           <QRCodeSVG
                                                               value={`${window.location.origin}/loyalty/${establishment.slug}`}
-                                                              size={150} level="H" includeMargin={true} fgColor="#8b5cf6" />
+                                                              size={160} level="H" includeMargin={true} fgColor="#000000" />
                                                       </div>
                                                       <p style={{
-                                                          fontSize: "14px", fontWeight: "700", letterSpacing: "3px",
+                                                          fontSize: "15px", fontWeight: "700", letterSpacing: "3px",
                                                           textTransform: "uppercase", color: posterTextColor, opacity: 0.7, marginTop: "12px"
                                                       }}>
                                                           Scannez pour votre carte
