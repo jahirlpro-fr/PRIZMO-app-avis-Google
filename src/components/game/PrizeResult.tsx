@@ -22,7 +22,10 @@ export function PrizeResult({
     isWinner,
     establishmentName,
     onFinish,
+    establishmentSlug,
+    loyaltyActive,
 }: PrizeResultProps) {
+    const router = useRouter();
 
     useEffect(() => {
         if (isWinner) {
