@@ -102,17 +102,31 @@ export default function LoyaltyPage() {
         setSubmitting(true);
         setError("");
         try {
-            // Vérifie si carte existe déjà
-            const { data: existing } = await supabase
+            // Vérifie si email existe déjà
+            const { data: existingByEmail } = await supabase
                 .from("loyalty_cards")
                 .select("*")
                 .eq("establishment_id", establishment.id)
                 .eq("email", formData.email.trim().toLowerCase())
                 .maybeSingle();
 
-            if (existing) {
-                setLoyaltyCard(existing);
-                setStep("card");
+            if (existingByEmail) {
+                setError("Vous avez déjà une carte avec cet email. Utilisez \"J'en ai déjà une !\"");
+                setSubmitting(false);
+                return;
+            }
+
+            // Vérifie si téléphone existe déjà
+            const { data: existingByPhone } = await supabase
+                .from("loyalty_cards")
+                .select("*")
+                .eq("establishment_id", establishment.id)
+                .eq("phone", formData.phone.trim())
+                .maybeSingle();
+
+            if (existingByPhone) {
+                setError("Vous avez déjà une carte avec ce numéro. Utilisez \"J'en ai déjà une !\"");
+                setSubmitting(false);
                 return;
             }
 
