@@ -63,6 +63,14 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
     const [loyaltyCards, setLoyaltyCards] = useState < any[] > ([]);
     const [loyaltySaving, setLoyaltySaving] = useState(false);
     const [loyaltyConfigExists, setLoyaltyConfigExists] = useState(false);
+    const [loyaltySearch, setLoyaltySearch] = useState("");
+    const [loyaltySearchPhone, setLoyaltySearchPhone] = useState("");
+    const [selectedLoyaltyCard, setSelectedLoyaltyCard] = useState < any > (null);
+    const [merchantStampCount, setMerchantStampCount] = useState(1);
+    const [merchantSecretCode, setMerchantSecretCode] = useState("");
+    const [merchantValidating, setMerchantValidating] = useState(false);
+    const [merchantValidateSuccess, setMerchantValidateSuccess] = useState(false);
+    const [merchantError, setMerchantError] = useState("");
 
 
   useEffect(() => {
