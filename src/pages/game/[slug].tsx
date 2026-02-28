@@ -229,6 +229,107 @@ const handleFinish = () => {
                     loyaltyActive={loyaltyActive}
                 />
             )}
+            {step === "loyalty-prompt" && (
+                <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12"
+                    style={{ background: `linear-gradient(160deg, ${establishment.secondaryColor} 0%, #ffffff 60%)` }}>
+
+                    {/* Cards fan avec animation */}
+                    <div style={{
+                        position: "relative", width: "300px", height: "240px",
+                        marginBottom: "36px",
+                        animation: "fadeSlideUp 0.7s ease forwards",
+                    }}>
+                        {/* Verso derrière */}
+                        <div style={{
+                            width: "280px", height: "175px",
+                            backgroundColor: establishment.secondaryColor,
+                            borderRadius: "16px",
+                            boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+                            position: "absolute", zIndex: 1,
+                            transform: "rotate(8deg) translateX(20px) translateY(10px)",
+                            display: "flex", flexWrap: "wrap",
+                            alignItems: "center", justifyContent: "center",
+                            padding: "12px", gap: "6px",
+                        }}>
+                            {Array.from({ length: 6 }).map((_, i) => (
+                                <div key={i} style={{
+                                    width: "30px", height: "30px", borderRadius: "50%",
+                                    border: "2px solid rgba(80,80,80,0.3)",
+                                }} />
+                            ))}
+                            <div style={{
+                                width: "30px", height: "30px", borderRadius: "50%",
+                                backgroundColor: "#FFD700", border: "2px solid #FFA500",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                            }}>
+                                <span style={{ fontSize: "14px" }}>🎁</span>
+                            </div>
+                        </div>
+                        {/* Recto devant */}
+                        <div style={{
+                            width: "280px", height: "175px",
+                            backgroundColor: establishment.secondaryColor,
+                            borderRadius: "16px",
+                            boxShadow: "0 12px 32px rgba(0,0,0,0.2)",
+                            position: "absolute", zIndex: 2,
+                            transform: "rotate(-3deg) translateX(-10px)",
+                            display: "flex", flexDirection: "column",
+                            alignItems: "center", justifyContent: "center", padding: "16px",
+                        }}>
+                            {establishment.logoUrl ? (
+                                <img src={establishment.logoUrl} alt="Logo"
+                                    style={{
+                                        maxHeight: "70px", maxWidth: "180px", objectFit: "contain",
+                                        filter: "brightness(0)"
+                                    }} />
+                            ) : null}
+                            {establishment.logoSecondaryUrl && (
+                                <img src={establishment.logoSecondaryUrl} alt="Logo 2"
+                                    style={{
+                                        maxHeight: "30px", maxWidth: "130px", objectFit: "contain",
+                                        marginTop: "6px", filter: "brightness(0)"
+                                    }} />
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Texte */}
+                    <div className="text-center mb-8" style={{ animation: "fadeSlideUp 0.9s ease forwards" }}>
+                        <h2 className="text-2xl font-black mb-2" style={{ color: "#1a1a2e" }}>
+                            🎁 Revenez et soyez récompensé !
+                        </h2>
+                        <p className="text-gray-500 text-sm">
+                            Cumulez vos visites chez <strong>{establishment.name}</strong> et débloquez votre récompense.
+                        </p>
+                    </div>
+
+                    {/* Boutons */}
+                    <div className="flex flex-col gap-3 w-full max-w-sm" style={{ animation: "fadeSlideUp 1.1s ease forwards" }}>
+                        <button
+                            onClick={() => router.push(`/loyalty/${establishment.slug}`)}
+                            className="w-full text-white font-bold py-5 text-base rounded-2xl shadow-lg"
+                            style={{ background: "linear-gradient(135deg, #8b5cf6, #d946ef)" }}
+                        >
+                            💳 Je veux ma carte de fidélité !
+                        </button>
+                        <button
+                            onClick={() => { window.close(); setTimeout(() => router.push("/"), 300); }}
+                            className="w-full text-gray-400 text-sm py-3 rounded-2xl hover:text-gray-600 transition-colors"
+                        >
+                            Non merci, terminer →
+                        </button>
+                    </div>
+
+                    <p className="mt-8 text-xs text-gray-300">Propulsé par Prizmo 🎡</p>
+
+                    <style>{`
+                        @keyframes fadeSlideUp {
+                            from { opacity: 0; transform: translateY(24px); }
+                            to { opacity: 1; transform: translateY(0); }
+                        }
+                    `}</style>
+                </div>
+            )}
         </>
     );
 }
