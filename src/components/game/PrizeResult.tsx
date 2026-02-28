@@ -121,26 +121,7 @@ export function PrizeResult({
                         </>
                     )}
 
-                    {/* Bloc fidélité */}
-                    {loyaltyActive && establishmentSlug && (
-                        <div className="border-2 border-purple-200 bg-purple-50 rounded-xl p-4 text-center space-y-3">
-                            <div className="flex items-center justify-center gap-2">
-                                <CreditCard className="w-5 h-5 text-purple-600" />
-                                <p className="font-bold text-purple-900">Carte de fidélité digitale</p>
-                            </div>
-                            <p className="text-sm text-purple-700">
-                                Chaque repas compte ! Inscrivez-vous maintenant et commencez à cumuler dès aujourd'hui.
-                            </p>
-                            <Button
-                                onClick={handleLoyaltyClick}
-                                className="w-full text-white font-semibold py-5"
-                                style={{ background: "linear-gradient(135deg, #8b5cf6, #d946ef)" }}
-                            >
-                                <CreditCard className="w-4 h-4 mr-2" />
-                                Je veux ma carte de fidélité !
-                            </Button>
-                        </div>
-                    )}
+
 
                     <p className="text-xs text-center text-muted-foreground">
                         Merci de votre visite ! À bientôt chez {establishmentName} 💜
