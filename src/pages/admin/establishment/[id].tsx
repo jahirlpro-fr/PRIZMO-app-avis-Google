@@ -906,7 +906,29 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                         {loyaltyCards.length} client{loyaltyCards.length > 1 ? "s" : ""} avec une carte fidélité active
                       </CardDescription>
                     </CardHeader>
-                    <CardContent>
+<CardContent>
+                      {/* Barre de recherche */}
+                      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+                        <div className="flex-1 relative">
+                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            placeholder="Rechercher par email..."
+                            value={loyaltySearch}
+                            onChange={(e) => setLoyaltySearch(e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
+                        <div className="flex-1 relative">
+                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            placeholder="Rechercher par téléphone..."
+                            value={loyaltySearchPhone}
+                            onChange={(e) => setLoyaltySearchPhone(e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
+                      </div>
+
                       {loyaltyCards.length > 0 ? (
                         <div className="overflow-x-auto rounded-lg border">
                           <table className="w-full">
