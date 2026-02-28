@@ -295,6 +295,51 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
         }
     };
 
+    const handleMerchantValidateStamp = async () => {
+        if (!loyaltyConfig || !selectedLoyaltyCard) return;
+        if (merchantSecretCode !== loyaltyConfig.secret_code) {
+            setMerchantError("Code incorrect !");
+            return;
+        }
+        setMerchantValidating(true);
+        setMerchantError("");
+        try {
+            const newStampCount = selectedLoyaltyCard.stamp_count + merchantStampCount;
+            if (newStampCount >= loyaltyConfig.stamps_required) {
+                await supabase
+                    .from("loyalty_cards")
+                    .update({
+                        stamp_count: 0,
+                        reset_count: selectedLoyaltyCard.reset_count + 1,
+                        last_stamp_at: new Date().toISOString(),
+                    })
+                    .eq("id", selectedLoyaltyCard.id);
+                const updated = { ...selectedLoyaltyCard, stamp_count: 0, reset_count: selectedLoyaltyCard.reset_count + 1 };
+                setSelectedLoyaltyCard(updated);
+                setLoyaltyCards(loyaltyCards.map(c => c.id === updated.id ? updated : c));
+            } else {
+                await supabase
+                    .from("loyalty_cards")
+                    .update({
+                        stamp_count: newStampCount,
+                        last_stamp_at: new Date().toISOString(),
+                    })
+                    .eq("id", selectedLoyaltyCard.id);
+                const updated = { ...selectedLoyaltyCard, stamp_count: newStampCount };
+                setSelectedLoyaltyCard(updated);
+                setLoyaltyCards(loyaltyCards.map(c => c.id === updated.id ? updated : c));
+            }
+            setMerchantValidateSuccess(true);
+            setMerchantSecretCode("");
+            setMerchantStampCount(1);
+            setTimeout(() => setMerchantValidateSuccess(false), 2500);
+        } catch (err: any) {
+            setMerchantError(err.message || "Erreur");
+        } finally {
+            setMerchantValidating(false);
+        }
+    };
+
     const handleDeleteEstablishment = async () => {
         if (!establishment || !confirm("Êtes-vous sûr de vouloir supprimer cet établissement ? Cette action est irréversible.")) return;
 
