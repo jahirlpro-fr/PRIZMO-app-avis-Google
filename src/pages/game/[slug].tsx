@@ -45,7 +45,7 @@ export default function GamePage() {
                 // Vérifie si carte fidélité active
                 const { data: loyaltyData } = await supabase
                     .from("loyalty_config")
-                    .select("is_active")
+                    .select("is_active, card_color")
                     .eq("establishment_id", found.id)
                     .maybeSingle();
                 console.log("Loyalty data:", loyaltyData);
