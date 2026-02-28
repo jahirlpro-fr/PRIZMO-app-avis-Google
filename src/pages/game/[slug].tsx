@@ -48,7 +48,10 @@ export default function GamePage() {
                     .select("is_active")
                     .eq("establishment_id", found.id)
                     .maybeSingle();
-                if (loyaltyData?.is_active) setLoyaltyActive(true);
+                if (loyaltyData?.is_active) {
+                    setLoyaltyActive(true);
+                    setLoyaltyCardColor(loyaltyData.card_color || "#e3d6c0");
+                }
                 setStep("email");
             } else {
                 setStep("error");
