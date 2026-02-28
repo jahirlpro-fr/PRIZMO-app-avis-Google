@@ -51,10 +51,7 @@ export function PrizeResult({
     }, [isWinner]);
 
     const handleFinish = () => {
-        window.close();
-        setTimeout(() => {
-            if (onFinish) onFinish();
-        }, 300);
+        if (onFinish) onFinish();
     };
 
     const handleLoyaltyClick = () => {
