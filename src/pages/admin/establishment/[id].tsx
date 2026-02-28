@@ -1135,50 +1135,6 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                   </div>
                                               );
                                           })()}
-                          <table className="w-full">
-                            <thead className="bg-muted">
-                              <tr>
-                                <th className="text-left p-3 font-semibold text-sm">Email</th>
-                                <th className="text-left p-3 font-semibold text-sm">Téléphone</th>
-                                <th className="text-left p-3 font-semibold text-sm">Stamps</th>
-                                <th className="text-left p-3 font-semibold text-sm">Prizes obtenus</th>
-                                <th className="text-left p-3 font-semibold text-sm">Dernière visite</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {loyaltyCards.map((card, index) => (
-                                <tr key={card.id} className={`border-b hover:bg-muted/50 ${index % 2 === 0 ? "bg-white" : "bg-muted/20"}`}>
-                                  <td className="p-3 font-medium text-sm">{card.email}</td>
-                                  <td className="p-3 text-sm">{card.phone}</td>
-                                  <td className="p-3">
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800">
-                                      {card.stamp_count} / {loyaltyConfig.stamps_required}
-                                    </span>
-                                  </td>
-                                  <td className="p-3">
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">
-                                      🎁 {card.reset_count}x
-                                    </span>
-                                  </td>
-                                  <td className="p-3 text-sm text-gray-500">
-                                    {card.last_stamp_at
-                                      ? new Date(card.last_stamp_at).toLocaleDateString("fr-FR")
-                                      : "—"}
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      ) : (
-                        <div className="text-center py-12">
-                          <CreditCard className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-                          <p className="text-muted-foreground">Aucun porteur de carte pour le moment</p>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            Les clients qui créeront leur carte apparaîtront ici
-                          </p>
-                        </div>
-                      )}
                     </CardContent>
                   </Card>
                 </div>
