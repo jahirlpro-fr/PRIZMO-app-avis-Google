@@ -272,7 +272,7 @@ const handleFinish = () => {
                         {/* Recto devant */}
                         <div style={{
                             width: "280px", height: "175px",
-                            backgroundColor: establishment.secondaryColor,
+                            backgroundColor: loyaltyCardColor,
                             borderRadius: "16px",
                             boxShadow: "0 12px 32px rgba(0,0,0,0.2)",
                             position: "absolute", zIndex: 2,
