@@ -982,8 +982,159 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                         </div>
                       </div>
 
-                      {loyaltyCards.length > 0 ? (
-                        <div className="overflow-x-auto rounded-lg border">
+                                          {(() => {
+                                              const filtered = loyaltyCards.filter(card => {
+                                                  const matchEmail = loyaltySearch === "" || card.email.toLowerCase().includes(loyaltySearch.toLowerCase());
+                                                  const matchPhone = loyaltySearchPhone === "" || card.phone.includes(loyaltySearchPhone);
+                                                  return matchEmail && matchPhone;
+                                              });
+
+                                              return filtered.length > 0 ? (
+                                                  <>
+                                                      <div className="overflow-x-auto rounded-lg border">
+                                                          <table className="w-full">
+                                                              <thead className="bg-muted">
+                                                                  <tr>
+                                                                      <th className="text-left p-3 font-semibold text-sm">Email</th>
+                                                                      <th className="text-left p-3 font-semibold text-sm">Téléphone</th>
+                                                                      <th className="text-left p-3 font-semibold text-sm">Stamps</th>
+                                                                      <th className="text-left p-3 font-semibold text-sm">Prizes obtenus</th>
+                                                                      <th className="text-left p-3 font-semibold text-sm">Dernière visite</th>
+                                                                  </tr>
+                                                              </thead>
+                                                              <tbody>
+                                                                  {filtered.map((card, index) => (
+                                                                      <tr
+                                                                          key={card.id}
+                                                                          className={`border-b hover:bg-purple-50 cursor-pointer transition-colors ${selectedLoyaltyCard?.id === card.id ? "bg-purple-50 border-l-4 border-l-purple-400" : index % 2 === 0 ? "bg-white" : "bg-muted/20"}`}
+                                                                          onClick={() => {
+                                                                              setSelectedLoyaltyCard(selectedLoyaltyCard?.id === card.id ? null : card);
+                                                                              setMerchantError("");
+                                                                              setMerchantSecretCode("");
+                                                                              setMerchantStampCount(1);
+                                                                              setMerchantValidateSuccess(false);
+                                                                          }}
+                                                                      >
+                                                                          <td className="p-3 font-medium text-sm">{card.email}</td>
+                                                                          <td className="p-3 text-sm">{card.phone}</td>
+                                                                          <td className="p-3">
+                                                                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800">
+                                                                                  {card.stamp_count} / {loyaltyConfig.stamps_required}
+                                                                              </span>
+                                                                          </td>
+                                                                          <td className="p-3">
+                                                                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">
+                                                                                  🎁 {card.reset_count}x
+                                                                              </span>
+                                                                          </td>
+                                                                          <td className="p-3 text-sm text-gray-500">
+                                                                              {card.last_stamp_at ? new Date(card.last_stamp_at).toLocaleDateString("fr-FR") : "—"}
+                                                                          </td>
+                                                                      </tr>
+                                                                  ))}
+                                                              </tbody>
+                                                          </table>
+                                                      </div>
+
+                                                      {/* Panneau client sélectionné */}
+                                                      {selectedLoyaltyCard && (
+                                                          <div className="mt-4 border-2 border-purple-200 rounded-xl p-5 bg-purple-50 space-y-4">
+                                                              <div className="flex items-center justify-between">
+                                                                  <p className="font-bold text-purple-900">
+                                                                      {selectedLoyaltyCard.email}
+                                                                  </p>
+                                                                  <button onClick={() => setSelectedLoyaltyCard(null)} className="text-gray-400 hover:text-gray-600 text-sm">✕ Fermer</button>
+                                                              </div>
+
+                                                              {/* Carte verso */}
+                                                              <div className="flex justify-center">
+                                                                  <div style={{
+                                                                      width: "320px", minHeight: "200px",
+                                                                      backgroundColor: loyaltyConfig.card_color,
+                                                                      borderRadius: "16px",
+                                                                      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+                                                                      display: "flex", flexDirection: "column",
+                                                                      alignItems: "center", justifyContent: "center", padding: "16px",
+                                                                  }}>
+                                                                      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "7px", maxWidth: "280px" }}>
+                                                                          {Array.from({ length: loyaltyConfig.stamps_required }).map((_, i) => (
+                                                                              <div key={i} style={{
+                                                                                  width: "36px", height: "36px", borderRadius: "50%",
+                                                                                  border: "2px solid rgba(80,80,80,0.4)",
+                                                                                  backgroundColor: i < selectedLoyaltyCard.stamp_count ? "rgba(139,92,246,0.15)" : "transparent",
+                                                                                  display: "flex", alignItems: "center", justifyContent: "center",
+                                                                              }}>
+                                                                                  {i < selectedLoyaltyCard.stamp_count && (
+                                                                                      <Check className="w-4 h-4" style={{ color: "#8b5cf6" }} />
+                                                                                  )}
+                                                                              </div>
+                                                                          ))}
+                                                                          <div style={{
+                                                                              width: "36px", height: "36px", borderRadius: "50%",
+                                                                              backgroundColor: "#FFD700", border: "2px solid #FFA500",
+                                                                              display: "flex", alignItems: "center", justifyContent: "center",
+                                                                          }}>
+                                                                              <Gift className="w-4 h-4 text-white" />
+                                                                          </div>
+                                                                      </div>
+                                                                      {loyaltyConfig.prize_description && (
+                                                                          <p style={{ marginTop: "10px", fontSize: "11px", color: "rgba(0,0,0,0.5)", fontWeight: "600", textAlign: "center" }}>
+                                                                              {loyaltyConfig.stamps_required} plats achetés = 🎁 {loyaltyConfig.prize_description}
+                                                                          </p>
+                                                                      )}
+                                                                  </div>
+                                                              </div>
+
+                                                              {/* Validation */}
+                                                              {merchantValidateSuccess ? (
+                                                                  <div className="flex items-center justify-center gap-2 py-3 bg-green-100 rounded-xl">
+                                                                      <Check className="w-5 h-5 text-green-600" />
+                                                                      <p className="text-green-700 font-bold">Validé avec succès !</p>
+                                                                  </div>
+                                                              ) : (
+                                                                  <div className="space-y-3">
+                                                                      <div className="flex items-center gap-4 justify-center">
+                                                                          <button
+                                                                              onClick={() => setMerchantStampCount(Math.max(1, merchantStampCount - 1))}
+                                                                              className="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center text-lg font-bold hover:border-purple-400"
+                                                                          >−</button>
+                                                                          <span className="text-xl font-black w-8 text-center">{merchantStampCount}</span>
+                                                                          <button
+                                                                              onClick={() => setMerchantStampCount(Math.min(loyaltyConfig.stamps_required, merchantStampCount + 1))}
+                                                                              className="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center text-lg font-bold hover:border-purple-400"
+                                                                          >+</button>
+                                                                          <span className="text-sm text-gray-500">plat{merchantStampCount > 1 ? "s" : ""}</span>
+                                                                      </div>
+                                                                      <Input
+                                                                          type="password"
+                                                                          placeholder="Code secret"
+                                                                          value={merchantSecretCode}
+                                                                          onChange={(e) => setMerchantSecretCode(e.target.value)}
+                                                                          className="text-center tracking-widest"
+                                                                          maxLength={10}
+                                                                      />
+                                                                      {merchantError && <p className="text-sm text-red-500 text-center">{merchantError}</p>}
+                                                                      <Button
+                                                                          onClick={handleMerchantValidateStamp}
+                                                                          disabled={merchantValidating || !merchantSecretCode}
+                                                                          className="w-full prizmo-gradient text-white"
+                                                                      >
+                                                                          {merchantValidating ? "Validation..." : `✅ Valider ${merchantStampCount} plat${merchantStampCount > 1 ? "s" : ""}`}
+                                                                      </Button>
+                                                                  </div>
+                                                              )}
+                                                          </div>
+                                                      )}
+                                                  </>
+                                              ) : (
+                                                  <div className="text-center py-12">
+                                                      <CreditCard className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                                                      <p className="text-muted-foreground">
+                                                          {loyaltySearch || loyaltySearchPhone ? "Aucun résultat trouvé" : "Aucun porteur de carte pour le moment"}
+                                                      </p>
+                                                  </div>
+                                              );
+                                          })()}
                           <table className="w-full">
                             <thead className="bg-muted">
                               <tr>
