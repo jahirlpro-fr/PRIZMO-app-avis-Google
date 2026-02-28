@@ -114,8 +114,12 @@ export default function GamePage() {
         setTimeout(() => setStep("result1"), 200);
     };
 
-    const handleFinish = () => {
-        router.push("/");
+const handleFinish = () => {
+        if (loyaltyActive) {
+            setStep("loyalty-prompt");
+        } else {
+            router.push("/");
+        }
     };
 
     // Etats de chargement et erreurs
