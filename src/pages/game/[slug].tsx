@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, AlertCircle } from "lucide-react";
 
-type GameStep = "loading" | "email" | "review" | "instagram" | "wheel1" | "result1" | "already-played" | "error";
+type GameStep = "loading" | "email" | "review" | "instagram" | "wheel1" | "result1" | "loyalty-prompt" | "already-played" | "error";
 
 export default function GamePage() {
     const router = useRouter();
