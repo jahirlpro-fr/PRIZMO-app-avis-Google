@@ -26,6 +26,7 @@ export default function GamePage() {
     const [prize1, setPrize1] = useState < string > ("");
     const [isWinner1, setIsWinner1] = useState(false);
     const [loyaltyActive, setLoyaltyActive] = useState(false);
+    const [loyaltyCardColor, setLoyaltyCardColor] = useState("#e3d6c0");
 
     useEffect(() => {
         if (!router.isReady || !router.query.slug) return;
