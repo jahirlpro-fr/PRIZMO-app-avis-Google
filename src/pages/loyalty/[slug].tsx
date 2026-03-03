@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Gift, CreditCard, ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { Gift, CreditCard, ArrowRight, ArrowLeft, Check, PartyPopper } from "lucide-react";
+import confetti from "canvas-confetti";
 import { supabase } from "@/integrations/supabase/client";
 
 interface LoyaltyConfig {
