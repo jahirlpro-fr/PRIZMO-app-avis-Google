@@ -48,7 +48,8 @@ export default function LoyaltyPage() {
     const [error, setError] = useState("");
     const [secretCode, setSecretCode] = useState("");
     const [stampCount, setStampCount] = useState(1);
-    const [validateSuccess, setValidateSuccess] = useState(false);
+  const [validateSuccess, setValidateSuccess] = useState(false);
+  const [prizeWon, setPrizeWon] = useState(false);
 
     const [formData, setFormData] = useState({
         email: "",
