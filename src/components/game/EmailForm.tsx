@@ -111,7 +111,11 @@ export function EmailForm({ onSubmit, establishmentName, logoUrl, primaryColor =
                                 type="tel"
                                 placeholder="+33 6 12 34 56 78"
                                 value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
+                                onChange={(e) => {
+                                    const val = e.target.value;
+                                    const digits = val.replace(/[\s+()-]/g, "");
+                                    if (digits.length <= 15) setPhone(val);
+                                }}
                                 className={errors.phone ? "border-red-500" : "border-black"}
                             />
                             {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
