@@ -57,10 +57,11 @@ export default function LoyaltyPage() {
 
     useEffect(() => {
         if (!router.isReady || !slug) return;
-        fetchData();
-        if (router.query.step === "register") {
-            setStep("register");
-        }
+        fetchData().then(() => {
+            if (router.query.step === "register") {
+                setStep("register");
+            }
+        });
     }, [router.isReady, slug]);
 
     const fetchData = async () => {
