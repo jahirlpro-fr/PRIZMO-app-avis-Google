@@ -39,7 +39,11 @@ export default function LoyaltyPage() {
     const router = useRouter();
     const { slug } = router.query;
 
-    const [step, setStep] = useState < PageStep > ("hero");
+    const searchParams = typeof window !== "undefined"
+    ? new URLSearchParams(window.location.search)
+    : null;
+const initialStep = (searchParams?.get("step") as PageStep) || "hero";
+const [step, setStep] = useState<PageStep>(initialStep);
     const [establishment, setEstablishment] = useState < Establishment | null > (null);
     const [config, setConfig] = useState < LoyaltyConfig | null > (null);
     const [loyaltyCard, setLoyaltyCard] = useState < LoyaltyCard | null > (null);
