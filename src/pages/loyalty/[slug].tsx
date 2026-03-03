@@ -34,7 +34,7 @@ interface LoyaltyCard {
     phone: string;
 }
 
-type PageStep = "hero" | "register" | "login" | "card" | "validate";
+type PageStep = "hero" | "register" | "login" | "card" | "validate" | "prize-won";
 
 export default function LoyaltyPage() {
     const router = useRouter();
