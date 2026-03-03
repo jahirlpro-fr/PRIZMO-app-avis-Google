@@ -895,36 +895,28 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                           gap: "8px",
                                                           maxWidth: "300px",
                                                       }}>
-                                                          {Array.from({ length: loyaltyConfig.stamps_required || 10 }).map((_, i) => (
-                                                              <div
-                                                                  key={i}
-                                                                  style={{
-                                                                      width: "38px",
-                                                                      height: "38px",
-                                                                      borderRadius: "50%",
-                                                                      border: "2px solid rgba(80,80,80,0.5)",
-                                                                      backgroundColor: "transparent",
-                                                                      flexShrink: 0,
-                                                                      ...(i > 0 && i % 6 === 0 ? { marginLeft: "0" } : {}),
-                                                                  }}
-                                                              />
-                                                          ))}
-                                                          {/* Emplacement Prize doré */}
-                                                          <div
-                                                              style={{
-                                                                  width: "38px",
-                                                                  height: "38px",
-                                                                  borderRadius: "50%",
-                                                                  backgroundColor: "#FFD700",
-                                                                  border: "2px solid #FFA500",
-                                                                  display: "flex",
-                                                                  alignItems: "center",
-                                                                  justifyContent: "center",
-                                                                  flexShrink: 0,
-                                                              }}
-                                                          >
-                                                              <Gift className="w-4 h-4 text-white" />
-                                                          </div>
+                              {Array.from({ length: loyaltyConfig.stamps_required || 10 }).map((_, i) => {
+                                const isPrize = i === (loyaltyConfig.stamps_required || 10) - 1;
+                                if (isPrize) {
+                                  return (
+                                    <div key={i} style={{
+                                      width: "38px", height: "38px", borderRadius: "50%",
+                                      backgroundColor: "#FFD70044", border: "2px solid #FFA500",
+                                      display: "flex", alignItems: "center",
+                                      justifyContent: "center", flexShrink: 0,
+                                    }}>
+                                      <Gift className="w-4 h-4 text-white" />
+                                    </div>
+                                  );
+                                }
+                                return (
+                                  <div key={i} style={{
+                                    width: "38px", height: "38px", borderRadius: "50%",
+                                    border: "2px solid rgba(80,80,80,0.5)",
+                                    backgroundColor: "transparent", flexShrink: 0,
+                                  }} />
+                                );
+                              })}
                                                       </div>
 
                                                       {/* Prize description en bas */}
