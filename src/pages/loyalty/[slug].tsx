@@ -321,26 +321,35 @@ export default function LoyaltyPage() {
                 zIndex,
             }}>
                 <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "7px", maxWidth: "270px" }}>
-                    {Array.from({ length: stampsRequired }).map((_, i) => (
-                        <div key={i} style={{
-                            width: "36px", height: "36px", borderRadius: "50%",
-                            border: "2px solid rgba(80,80,80,0.4)",
-                            backgroundColor: i < currentStamps ? "rgba(139,92,246,0.15)" : "transparent",
-                            display: "flex", alignItems: "center", justifyContent: "center",
-                            flexShrink: 0,
-                        }}>
-                            {i < currentStamps && (
-                                <Check className="w-4 h-4" style={{ color: "#8b5cf6" }} />
-                            )}
-                        </div>
-                    ))}
-                    <div style={{
-                        width: "36px", height: "36px", borderRadius: "50%",
-                        backgroundColor: "#FFD700", border: "2px solid #FFA500",
-                        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-                    }}>
-                        <Gift className="w-4 h-4 text-white" />
-                    </div>
+                    {Array.from({ length: stampsRequired }).map((_, i) => {
+                        const isPrize = i === stampsRequired - 1;
+                        const isValidated = i < currentStamps;
+                        if (isPrize) {
+                            return (
+                                <div key={i} style={{
+                                    width: "36px", height: "36px", borderRadius: "50%",
+                                    backgroundColor: isValidated ? "#FFD700" : "#FFD70044",
+                                    border: "2px solid #FFA500",
+                                    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                                }}>
+                                    <Gift className="w-4 h-4 text-white" />
+                                </div>
+                            );
+                        }
+                        return (
+                            <div key={i} style={{
+                                width: "36px", height: "36px", borderRadius: "50%",
+                                border: "2px solid rgba(80,80,80,0.4)",
+                                backgroundColor: isValidated ? "rgba(139,92,246,0.15)" : "transparent",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                                flexShrink: 0,
+                            }}>
+                                {isValidated && (
+                                    <Check className="w-4 h-4" style={{ color: "#8b5cf6" }} />
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
                 {config.prize_description && (
                     <p style={{ marginTop: "10px", fontSize: "10px", color: "rgba(0,0,0,0.5)", fontWeight: "600", textAlign: "center" }}>
