@@ -624,7 +624,66 @@ export default function LoyaltyPage() {
                             </>
                         )}
                     </div>
-                )}
+          )}
+          {/* ── PRIZE WON 🎉 ── */}
+          {step === "prize-won" && (
+            <div className="flex flex-col items-center justify-center min-h-screen px-6 py-12 text-center"
+              style={{ background: `linear-gradient(160deg, #fef3c7 0%, #ffffff 60%)` }}>
+
+              {/* Confettis au montage */}
+              {(() => {
+                if (typeof window !== "undefined" && prizeWon) {
+                  const duration = 4000;
+                  const animationEnd = Date.now() + duration;
+                  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+                  const interval = setInterval(() => {
+                    const timeLeft = animationEnd - Date.now();
+                    if (timeLeft <= 0) { clearInterval(interval); return; }
+                    const particleCount = 50 * (timeLeft / duration);
+                    confetti({ ...defaults, particleCount, origin: { x: Math.random() * 0.3 + 0.1, y: Math.random() - 0.2 } });
+                    confetti({ ...defaults, particleCount, origin: { x: Math.random() * 0.3 + 0.7, y: Math.random() - 0.2 } });
+                  }, 250);
+                }
+                return null;
+              })()}
+
+              {/* Icône */}
+              <div className="w-28 h-28 rounded-full flex items-center justify-center mb-6 shadow-2xl"
+                style={{ background: "linear-gradient(135deg, #f59e0b, #ef4444)" }}>
+                <PartyPopper className="w-14 h-14 text-white" />
+              </div>
+
+              {/* Titre */}
+              <h1 className="text-4xl font-black mb-3" style={{ color: "#1a1a2e" }}>
+                🎉 Félicitations !
+              </h1>
+              <p className="text-xl font-bold mb-2" style={{ color: primaryColor }}>
+                Vous avez gagné votre récompense !
+              </p>
+              <p className="text-gray-500 text-base mb-8">
+                Chez <strong>{establishment.name}</strong>
+              </p>
+
+              {/* Cadeau */}
+              <div className="w-full max-w-sm rounded-2xl p-6 mb-8 shadow-lg"
+                style={{ background: "linear-gradient(135deg, #fef3c7, #fde68a)", border: "2px solid #f59e0b" }}>
+                <Gift className="w-10 h-10 mx-auto mb-3 text-orange-500" />
+                <p className="text-2xl font-black text-gray-900">{config.prize_description}</p>
+                <p className="text-sm text-gray-500 mt-2">Montrez cet écran à votre serveur 📱</p>
+              </div>
+
+              {/* Bouton retour */}
+              <Button
+                onClick={() => { setPrizeWon(false); setStep("card"); }}
+                className="w-full max-w-sm text-white font-bold py-6 text-base rounded-2xl shadow-lg"
+                style={{ background: `linear-gradient(135deg, #8b5cf6, #d946ef)` }}
+              >
+                Retour à ma carte 💳
+              </Button>
+
+              <p className="mt-6 text-xs text-gray-300 font-medium">Propulsé par Prizmo 🎡</p>
+            </div>
+          )}
             </div>
         </>
     );
