@@ -216,6 +216,7 @@ export default function LoyaltyPage() {
             });
             setValidateSuccess(false);
             setPrizeWon(true);
+            setStep("prize-won");
             return;
           } else {
                 await supabase
