@@ -1028,8 +1028,39 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
             <tr key={`panel-${card.id}`}>
                 <td colSpan={5} className="p-0">
                     <div className="border-2 border-purple-200 rounded-xl p-5 bg-purple-50 space-y-4 mx-2 my-2">
-                        {/* COLLE ICI TOUT LE CONTENU DU PANNEAU EXISTANT */}
-                    </div>
+                        <div className="flex items-center justify-between">
+                            <p className="font-bold text-purple-900">{selectedLoyaltyCard.email}</p>
+                            <button onClick={() => setSelectedLoyaltyCard(null)} className="text-gray-400 hover:text-gray-600 text-sm">✕ Fermer</button>
+                        </div>
+                        <div className="flex justify-center">
+                            <div style={{ width: "320px", minHeight: "200px", backgroundColor: loyaltyConfig.card_color, borderRadius: "16px", boxShadow: "0 8px 24px rgba(0,0,0,0.15)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "16px" }}>
+                                <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "7px", maxWidth: "280px" }}>
+                                    {Array.from({ length: loyaltyConfig.stamps_required }).map((_, i) => {
+                                        const isPrize = i === loyaltyConfig.stamps_required - 1;
+                                        const isValidated = i < selectedLoyaltyCard.stamp_count;
+                                        if (isPrize) {
+                                            return (
+                                                <div key={i} style={{ width: "36px", height: "36px", borderRadius: "50%", backgroundColor: isValidated ? "#FFD700" : "#FFD70044", border: "2px solid #FFA500", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                                    <Gift className="w-4 h-4 text-white" />
+                                                </div>
+                                            );
+                                        }
+                                        return (
+                                            <div key={i} style={{ width: "36px", height: "36px", borderRadius: "50%", border: "2px solid rgba(80,80,80,0.4)", backgroundColor: isValidated ? "rgba(139,92,246,0.15)" : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                                {isValidated && <Check className="w-4 h-4" style={{ color: "#8b5cf6" }} />}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                {loyaltyConfig.prize_description && (
+                                    <p style={{ marginTop: "10px", fontSize: "11px", color: "rgba(0,0,0,0.5)", fontWeight: "600", textAlign: "center" }}>
+                                        {loyaltyConfig.stamps_required} plats achetés = 🎁 {loyaltyConfig.prize_description}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                        {merchantValidateSuccess ? (
+                            <div className="flex items-center just
                 </td>
             </tr>
         )}
