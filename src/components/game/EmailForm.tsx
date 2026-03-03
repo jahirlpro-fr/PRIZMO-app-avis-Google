@@ -27,8 +27,12 @@ export function EmailForm({ onSubmit, establishmentName, logoUrl, primaryColor =
             isValid = false;
         }
 
+        const digitsOnly = phone.replace(/[\s+()-]/g, "");
         if (!phone || !/^[\d\s+()-]{10,}$/.test(phone)) {
             newErrors.phone = "Veuillez entrer un numéro de téléphone valide";
+            isValid = false;
+        } else if (digitsOnly.length > 15) {
+            newErrors.phone = "Veuillez entrer un numéro valide";
             isValid = false;
         }
 
