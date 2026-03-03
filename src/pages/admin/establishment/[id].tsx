@@ -995,35 +995,46 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                                   </tr>
                                                               </thead>
                                                               <tbody>
-                                                                  {filtered.map((card, index) => (
-                                                                      <tr
-                                                                          key={card.id}
-                                                                          className={`border-b hover:bg-purple-50 cursor-pointer transition-colors ${selectedLoyaltyCard?.id === card.id ? "bg-purple-50 border-l-4 border-l-purple-400" : index % 2 === 0 ? "bg-white" : "bg-muted/20"}`}
-                                                                          onClick={() => {
-                                                                              setSelectedLoyaltyCard(selectedLoyaltyCard?.id === card.id ? null : card);
-                                                                              setMerchantError("");
-                                                                              setMerchantSecretCode("");
-                                                                              setMerchantStampCount(1);
-                                                                              setMerchantValidateSuccess(false);
-                                                                          }}
-                                                                      >
-                                                                          <td className="p-3 font-medium text-sm">{card.email}</td>
-                                                                          <td className="p-3 text-sm">{card.phone}</td>
-                                                                          <td className="p-3">
-                                                                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800">
-                                                                                  {card.stamp_count} / {loyaltyConfig.stamps_required}
-                                                                              </span>
-                                                                          </td>
-                                                                          <td className="p-3">
-                                                                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">
-                                                                                  🎁 {card.reset_count}x
-                                                                              </span>
-                                                                          </td>
-                                                                          <td className="p-3 text-sm text-gray-500">
-                                                                              {card.last_stamp_at ? new Date(card.last_stamp_at).toLocaleDateString("fr-FR") : "—"}
-                                                                          </td>
-                                                                      </tr>
-                                                                  ))}
+{filteredLoyaltyCards.map((card, index) => (
+    <>
+        <tr
+            key={card.id}
+            className={`cursor-pointer hover:bg-purple-50 transition-colors ${selectedLoyaltyCard?.id === card.id ? "bg-purple-50 border-l-4 border-l-purple-400" : index % 2 === 0 ? "bg-white" : "bg-muted/20"}`}
+            onClick={() => {
+                setSelectedLoyaltyCard(selectedLoyaltyCard?.id === card.id ? null : card);
+                setMerchantError("");
+                setMerchantSecretCode("");
+                setMerchantStampCount(1);
+                setMerchantValidateSuccess(false);
+            }}
+        >
+            <td className="p-3 font-medium text-sm">{card.email}</td>
+            <td className="p-3 text-sm">{card.phone}</td>
+            <td className="p-3">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800">
+                    {card.stamp_count} / {loyaltyConfig.stamps_required}
+                </span>
+            </td>
+            <td className="p-3">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">
+                    🎁 {card.reset_count}x
+                </span>
+            </td>
+            <td className="p-3 text-sm text-gray-500">
+                {card.last_stamp_at ? new Date(card.last_stamp_at).toLocaleDateString("fr-FR") : "—"}
+            </td>
+        </tr>
+        {selectedLoyaltyCard?.id === card.id && (
+            <tr key={`panel-${card.id}`}>
+                <td colSpan={5} className="p-0">
+                    <div className="border-2 border-purple-200 rounded-xl p-5 bg-purple-50 space-y-4 mx-2 my-2">
+                        {/* COLLE ICI TOUT LE CONTENU DU PANNEAU EXISTANT */}
+                    </div>
+                </td>
+            </tr>
+        )}
+    </>
+))}
                                                               </tbody>
                                                           </table>
                                                       </div>
