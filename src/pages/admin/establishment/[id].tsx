@@ -1885,65 +1885,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
 )}
                                       </td>
                                     </tr>
-                                    {selectedLoyaltyCard?.id === card.id && (
-                                        <tr key={`panel-${card.id}`}>
-                                            <td colSpan={5} className="p-0">
-                                                <div className="border-2 border-purple-200 rounded-xl p-5 bg-purple-50 space-y-4 mx-2 my-2">
-                                                    <div className="flex items-center justify-between">
-                                                        <p className="font-bold text-purple-900">{selectedLoyaltyCard.email}</p>
-                                                        <button onClick={() => setSelectedLoyaltyCard(null)} className="text-gray-400 hover:text-gray-600 text-sm">✕ Fermer</button>
-                                                    </div>
-                                                    <div className="flex justify-center">
-                                                        <div style={{ width: "320px", minHeight: "200px", backgroundColor: loyaltyConfig.card_color, borderRadius: "16px", boxShadow: "0 8px 24px rgba(0,0,0,0.15)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "16px" }}>
-                                                            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "7px", maxWidth: "280px" }}>
-                                                                {Array.from({ length: loyaltyConfig.stamps_required }).map((_, i) => {
-                                                                    const isPrize = i === loyaltyConfig.stamps_required - 1;
-                                                                    const isValidated = i < selectedLoyaltyCard.stamp_count;
-                                                                    if (isPrize) {
-                                                                        return (
-                                                                            <div key={i} style={{ width: "36px", height: "36px", borderRadius: "50%", backgroundColor: isValidated ? "#FFD700" : "#FFD70044", border: "2px solid #FFA500", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                                                                <Gift className="w-4 h-4 text-white" />
-                                                                            </div>
-                                                                        );
-                                                                    }
-                                                                    return (
-                                                                        <div key={i} style={{ width: "36px", height: "36px", borderRadius: "50%", border: "2px solid rgba(80,80,80,0.4)", backgroundColor: isValidated ? "rgba(139,92,246,0.15)" : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                                                            {isValidated && <Check className="w-4 h-4" style={{ color: "#8b5cf6" }} />}
-                                                                        </div>
-                                                                    );
-                                                                })}
-                                                            </div>
-                                                            {loyaltyConfig.prize_description && (
-                                                                <p style={{ marginTop: "10px", fontSize: "11px", color: "rgba(0,0,0,0.5)", fontWeight: "600", textAlign: "center" }}>
-                                                                    {loyaltyConfig.stamps_required} plats achetés = 🎁 {loyaltyConfig.prize_description}
-                                                                </p>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    {merchantValidateSuccess ? (
-                                                        <div className="flex items-center justify-center gap-2 py-3 bg-green-100 rounded-xl">
-                                                            <Check className="w-5 h-5 text-green-600" />
-                                                            <p className="text-green-700 font-bold">Validé avec succès !</p>
-                                                        </div>
-                                                    ) : (
-                                                        <div className="space-y-3">
-                                                            <div className="flex items-center gap-4 justify-center">
-                                                                <button onClick={() => setMerchantStampCount(Math.max(1, merchantStampCount - 1))} className="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center text-lg font-bold hover:border-purple-400">−</button>
-                                                                <span className="text-xl font-black w-8 text-center">{merchantStampCount}</span>
-                                                                <button onClick={() => setMerchantStampCount(Math.min(loyaltyConfig.stamps_required, merchantStampCount + 1))} className="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center text-lg font-bold hover:border-purple-400">+</button>
-                                                                <span className="text-sm text-gray-500">plat{merchantStampCount > 1 ? "s" : ""}</span>
-                                                            </div>
-                                                            <Input type="password" placeholder="Code secret" value={merchantSecretCode} onChange={(e) => setMerchantSecretCode(e.target.value)} className="text-center tracking-widest" maxLength={10} />
-                                                            {merchantError && <p className="text-sm text-red-500 text-center">{merchantError}</p>}
-                                                            <Button onClick={handleMerchantValidateStamp} disabled={merchantValidating || !merchantSecretCode} className="w-full prizmo-gradient text-white">
-                                                                {merchantValidating ? "Validation..." : `✅ Valider ${merchantStampCount} plat${merchantStampCount > 1 ? "s" : ""}`}
-                                                            </Button>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )}
+
                                   );
                                 })}
                               </tbody>
