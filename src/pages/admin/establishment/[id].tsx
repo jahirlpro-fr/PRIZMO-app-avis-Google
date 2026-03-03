@@ -995,7 +995,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                                   </tr>
                                                               </thead>
                                                               <tbody>
-{filteredLoyaltyCards.map((card, index) => (
+                                                                  {filtered.map((card, index) => (
     <>
         <tr
             key={card.id}
