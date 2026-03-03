@@ -1060,7 +1060,26 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                             </div>
                         </div>
                         {merchantValidateSuccess ? (
-                            <div className="flex items-center just
+                            <div className="flex items-center justify-center gap-2 py-3 bg-green-100 rounded-xl">
+                                <Check className="w-5 h-5 text-green-600" />
+                                <p className="text-green-700 font-bold">Validé avec succès !</p>
+                            </div>
+                        ) : (
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-4 justify-center">
+                                    <button onClick={() => setMerchantStampCount(Math.max(1, merchantStampCount - 1))} className="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center text-lg font-bold hover:border-purple-400">−</button>
+                                    <span className="text-xl font-black w-8 text-center">{merchantStampCount}</span>
+                                    <button onClick={() => setMerchantStampCount(Math.min(loyaltyConfig.stamps_required, merchantStampCount + 1))} className="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center text-lg font-bold hover:border-purple-400">+</button>
+                                    <span className="text-sm text-gray-500">plat{merchantStampCount > 1 ? "s" : ""}</span>
+                                </div>
+                                <Input type="password" placeholder="Code secret" value={merchantSecretCode} onChange={(e) => setMerchantSecretCode(e.target.value)} className="text-center tracking-widest" maxLength={10} />
+                                {merchantError && <p className="text-sm text-red-500 text-center">{merchantError}</p>}
+                                <Button onClick={handleMerchantValidateStamp} disabled={merchantValidating || !merchantSecretCode} className="w-full prizmo-gradient text-white">
+                                    {merchantValidating ? "Validation..." : `✅ Valider ${merchantStampCount} plat${merchantStampCount > 1 ? "s" : ""}`}
+                                </Button>
+                            </div>
+                        )}
+                    </div>
                 </td>
             </tr>
         )}
