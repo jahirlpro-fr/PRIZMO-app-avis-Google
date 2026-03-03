@@ -1076,7 +1076,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                   <div className="text-center py-12">
                                                       <CreditCard className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
                                                       <p className="text-muted-foreground">
-                                                          {loyaltySearch || loyaltySearchPhone ? "Aucun résultat trouvé" : "Aucun porteur de carte pour le moment"}
+                            {loyaltySearch || loyaltySearchPhone ? "Aucun r\u00e9sultat trouv\u00e9" : "Aucun porteur de carte pour le moment"}
                                                       </p>
                                                   </div>
                                               );
