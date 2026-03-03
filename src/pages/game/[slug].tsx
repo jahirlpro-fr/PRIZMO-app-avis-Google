@@ -310,7 +310,7 @@ const handleFinish = () => {
                     {/* Boutons */}
                     <div className="flex flex-col gap-3 w-full max-w-sm" style={{ animation: "fadeSlideUp 1.1s ease forwards" }}>
                         <button
-                            onClick={() => router.push(`/loyalty/${establishment.slug}`)}
+                            onClick={() => router.push(`/loyalty/${establishment.slug}?step=register`)}
                             className="w-full text-white font-bold py-5 text-base rounded-2xl shadow-lg"
                             style={{ background: "linear-gradient(135deg, #8b5cf6, #d946ef)" }}
                         >
