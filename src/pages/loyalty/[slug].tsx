@@ -198,23 +198,26 @@ export default function LoyaltyPage() {
         try {
             const newStampCount = loyaltyCard.stamp_count + stampCount;
 
-            if (newStampCount >= config.stamps_required) {
-                // Prize atteint → reset
-                await supabase
-                    .from("loyalty_cards")
-                    .update({
-                        stamp_count: 0,
-                        reset_count: loyaltyCard.reset_count + 1,
-                        last_stamp_at: new Date().toISOString(),
-                    })
-                    .eq("id", loyaltyCard.id);
+          if (newStampCount >= config.stamps_required) {
+            // Prize atteint → reset
+            await supabase
+              .from("loyalty_cards")
+              .update({
+                stamp_count: 0,
+                reset_count: loyaltyCard.reset_count + 1,
+                last_stamp_at: new Date().toISOString(),
+              })
+              .eq("id", loyaltyCard.id);
 
-                setLoyaltyCard({
-                    ...loyaltyCard,
-                    stamp_count: 0,
-                    reset_count: loyaltyCard.reset_count + 1,
-                });
-            } else {
+            setLoyaltyCard({
+              ...loyaltyCard,
+              stamp_count: 0,
+              reset_count: loyaltyCard.reset_count + 1,
+            });
+            setValidateSuccess(false);
+            setPrizeWon(true);
+            return;
+          } else {
                 await supabase
                     .from("loyalty_cards")
                     .update({
