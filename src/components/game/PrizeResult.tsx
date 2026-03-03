@@ -56,7 +56,7 @@ export function PrizeResult({
 
     const handleLoyaltyClick = () => {
         if (establishmentSlug) {
-            router.push(`/loyalty/${establishmentSlug}`);
+            router.push(`/loyalty/${establishmentSlug}?step=register`);
         }
     };
 
