@@ -369,8 +369,8 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
 
     try {
       const canvas = await html2canvas(posterRef.current, {
-        scale: 2, // Better quality
-        useCORS: true, // For images from Supabase
+        scale: 2,
+        useCORS: true,
         allowTaint: true,
         backgroundColor: "#ffffff",
       });
@@ -398,6 +398,43 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
     } catch (error) {
       console.error("Error generating poster:", error);
       alert("Une erreur est survenue lors de la génération de l'affiche.");
+    }
+  };
+
+  const handleDownloadLoyaltyPoster = async (type: "png" | "pdf") => {
+    if (!loyaltyPosterRef.current || !establishment) return;
+
+    try {
+      const canvas = await html2canvas(loyaltyPosterRef.current, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+      });
+
+      if (type === "png") {
+        const link = document.createElement("a");
+        link.download = `affiche-fidelite-${establishment.slug}-${posterFormat}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      } else {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF({
+          orientation: "portrait",
+          unit: "mm",
+          format: posterFormat.toLowerCase(),
+        });
+
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`affiche-fidelite-${establishment.slug}-${posterFormat}.pdf`);
+      }
+    } catch (error) {
+      console.error("Error generating loyalty poster:", error);
+      alert("Une erreur est survenue lors de la génération de l'affiche fidélité.");
     }
   };
 
@@ -851,9 +888,9 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                       ) : (
                                                           <CreditCard className="w-12 h-12 text-white/40" />
                                                       )}
-                                                      {establishment.logoSecondaryUrl && (
+                                                      {establishment.logo_secondary_url && (
                                                           <img
-                                                              src={establishment.logoSecondaryUrl}
+                                                              src={establishment.logo_secondary_url}
                                                               alt="Logo secondaire"
                                                               style={{
                                                                   maxHeight: "40px",
@@ -1160,7 +1197,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                             <CardContent className="pt-6">
                               <div className="space-y-4">
                                 <div className="flex items-center justify-between mb-4">
-                                  <span className="text-sm font-semibold text-muted-foreground">
+                                  <span className="text-sm font-medium text-muted-foreground">
                                     Segment #{index + 1}
                                   </span>
                                   <Button
@@ -1202,7 +1239,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                         type="color"
                                         value={segment.color}
                                         onChange={(e) => handleUpdateSegment(index, "color", e.target.value)}
-                                        className="w-20 h-10 cursor-pointer"
+                                        className="w-20 h-10 rounded cursor-pointer"
                                       />
                                       <Input
                                         type="text"
@@ -1399,6 +1436,9 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                       flexShrink: 0,
                                                       display: "flex",
                                                       flexDirection: "column",
+                                                      alignItems: "center",
+                                                      justifyContent: "flex-start",
+                                                      paddingTop: "8px",
                                                   }}
                                               >
                                                   {/* BLOC HAUT — Logos */}
@@ -1425,8 +1465,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                   {/* BLOC MILIEU — Texte + Roue */}
                                                   <div style={{
                                                       display: "flex", flexDirection: "column", alignItems: "center",
-                                                      padding: "0 40px", gap: "16px", flex: "1 1 auto",
-                                                      justifyContent: "flex-start", paddingTop: "8px",
+                                                      flex: "1 1 auto", justifyContent: "center", padding: "0 40px", gap: "16px",
                                                   }}>
                                                       <div style={{ textAlign: "center" }}>
                                                           <h1 style={{
@@ -1536,17 +1575,31 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                               display: "flex", flexDirection: "column",
                                                               alignItems: "center", justifyContent: "center", padding: "12px",
                                                           }}>
-                                                              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "6px", maxWidth: "240px" }}>
+                                                              <div style={{
+                                                                  display: "flex",
+                                                                  flexWrap: "wrap",
+                                                                  justifyContent: "center",
+                                                                  gap: "6px",
+                                                                  maxWidth: "240px",
+                                                              }}>
                                                                   {Array.from({ length: Math.min(loyaltyConfig.stamps_required, 10) }).map((_, i) => (
                                                                       <div key={i} style={{
-                                                                          width: "28px", height: "28px", borderRadius: "50%",
-                                                                          border: "2px solid rgba(80,80,80,0.4)", backgroundColor: "transparent",
+                                                                          width: "28px",
+                                                                          height: "28px",
+                                                                          borderRadius: "50%",
+                                                                          border: "2px solid rgba(80,80,80,0.4)",
+                                                                          backgroundColor: "transparent",
                                                                       }} />
                                                                   ))}
                                                                   <div style={{
-                                                                      width: "28px", height: "28px", borderRadius: "50%",
-                                                                      backgroundColor: "#FFD700", border: "2px solid #FFA500",
-                                                                      display: "flex", alignItems: "center", justifyContent: "center",
+                                                                      width: "28px",
+                                                                      height: "28px",
+                                                                      borderRadius: "50%",
+                                                                      backgroundColor: "#FFD700",
+                                                                      border: "2px solid #FFA500",
+                                                                      display: "flex",
+                                                                      alignItems: "center",
+                                                                      justifyContent: "center",
                                                                   }}>
                                                                       <span style={{ fontSize: "12px" }}>🎁</span>
                                                                   </div>
@@ -1554,28 +1607,40 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                           </div>
                                                           {/* Recto — devant */}
                                                           <div style={{
-                                                              width: "270px", height: "170px",
+                                                              width: "270px",
+                                                              height: "170px",
                                                               backgroundColor: loyaltyConfig.card_color,
                                                               border: "2px solid rgba(0,0,0,0.08)",
                                                               borderRadius: "14px",
                                                               boxShadow: "0 12px 32px rgba(0,0,0,0.2)",
-                                                              position: "absolute", zIndex: 2,
+                                                              position: "absolute",
+                                                              zIndex: 2,
                                                               transform: "rotate(-3deg) translateX(-10px)",
-                                                              display: "flex", flexDirection: "column",
-                                                              alignItems: "center", justifyContent: "center", padding: "16px",
+                                                              display: "flex",
+                                                              flexDirection: "column",
+                                                              alignItems: "center",
+                                                              justifyContent: "center",
+                                                              padding: "16px",
                                                           }}>
                                                               {establishment.logoUrl ? (
                                                                   <img src={establishment.logoUrl} alt="Logo" crossOrigin="anonymous"
                                                                       style={{
-                                                                          maxHeight: "70px", maxWidth: "180px", objectFit: "contain",
-                                                                          filter: formData.primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)"
+                                                                          maxHeight: "70px",
+                                                                          maxWidth: "180px",
+                                                                          objectFit: "contain",
+                                                                          filter: formData.primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)",
                                                                       }} />
-                                                              ) : <CreditCard style={{ width: "40px", height: "40px", opacity: 0.3 }} />}
+                                                              ) : (
+                                                                  <CreditCard style={{ width: "40px", height: "40px", opacity: 0.3 }} />
+                                                              )}
                                                               {establishment.logoSecondaryUrl && (
                                                                   <img src={establishment.logoSecondaryUrl} alt="Logo 2" crossOrigin="anonymous"
                                                                       style={{
-                                                                          maxHeight: "30px", maxWidth: "130px", objectFit: "contain", marginTop: "6px",
-                                                                          filter: formData.primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)"
+                                                                          maxHeight: "30px",
+                                                                          maxWidth: "130px",
+                                                                          objectFit: "contain",
+                                                                          marginTop: "6px",
+                                                                          filter: formData.primaryColor === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0)",
                                                                       }} />
                                                               )}
                                                           </div>
@@ -1584,20 +1649,31 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
 
                                                   {/* BLOC BAS — QR Code */}
                                                   <div style={{
-                                                      display: "flex", flexDirection: "column", alignItems: "center",
-                                                      justifyContent: "center", padding: "12px 40px 28px 40px", flex: "0 0 auto",
+                                                      display: "flex",
+                                                      flexDirection: "column",
+                                                      alignItems: "center",
+                                                      justifyContent: "center",
+                                                      padding: "12px 40px 28px 40px",
+                                                      flex: "0 0 auto",
                                                   }}>
                                                       <div style={{
-                                                          backgroundColor: "white", padding: "12px",
-                                                          borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                                                          backgroundColor: "white",
+                                                          padding: "12px",
+                                                          borderRadius: "12px",
+                                                          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                                                       }}>
                                                           <QRCodeSVG
                                                               value={`${window.location.origin}/loyalty/${establishment.slug}`}
                                                               size={160} level="H" includeMargin={true} fgColor="#000000" />
                                                       </div>
                                                       <p style={{
-                                                          fontSize: "15px", fontWeight: "700", letterSpacing: "3px",
-                                                          textTransform: "uppercase", color: posterTextColor, opacity: 0.7, marginTop: "12px"
+                                                          fontSize: "15px",
+                                                          fontWeight: "700",
+                                                          letterSpacing: "3px",
+                                                          textTransform: "uppercase",
+                                                          color: posterTextColor,
+                                                          opacity: 0.7,
+                                                          marginTop: "12px",
                                                       }}>
                                                           Scannez pour votre carte
                                                       </p>
@@ -1655,7 +1731,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                                       const updated = { ...establishment, logoUrl: url };
                                                                       await storageService.saveEstablishment(updated);
                                                                       setEstablishment(updated);
-                                                                  } catch (err) {
+                                                                  } catch {
                                                                       alert("Erreur lors de l'upload du logo");
                                                                   } finally {
                                                                       setUploadingPrimaryLogo(false);
@@ -1702,7 +1778,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                                       const updated = { ...establishment, logoSecondaryUrl: url };
                                                                       await storageService.saveEstablishment(updated);
                                                                       setEstablishment(updated);
-                                                                  } catch (err) {
+                                                                  } catch {
                                                                       alert("Erreur lors de l'upload du logo secondaire");
                                                                   } finally {
                                                                       setUploadingSecondaryLogo(false);
@@ -1892,8 +1968,14 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                             </table>
                           </div>
                         ) : (
-                          <div className="text-center py-8 text-muted-foreground">
-                            Aucun résultat ne correspond à votre recherche
+                          <div className="text-center py-12">
+                            <Users className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                            <p className="text-muted-foreground mb-4">
+                              Aucun résultat ne correspond à votre recherche
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              Les clients qui jouent apparaîtront ici
+                            </p>
                           </div>
                         )}
                       </>
