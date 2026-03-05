@@ -14,6 +14,7 @@ interface LoyaltyConfig {
     prize_description: string;
     is_active: boolean;
     card_color: string;
+    secret_code: string;
 }
 
 interface Establishment {
