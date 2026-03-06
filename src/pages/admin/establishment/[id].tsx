@@ -1090,8 +1090,9 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                   </div>
                 </div>
 
-                {/* Porteurs de carte — pleine largeur en bas */}
-                <div className="mt-6">
+                              )}
+                              {/* Porteurs de carte — pleine largeur en bas */}
+                              <div className="mt-6">
                   <Card className="border-2 shadow-xl">
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
