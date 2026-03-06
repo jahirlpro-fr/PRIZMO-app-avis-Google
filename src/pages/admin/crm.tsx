@@ -287,7 +287,7 @@ export default function CRMPage() {
                                 <select
                                     value={filterPlan}
                                     onChange={(e) => setFilterPlan(e.target.value)}
-                                    className="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-300"
+                                    className="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-300 bg-white text-gray-700"
                                 >
                                     <option value="all">Tous les plans</option>
                                     <option value="trial">Trial</option>
@@ -300,7 +300,7 @@ export default function CRMPage() {
                                 <select
                                     value={filterRisk}
                                     onChange={(e) => setFilterRisk(e.target.value)}
-                                    className="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-300"
+                                    className="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-300 bg-white text-gray-700"
                                 >
                                     <option value="all">Tous les risques</option>
                                     <option value="green">🟢 Faible</option>
