@@ -358,4 +358,52 @@ export default function CRMPage() {
                                                         <td className="p-3 text-gray-600">{entry.email}</td>
                                                         <td className="p-3 text-gray-500">
                                                             {entry.created_at
-                                                                ? new Date(entry.created_at)
+                                                                ? new Date(entry.created_at).toLocaleDateString("fr-FR")
+                                                                : "—"}
+                                                        </td>
+                                                        <td className="p-3">
+                                                            <PlanBadge plan={entry.plan} />
+                                                        </td>
+                                                        <td className="p-3">
+                                                            <StatusBadge status={entry.plan_status} />
+                                                        </td>
+                                                        <td className="p-3">
+                                                            {entry.plan === "trial" && daysLeft !== null ? (
+                                                                <span className={`font-semibold text-xs ${daysLeft <= 3 ? "text-red-600" : daysLeft <= 7 ? "text-orange-500" : "text-gray-500"}`}>
+                                                                    {daysLeft <= 0 ? "Expiré" : `J-${daysLeft}`}
+                                                                </span>
+                                                            ) : (
+                                                                <span className="text-gray-400 text-xs">—</span>
+                                                            )}
+                                                        </td>
+                                                        <td className="p-3 text-center font-semibold">{entry.participants_count}</td>
+                                                        <td className="p-3 text-center font-semibold">{entry.loyalty_cards_count}</td>
+                                                        <td className="p-3 text-center">
+                                                            <ChurnBadge risk={risk} />
+                                                        </td>
+                                                        <td className="p-3">
+                                                            {entry.establishment?.id && (
+                                                                <Button
+                                                                    size="sm"
+                                                                    variant="outline"
+                                                                    onClick={() => router.push(`/admin/establishment/${entry.establishment!.id}`)}
+                                                                    className="text-xs"
+                                                                >
+                                                                    Voir
+                                                                </Button>
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        </ProtectedRoute>
+    );
+}
