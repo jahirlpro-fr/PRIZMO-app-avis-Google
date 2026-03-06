@@ -1802,177 +1802,139 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                               </div>
                           </TabsContent>
 
-              {/* Tab: Informations générales */}
-              <TabsContent value="general">
-                <Card className="border-2 shadow-xl">
-                  <CardHeader>
-                    <CardTitle className="text-2xl">Informations de l'établissement</CardTitle>
-                    <CardDescription>Modifiez les détails de votre restaurant</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="space-y-4">
-                                          <div className="space-y-4">
-                                              <Label>Logos de l'établissement</Label>
-                                              {/* Logo principal */}
-                                              <div className="flex items-center gap-4 p-4 border rounded-lg">
-                                                  {establishment.logoUrl ? (
-                                                      <img src={establishment.logoUrl} alt="Logo principal" className="w-20 h-20 object-contain rounded-lg border" />
-                                                  ) : (
-                                                      <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
-                                                          <ImageIcon className="w-8 h-8 text-gray-400" />
-                                                      </div>
-                                                  )}
-                                                  <div className="flex-1">
-                                                      <p className="text-sm font-medium">Logo principal</p>
-                                                      <p className="text-xs text-muted-foreground mb-2">
-                                                          {establishment.logoUrl ? "✓ Logo uploadé" : "Aucun logo uploadé"}
-                                                      </p>
-                                                      <label className="cursor-pointer">
-                                                          <Button variant="outline" size="sm" asChild>
-                                                              <span>
-                                                                  <Upload className="w-4 h-4 mr-2" />
-                                                                  {establishment.logoUrl ? "Changer" : "Uploader"}
-                                                              </span>
-                                                          </Button>
-                                                          <input
-                                                              type="file"
-                                                              accept="image/*"
-                                                              className="hidden"
-                                                              onChange={async (e) => {
-                                                                  const file = e.target.files?.[0];
-                                                                  if (!file || !establishment) return;
-                                                                  setUploadingPrimaryLogo(true);
-                                                                  try {
-                                                                      const { storageService: fileStorage } = await import("@/services/storageService");
-                                                                      const url = await fileStorage.uploadLogo(file, establishment.id, "primary");
-                                                                      const updated = { ...establishment, logoUrl: url };
-                                                                      await storageService.saveEstablishment(updated);
-                                                                      setEstablishment(updated);
-                                                                  } catch {
-                                                                      alert("Erreur lors de l'upload du logo");
-                                                                  } finally {
-                                                                      setUploadingPrimaryLogo(false);
-                                                                  }
-                                                              }}
-                                                          />
-                                                      </label>
-                                                      {uploadingPrimaryLogo && <p className="text-xs text-purple-600 mt-1">Envoi en cours...</p>}
-                                                  </div>
-                                              </div>
+                          {/* Tab: Informations générales */}
+                          <TabsContent value="general">
+                              <Card className="border-2 shadow-xl">
+                                  <CardHeader>
+                                      <CardTitle className="text-2xl">Informations de l'établissement</CardTitle>
+                                      <CardDescription>Modifiez les détails de votre restaurant</CardDescription>
+                                  </CardHeader>
+                                  <CardContent className="space-y-6">
 
-                                              {/* Logo secondaire */}
-                                              <div className="flex items-center gap-4 p-4 border rounded-lg">
-                                                  {establishment.logoSecondaryUrl ? (
-                                                      <img src={establishment.logoSecondaryUrl} alt="Logo secondaire" className="w-20 h-20 object-contain rounded-lg border" />
-                                                  ) : (
-                                                      <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
-                                                          <ImageIcon className="w-8 h-8 text-gray-400" />
-                                                      </div>
-                                                  )}
-                                                  <div className="flex-1">
-                                                      <p className="text-sm font-medium">Logo secondaire</p>
-                                                      <p className="text-xs text-muted-foreground mb-2">
-                                                          {establishment.logoSecondaryUrl ? "✓ Logo uploadé" : "Aucun logo secondaire uploadé"}
-                                                      </p>
-                                                      <label className="cursor-pointer">
-                                                          <Button variant="outline" size="sm" asChild>
-                                                              <span>
-                                                                  <Upload className="w-4 h-4 mr-2" />
-                                                                  {establishment.logoSecondaryUrl ? "Changer" : "Uploader"}
-                                                              </span>
-                                                          </Button>
-                                                          <input
-                                                              type="file"
-                                                              accept="image/*"
-                                                              className="hidden"
-                                                              onChange={async (e) => {
-                                                                  const file = e.target.files?.[0];
-                                                                  if (!file || !establishment) return;
-                                                                  setUploadingSecondaryLogo(true);
-                                                                  try {
-                                                                      const { storageService: fileStorage } = await import("@/services/storageService");
-                                                                      const url = await fileStorage.uploadLogo(file, establishment.id, "secondary");
-                                                                      const updated = { ...establishment, logoSecondaryUrl: url };
-                                                                      await storageService.saveEstablishment(updated);
-                                                                      setEstablishment(updated);
-                                                                  } catch {
-                                                                      alert("Erreur lors de l'upload du logo secondaire");
-                                                                  } finally {
-                                                                      setUploadingSecondaryLogo(false);
-                                                                  }
-                                                              }}
-                                                          />
-                                                      </label>
-                                                      {uploadingSecondaryLogo && <p className="text-xs text-purple-600 mt-1">Envoi en cours...</p>}
+                                      {/* Logos */}
+                                      <div className="space-y-4">
+                                          <Label>Logos de l'établissement</Label>
+                                          <div className="flex items-center gap-4 p-4 border rounded-lg">
+                                              {establishment.logoUrl ? (
+                                                  <img src={establishment.logoUrl} alt="Logo principal" className="w-20 h-20 object-contain rounded-lg border" />
+                                              ) : (
+                                                  <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                                                      <ImageIcon className="w-8 h-8 text-gray-400" />
                                                   </div>
+                                              )}
+                                              <div className="flex-1">
+                                                  <p className="text-sm font-medium">Logo principal</p>
+                                                  <p className="text-xs text-muted-foreground mb-2">
+                                                      {establishment.logoUrl ? "✓ Logo uploadé" : "Aucun logo uploadé"}
+                                                  </p>
+                                                  <label className="cursor-pointer">
+                                                      <Button variant="outline" size="sm" asChild>
+                                                          <span>
+                                                              <Upload className="w-4 h-4 mr-2" />
+                                                              {establishment.logoUrl ? "Changer" : "Uploader"}
+                                                          </span>
+                                                      </Button>
+                                                      <input type="file" accept="image/*" className="hidden"
+                                                          onChange={async (e) => {
+                                                              const file = e.target.files?.[0];
+                                                              if (!file || !establishment) return;
+                                                              setUploadingPrimaryLogo(true);
+                                                              try {
+                                                                  const { storageService: fileStorage } = await import("@/services/storageService");
+                                                                  const url = await fileStorage.uploadLogo(file, establishment.id, "primary");
+                                                                  const updated = { ...establishment, logoUrl: url };
+                                                                  await storageService.saveEstablishment(updated);
+                                                                  setEstablishment(updated);
+                                                              } catch { alert("Erreur lors de l'upload du logo"); }
+                                                              finally { setUploadingPrimaryLogo(false); }
+                                                          }}
+                                                      />
+                                                  </label>
+                                                  {uploadingPrimaryLogo && <p className="text-xs text-purple-600 mt-1">Envoi en cours...</p>}
                                               </div>
                                           </div>
-                                          <Button onClick={handleSaveEstablishment} className="w-full prizmo-gradient text-white" size="lg">
-                                              <Save className="w-4 h-4 mr-2" />
-                                              Enregistrer les modifications
-                                          </Button>
 
-                                          <div className="space-y-2">
-                                              <Label htmlFor="name">Nom de l'établissement</Label>
-                        <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        />
-                      </div>
+                                          <div className="flex items-center gap-4 p-4 border rounded-lg">
+                                              {establishment.logoSecondaryUrl ? (
+                                                  <img src={establishment.logoSecondaryUrl} alt="Logo secondaire" className="w-20 h-20 object-contain rounded-lg border" />
+                                              ) : (
+                                                  <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                                                      <ImageIcon className="w-8 h-8 text-gray-400" />
+                                                  </div>
+                                              )}
+                                              <div className="flex-1">
+                                                  <p className="text-sm font-medium">Logo secondaire</p>
+                                                  <p className="text-xs text-muted-foreground mb-2">
+                                                      {establishment.logoSecondaryUrl ? "✓ Logo uploadé" : "Aucun logo secondaire uploadé"}
+                                                  </p>
+                                                  <label className="cursor-pointer">
+                                                      <Button variant="outline" size="sm" asChild>
+                                                          <span>
+                                                              <Upload className="w-4 h-4 mr-2" />
+                                                              {establishment.logoSecondaryUrl ? "Changer" : "Uploader"}
+                                                          </span>
+                                                      </Button>
+                                                      <input type="file" accept="image/*" className="hidden"
+                                                          onChange={async (e) => {
+                                                              const file = e.target.files?.[0];
+                                                              if (!file || !establishment) return;
+                                                              setUploadingSecondaryLogo(true);
+                                                              try {
+                                                                  const { storageService: fileStorage } = await import("@/services/storageService");
+                                                                  const url = await fileStorage.uploadLogo(file, establishment.id, "secondary");
+                                                                  const updated = { ...establishment, logoSecondaryUrl: url };
+                                                                  await storageService.saveEstablishment(updated);
+                                                                  setEstablishment(updated);
+                                                              } catch { alert("Erreur lors de l'upload du logo secondaire"); }
+                                                              finally { setUploadingSecondaryLogo(false); }
+                                                          }}
+                                                      />
+                                                  </label>
+                                                  {uploadingSecondaryLogo && <p className="text-xs text-purple-600 mt-1">Envoi en cours...</p>}
+                                              </div>
+                                          </div>
+                                      </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="address">Adresse</Label>
-                        <Textarea
-                          id="address"
-                          value={formData.address}
-                          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                          rows={2}
-                        />
-                      </div>
+                                      {/* Champs texte */}
+                                      <div className="space-y-2">
+                                          <Label htmlFor="name">Nom de l'établissement</Label>
+                                          <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                                      </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="googleMapsUrl">Lien Google Maps (avis)</Label>
-                        <Input
-                          id="googleMapsUrl"
-                          type="url"
-                          value={formData.googleMapsUrl}
-                          onChange={(e) => setFormData({ ...formData, googleMapsUrl: e.target.value })}
-                        />
-                      </div>
+                                      <div className="space-y-2">
+                                          <Label htmlFor="address">Adresse</Label>
+                                          <Textarea id="address" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} rows={2} />
+                                      </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="instagramUrl">Lien Instagram (optionnel)</Label>
-                        <Input
-                          id="instagramUrl"
-                          type="url"
-                          value={formData.instagramUrl}
-                          onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
-                        />
-                      </div>
+                                      <div className="space-y-2">
+                                          <Label htmlFor="googleMapsUrl">Lien Google Maps (avis)</Label>
+                                          <Input id="googleMapsUrl" type="url" value={formData.googleMapsUrl} onChange={(e) => setFormData({ ...formData, googleMapsUrl: e.target.value })} />
+                                      </div>
 
-            
-                                      {/* Toggle carte fidélité */}
+                                      <div className="space-y-2">
+                                          <Label htmlFor="instagramUrl">Lien Instagram (optionnel)</Label>
+                                          <Input id="instagramUrl" type="url" value={formData.instagramUrl} onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })} />
+                                      </div>
+
+                                      {/* Toggle fidélité */}
                                       <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl border border-purple-200">
                                           <div>
                                               <p className="font-semibold text-purple-900">Carte de fidélité digitale</p>
                                               <p className="text-sm text-purple-600">Activer la carte fidélité pour vos clients</p>
                                           </div>
-                                          <Switch
-                                              checked={loyaltyConfig.is_active}
-                                              onCheckedChange={(v) => setLoyaltyConfig({ ...loyaltyConfig, is_active: v })}
-                                          />
+                                          <Switch checked={loyaltyConfig.is_active} onCheckedChange={(v) => setLoyaltyConfig({ ...loyaltyConfig, is_active: v })} />
                                       </div>
 
                                       <Button onClick={handleSaveEstablishment} className="w-full prizmo-gradient text-white" size="lg">
                                           <Save className="w-4 h-4 mr-2" />
                                           Enregistrer les modifications
                                       </Button>
+
                                   </CardContent>
                               </Card>
-                      </TabsContent>
+                          </TabsContent>
 
-                      <TabsContent value="clients">
+                          <TabsContent value="clients">
                 <Card className="border-2 shadow-xl">
                   <CardHeader>
                     <div className="flex items-center justify-between">
