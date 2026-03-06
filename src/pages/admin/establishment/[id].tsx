@@ -661,8 +661,33 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                     </Card>
                   </div>
 
-                  {/* Analytics Charts Component */}
-                  <AnalyticsCharts participants={participants} period={analyticsPeriod} />
+{/* Analytics Charts Component */}
+                  {merchantPlan === "solo" ? (
+                    <div className="relative">
+                      {/* Aperçu flou en arrière-plan */}
+                      <div className="opacity-30 pointer-events-none select-none">
+                        <AnalyticsCharts participants={participants} period={analyticsPeriod} />
+                      </div>
+                      {/* Overlay de blocage */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 backdrop-blur-sm rounded-xl z-10">
+                        <div className="text-center p-8 max-w-sm">
+                          <div className="text-4xl mb-4">🔒</div>
+                          <h3 className="text-xl font-bold mb-2">Analytics avancés</h3>
+                          <p className="text-muted-foreground text-sm mb-6">
+                            Accédez aux graphiques détaillés, à l'évolution dans le temps et aux pics d'activité en passant au plan PRO.
+                          </p>
+                          <button
+                            onClick={() => window.location.href = "/pricing"}
+                            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-sm hover:opacity-90 transition-opacity"
+                          >
+                            Passer au plan PRO →
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <AnalyticsCharts participants={participants} period={analyticsPeriod} />
+                  )}
 
                   {/* Prize Distribution */}
                   <Card className="border-2 shadow-lg">
