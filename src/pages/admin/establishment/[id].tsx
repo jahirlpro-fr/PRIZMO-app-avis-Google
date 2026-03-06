@@ -102,7 +102,21 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
               const establishmentParticipants = await storageService.getParticipants(establishmentId);
               setParticipants(establishmentParticipants);
 
-              // Charger config fidélité
+          // Récupérer le plan du commerçant connecté
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+              const { data: profileData } = await supabase
+                  .from("profiles")
+                  .select("plan, trial_ends_at")
+                  .eq("id", user.id)
+                  .single();
+              if (profileData) {
+                  setMerchantPlan(profileData.plan || "trial");
+                  setTrialEndsAt(profileData.trial_ends_at || null);
+              }
+          }
+
+          // Charger config fidélité
           const { data: loyaltyData } = await supabase
               .from("loyalty_config")
               .select("*")
