@@ -72,6 +72,10 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
     const [merchantValidateSuccess, setMerchantValidateSuccess] = useState(false);
     const [merchantError, setMerchantError] = useState("");
 
+    // Plan du commerçant
+    const [merchantPlan, setMerchantPlan] = useState < string > ("trial");
+    const [trialEndsAt, setTrialEndsAt] = useState < string | null > (null);
+
 
   useEffect(() => {
     if (!router.isReady) return;
