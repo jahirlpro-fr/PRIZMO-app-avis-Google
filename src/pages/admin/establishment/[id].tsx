@@ -1951,9 +1951,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                         />
                       </div>
 
-
-                                      </div>
-
+            
                                       {/* Toggle carte fidélité */}
                                       <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl border border-purple-200">
                                           <div>
