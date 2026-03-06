@@ -819,7 +819,8 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                       </div>
                                   </div>
                               ) : (
-                <div className="grid lg:grid-cols-2 gap-6">
+                                  <>
+                                      <div className="grid lg:grid-cols-2 gap-6">
 
                   {/* GAUCHE — Configuration */}
                   <div className="space-y-4">
