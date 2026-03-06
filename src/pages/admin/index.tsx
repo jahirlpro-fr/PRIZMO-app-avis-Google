@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { storageService } from "@/lib/storage";
 import { Establishment } from "@/types";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2, Users } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import type React from "react";
 import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
@@ -107,7 +107,10 @@ export default function AdminDashboard() {
                                   <Plus className="w-6 h-6" />
                                   Nouvel établissement
                               </Button>
-                              <div className="h-auto py-4 border-2 border-dashed border-gray-200 rounded-lg" />
+                              <Button onClick={() => router.push("/admin/crm")} className="bg-indigo-600 hover:bg-indigo-700 text-white h-auto py-4 flex-col gap-2">
+                                  <Users className="w-6 h-6" />
+                                  CRM Commerçants
+                              </Button>
                               <div className="h-auto py-4 border-2 border-dashed border-gray-200 rounded-lg" />
                               <div className="h-auto py-4 border-2 border-dashed border-gray-200 rounded-lg" />
                           </CardContent>
