@@ -1970,7 +1970,6 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                       </Button>
                                   </CardContent>
                               </Card>
-                          </div>
                       </TabsContent>
 
                       <TabsContent value="clients">
