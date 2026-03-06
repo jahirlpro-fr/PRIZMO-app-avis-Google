@@ -641,19 +641,21 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                       </CardContent>
                     </Card>
 
-                    <Card className="border-2 shadow-lg">
+<Card className="border-2 shadow-lg">
                       <CardHeader className="pb-3">
                         <div className="flex items-center justify-between">
                           <CardTitle className="text-sm font-medium text-muted-foreground">
-                            Taux de gain
+                            Emails collectés
                           </CardTitle>
-                          <TrendingUp className="w-5 h-5 text-green-600" />
+                          <Mail className="w-5 h-5 text-blue-600" />
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <div className="text-3xl font-bold">{conversionRate}%</div>
+                        <div className="text-3xl font-bold">
+                          {participants.filter(p => p.email && p.email.trim() !== "").length}
+                        </div>
                         <p className="text-xs text-muted-foreground mt-1">
-                          {participantsWithPrize} lots gagnés
+                          Clients dans votre base
                         </p>
                       </CardContent>
                     </Card>
