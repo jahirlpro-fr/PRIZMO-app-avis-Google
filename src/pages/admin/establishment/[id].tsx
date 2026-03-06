@@ -782,7 +782,43 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
               </TabsContent>
 
 {/* Tab: Fidélité */}
-              <TabsContent value="loyalty">
+                          <TabsContent value="loyalty">
+                              {merchantPlan === "solo" ? (
+                                  <div className="flex flex-col items-center justify-center py-24 px-4">
+                                      <div className="text-center max-w-sm">
+                                          <div className="text-6xl mb-6">🔒</div>
+                                          <h2 className="text-2xl font-bold mb-3">Carte de fidélité</h2>
+                                          <p className="text-muted-foreground mb-8">
+                                              La carte de fidélité digitale est disponible à partir du plan <strong>PRO</strong>.
+                                              Fidélisez vos clients et boostez leur retour en quelques clics.
+                                          </p>
+                                          <div className="space-y-3 text-sm text-left bg-purple-50 rounded-xl p-4 mb-8">
+                                              <div className="flex items-center gap-2">
+                                                  <span className="text-purple-600">✓</span>
+                                                  <span>Carte digitale personnalisée à vos couleurs</span>
+                                              </div>
+                                              <div className="flex items-center gap-2">
+                                                  <span className="text-purple-600">✓</span>
+                                                  <span>Système de tampons automatique</span>
+                                              </div>
+                                              <div className="flex items-center gap-2">
+                                                  <span className="text-purple-600">✓</span>
+                                                  <span>Récompense personnalisable</span>
+                                              </div>
+                                              <div className="flex items-center gap-2">
+                                                  <span className="text-purple-600">✓</span>
+                                                  <span>QR code dédié fidélité</span>
+                                              </div>
+                                          </div>
+                                          <button
+                                              onClick={() => window.location.href = "/pricing"}
+                                              className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:opacity-90 transition-opacity"
+                                          >
+                                              Passer au plan PRO →
+                                          </button>
+                                      </div>
+                                  </div>
+                              ) : (
                 <div className="grid lg:grid-cols-2 gap-6">
 
                   {/* GAUCHE — Configuration */}
