@@ -1962,14 +1962,15 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                         />
                       </div>
 
-                    <Button onClick={handleSaveEstablishment} className="w-full prizmo-gradient text-white" size="lg">
-                      <Save className="w-4 h-4 mr-2" />
-                      Enregistrer les modifications
-                    </Button>
-                  </CardContent>
-                </Card>
-)}
-                          </TabsContent>
+                                      <Button onClick={handleSaveEstablishment} className="w-full prizmo-gradient text-white" size="lg">
+                                          <Save className="w-4 h-4 mr-2" />
+                                          Enregistrer les modifications
+                                      </Button>
+                                  </CardContent>
+                              </Card>
+                          </div>
+                )}
+                      </TabsContent>
 
                           <TabsContent value="clients">
                 <Card className="border-2 shadow-xl">
