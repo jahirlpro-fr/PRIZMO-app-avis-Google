@@ -471,8 +471,39 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
         description="Modifier les paramètres de votre établissement"
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-        <header className="bg-white border-b shadow-sm sticky top-0 z-50">
+          <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
+
+              {/* ====== BANNIÈRE ESSAI GRATUIT ====== */}
+              {merchantPlan === "trial" && trialEndsAt && (() => {
+                  const daysLeft = Math.ceil(
+                      (new Date(trialEndsAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+                  );
+                  if (daysLeft > 7 || daysLeft < 0) return null;
+                  const isUrgent = daysLeft <= 3;
+                  return (
+                      <div className={`w-full px-4 py-3 flex items-center justify-between gap-4 flex-wrap ${isUrgent ? "bg-red-600 text-white" : "bg-orange-500 text-white"
+                          }`}>
+                          <div className="flex items-center gap-2 font-semibold">
+                              <span>{isUrgent ? "🚨" : "⏳"}</span>
+                              <span>
+                                  {daysLeft === 0
+                                      ? "Votre essai gratuit expire aujourd'hui !"
+                                      : `Votre essai gratuit expire dans ${daysLeft} jour${daysLeft > 1 ? "s" : ""}`}
+                              </span>
+                          </div>
+                          <button
+                              onClick={() => window.location.href = "/pricing"}
+                              className={`px-4 py-1.5 rounded-full text-sm font-bold border-2 border-white hover:bg-white transition-colors ${isUrgent ? "hover:text-red-600" : "hover:text-orange-500"
+                                  }`}
+                          >
+                              Passer au plan PRO →
+                          </button>
+                      </div>
+                  );
+              })()}
+              {/* ====== FIN BANNIÈRE ====== */}
+
+              <header className="bg-white border-b shadow-sm sticky top-0 z-50">
                   <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-2">
                       <Button onClick={() => router.push("/admin")} variant="ghost" size="sm">
                           <ArrowLeft className="w-4 h-4 mr-1" />
