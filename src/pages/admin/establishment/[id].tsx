@@ -1952,18 +1952,19 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                       </div>
 
 
-                    </div>
-{/* Toggle carte fidélité */}
-                      <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl border border-purple-200">
-                        <div>
-                          <p className="font-semibold text-purple-900">Carte de fidélité digitale</p>
-                          <p className="text-sm text-purple-600">Activer la carte fidélité pour vos clients</p>
-                        </div>
-                        <Switch
-                          checked={loyaltyConfig.is_active}
-                          onCheckedChange={(v) => setLoyaltyConfig({ ...loyaltyConfig, is_active: v })}
-                        />
-                      </div>
+                                      </div>
+
+                                      {/* Toggle carte fidélité */}
+                                      <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl border border-purple-200">
+                                          <div>
+                                              <p className="font-semibold text-purple-900">Carte de fidélité digitale</p>
+                                              <p className="text-sm text-purple-600">Activer la carte fidélité pour vos clients</p>
+                                          </div>
+                                          <Switch
+                                              checked={loyaltyConfig.is_active}
+                                              onCheckedChange={(v) => setLoyaltyConfig({ ...loyaltyConfig, is_active: v })}
+                                          />
+                                      </div>
 
                                       <Button onClick={handleSaveEstablishment} className="w-full prizmo-gradient text-white" size="lg">
                                           <Save className="w-4 h-4 mr-2" />
