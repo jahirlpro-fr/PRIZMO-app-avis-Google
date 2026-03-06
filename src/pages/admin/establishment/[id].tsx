@@ -1968,9 +1968,10 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                     </Button>
                   </CardContent>
                 </Card>
-              </TabsContent>
+)}
+                          </TabsContent>
 
-              <TabsContent value="clients">
+                          <TabsContent value="clients">
                 <Card className="border-2 shadow-xl">
                   <CardHeader>
                     <div className="flex items-center justify-between">
