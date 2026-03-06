@@ -1253,7 +1253,8 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                           })()}
                     </CardContent>
                   </Card>
-                </div>
+</div>
+                              )}
               </TabsContent>
 
                           {/* Tab: Configuration de la roue - SPLIT SCREEN */}
