@@ -689,7 +689,8 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                     <AnalyticsCharts participants={participants} period={analyticsPeriod} />
                   )}
 
-                  {/* Prize Distribution */}
+{/* Prize Distribution */}
+                  {merchantPlan !== "solo" && (
                   <Card className="border-2 shadow-lg">
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
