@@ -729,7 +729,8 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                         </p>
                       )}
                     </CardContent>
-                  </Card>
+</Card>
+                  )}
 
                   {/* Recent Participants */}
                   <Card className="border-2 shadow-lg">
