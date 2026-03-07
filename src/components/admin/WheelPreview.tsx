@@ -37,9 +37,9 @@ export function WheelPreview({ segments, size = 300, pointerSize = 40 }: WheelPr
       ctx.closePath();
       ctx.fillStyle = segment.color;
       ctx.fill();
-      ctx.strokeStyle = "#ffffff";
-      ctx.lineWidth = 3;
-      ctx.stroke();
+        ctx.strokeStyle = "rgba(0,0,0,0.25)";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
 
       // Draw text
       const textAngle = degreesPerSegment * index + degreesPerSegment / 2 - 90;
@@ -50,10 +50,10 @@ export function WheelPreview({ segments, size = 300, pointerSize = 40 }: WheelPr
       ctx.save();
       ctx.translate(textX, textY);
       ctx.rotate(textAngle * (Math.PI / 180));
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "bold 14px Outfit";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
+        ctx.fillStyle = "rgba(0,0,0,0.75)";
+        ctx.font = "bold 13px Outfit";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
       
       const maxLength = 20;
       const text = segment.title.length > maxLength 
@@ -69,16 +69,9 @@ export function WheelPreview({ segments, size = 300, pointerSize = 40 }: WheelPr
     ctx.arc(centerX, centerY, 30, 0, 2 * Math.PI);
     ctx.fillStyle = "#ffffff";
     ctx.fill();
-    ctx.strokeStyle = "#333333";
-    ctx.lineWidth = 3;
-    ctx.stroke();
-
-    // Draw center text
-    ctx.fillStyle = "#333333";
-    ctx.font = "bold 16px Outfit";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText("SPIN", centerX, centerY);
+      ctx.strokeStyle = "rgba(0,0,0,0.2)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
 
   }, [segments, size]);
 
