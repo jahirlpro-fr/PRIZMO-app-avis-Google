@@ -97,13 +97,13 @@ export function WheelOfFortune({ segments, onSpinComplete, wheelNumber, establis
                                                 <path
                                                     d={`M 100 100 L ${x1} ${y1} A 100 100 0 ${largeArcFlag} 1 ${x2} ${y2} Z`}
                                                     fill={segment.color}
-                                                    stroke="white"
-                                                    strokeWidth="2"
+                                                    stroke="rgba(0,0,0,0.2)"
+                                                    strokeWidth="0.8"
                                                 />
                                                 <text
                                                     x={textX}
                                                     y={textY}
-                                                    fill="white"
+                                                    fill="rgba(0,0,0,0.75)"
                                                     fontSize="8"
                                                     fontWeight="bold"
                                                     textAnchor="middle"
