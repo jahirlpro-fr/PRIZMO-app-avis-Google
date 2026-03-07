@@ -1003,9 +1003,9 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                       ) : (
                                                           <CreditCard className="w-12 h-12 text-white/40" />
                                                       )}
-                                                      {establishment.logo_secondary_url && (
+                                                      {establishment.logoSecondaryUrl && (
                                                           <img
-                                                              src={establishment.logo_secondary_url}
+                                                              src={establishment.logoSecondaryUrl}
                                                               alt="Logo secondaire"
                                                               style={{
                                                                   maxHeight: "40px",
