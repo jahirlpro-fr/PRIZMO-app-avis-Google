@@ -118,11 +118,11 @@ export default function GamePage() {
         setTimeout(() => setStep("result1"), 200);
     };
 
-const handleFinish = () => {
+    const handleFinish = () => {
         if (loyaltyActive) {
             setStep("loyalty-prompt");
         } else {
-            router.push("/");
+            window.close();
         }
     };
 
