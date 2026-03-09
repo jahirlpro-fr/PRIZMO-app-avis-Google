@@ -22,14 +22,14 @@ export function EmailForm({ onSubmit, establishmentName, logoUrl, primaryColor =
         const newErrors = { email: "", phone: "" };
         let isValid = true;
 
-        if (!email || !/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = "Veuillez entrer une adresse email valide";
+        if (!email || !/^[a-zA-Z0-9][a-zA-Z0-9._%+-]{1,}@[a-zA-Z0-9][a-zA-Z0-9.-]{1,}\.[a-zA-Z]{2,}$/.test(email)) {
+            newErrors.email = "Adresse email invalide (ex: exemple@domaine.com)";
             isValid = false;
         }
 
         const digitsOnly = phone.replace(/\D/g, "");
-        if (digitsOnly.length !== 10) {
-            newErrors.phone = "Veuillez entrer un numéro valide (10 chiffres)";
+        if (!/^0[67][0-9]{8}$/.test(digitsOnly)) {
+            newErrors.phone = "Numéro invalide — doit commencer par 06 ou 07 (10 chiffres)";
             isValid = false;
         }
 
