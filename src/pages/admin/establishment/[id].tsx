@@ -534,31 +534,32 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
             </div>
 
                       <Tabs defaultValue="wheel" className="space-y-6">
-                      <div className="overflow-x-auto pb-1">
-                          <TabsList className="flex w-max min-w-full">
-                              <TabsTrigger value="wheel" className="flex-1 min-w-[120px] text-xs sm:text-sm">
-                                  🎡 Roue
+                          <TabsList className="grid grid-cols-3 gap-2 h-auto bg-transparent p-0 mb-2">
+                              <TabsTrigger value="wheel"
+                                  className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 border-transparent data-[state=active]:border-purple-500 data-[state=active]:bg-purple-50 bg-gray-50 text-xs font-semibold">
+                                  🎡<span>Roue</span>
                               </TabsTrigger>
-                              <TabsTrigger value="general" className="flex-1 min-w-[120px] text-xs sm:text-sm">
-                                  <Settings className="h-4 w-4 mr-1" />
-                                  Infos
+                              <TabsTrigger value="general"
+                                  className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 border-transparent data-[state=active]:border-purple-500 data-[state=active]:bg-purple-50 bg-gray-50 text-xs font-semibold">
+                                  ⚙️<span>Infos</span>
                               </TabsTrigger>
-                              <TabsTrigger value="posters" className="flex-1 min-w-[120px] text-xs sm:text-sm">
-                                  <Printer className="h-4 w-4 mr-1" />
-                                  Affiches
+                              <TabsTrigger value="posters"
+                                  className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 border-transparent data-[state=active]:border-purple-500 data-[state=active]:bg-purple-50 bg-gray-50 text-xs font-semibold">
+                                  🖨️<span>Affiches</span>
                               </TabsTrigger>
-                              <TabsTrigger value="clients" className="flex-1 min-w-[120px] text-xs sm:text-sm">
-                                  👥 Clients
+                              <TabsTrigger value="clients"
+                                  className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 border-transparent data-[state=active]:border-purple-500 data-[state=active]:bg-purple-50 bg-gray-50 text-xs font-semibold">
+                                  👥<span>Clients</span>
                               </TabsTrigger>
-                              <TabsTrigger value="analytics" className="flex-1 min-w-[120px] text-xs sm:text-sm">
-                                  📊 Analytics
+                              <TabsTrigger value="analytics"
+                                  className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 border-transparent data-[state=active]:border-purple-500 data-[state=active]:bg-purple-50 bg-gray-50 text-xs font-semibold">
+                                  📊<span>Analytics</span>
                               </TabsTrigger>
-                                  <TabsTrigger value="loyalty" className="flex-1 min-w-[120px] text-xs sm:text-sm">
-                                      <CreditCard className="h-4 w-4 mr-1" />
-                                      Fidélité
-                                  </TabsTrigger>
-                              </TabsList>
-                          </div>
+                              <TabsTrigger value="loyalty"
+                                  className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 border-transparent data-[state=active]:border-purple-500 data-[state=active]:bg-purple-50 bg-gray-50 text-xs font-semibold">
+                                  💳<span>Fidélité</span>
+                              </TabsTrigger>
+                          </TabsList>
 
                           {/* Tab: Analytics - NEW PRIORITY */}
               <TabsContent value="analytics">
