@@ -1260,152 +1260,54 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                               )}
                           </TabsContent>
 
-                          {/* Tab: Configuration de la roue - SPLIT SCREEN */}
+                          {/* Tab: Configuration de la roue */}
                           <TabsContent value="wheel">
-                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* LEFT: Preview */}
-                  <Card className="border-2 shadow-xl lg:sticky lg:top-24 h-fit">
-                    <CardHeader>
-                      <CardTitle className="text-xl flex items-center gap-2">
-                        <Eye className="w-5 h-5" />
-                        Aperçu de la roue
-                      </CardTitle>
-                      <CardDescription>
-                        Visualisation en temps réel
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-col items-center space-y-4">
-                      <WheelPreview segments={segments} size={400} />
-                      
-                      <div className="w-full p-4 bg-muted rounded-lg">
-                        <p className="text-sm font-semibold mb-2">Statistiques</p>
-                        <div className="grid grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <p className="text-muted-foreground">Segments</p>
-                            <p className="font-bold text-lg">{segments.length}</p>
-                          </div>
-                          <div>
-                            <p className="text-muted-foreground">Probabilité totale</p>
-                            <p className={`font-bold text-lg ${totalProbability === 100 ? "text-green-600" : "text-orange-600"}`}>
-                              {totalProbability}%
-                            </p>
-                          </div>
-                        </div>
-                        {totalProbability !== 100 && (
-                          <p className="text-xs text-orange-600 mt-2">
-                            ⚠️ La somme des probabilités devrait être égale à 100%
-                          </p>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
+                              <div className="space-y-6">
 
-                  {/* RIGHT: Configuration */}
-                  <div className="space-y-4">
-                    <Card className="border-2 shadow-xl">
-                      <CardHeader>
-                        <CardTitle className="text-xl">Segments de la roue</CardTitle>
-                        <CardDescription>
-                          Personnalisez les lots et leurs probabilités
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {segments.map((segment, index) => (
-                          <Card key={segment.id} className="border-2">
-                            <CardContent className="pt-6">
-                              <div className="space-y-4">
-                                <div className="flex items-center justify-between mb-4">
-                                  <span className="text-sm font-medium text-muted-foreground">
-                                    Segment #{index + 1}
-                                  </span>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => handleDeleteSegment(index)}
-                                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                  </Button>
-                                </div>
+                                  {/* Aperçu pleine largeur */}
+                                  <Card className="border-2 shadow-xl">
+                                      <CardHeader>
+                                          <CardTitle className="text-xl flex items-center gap-2">
+                                              <Eye className="w-5 h-5" />
+                                              Aperçu de la roue
+                                          </CardTitle>
+                                          <CardDescription>Visualisation en temps réel</CardDescription>
+                                      </CardHeader>
+                                      <CardContent className="flex flex-col sm:flex-row items-center gap-8 justify-center py-6">
+                                          <WheelPreview segments={segments} size={320} />
+                                          <div className="flex sm:flex-col gap-4">
+                                              <div className="p-4 bg-muted rounded-xl text-center min-w-[130px]">
+                                                  <p className="text-xs text-muted-foreground mb-1">Segments</p>
+                                                  <p className="font-bold text-3xl">{segments.length}</p>
+                                              </div>
+                                              <div className="p-4 bg-muted rounded-xl text-center min-w-[130px]">
+                                                  <p className="text-xs text-muted-foreground mb-1">Probabilité totale</p>
+                                                  <p className={`font-bold text-3xl ${totalProbability === 100 ? "text-green-600" : "text-orange-600"}`}>
+                                                      {totalProbability}%
+                                                  </p>
+                                                  {totalProbability !== 100 && (
+                                                      <p className="text-xs text-orange-600 mt-1">⚠️ Doit être 100%</p>
+                                                  )}
+                                              </div>
+                                          </div>
+                                      </CardContent>
+                                  </Card>
 
-                                <div className="grid md:grid-cols-2 gap-4">
-                                  <div className="space-y-2">
-                                    <Label>Titre du lot</Label>
-                                    <Input
-                                      value={segment.title}
-                                      onChange={(e) => handleUpdateSegment(index, "title", e.target.value)}
-                                      placeholder="Ex: Dessert offert"
-                                    />
-                                  </div>
-
-                                  <div className="space-y-2">
-                                    <Label>Type de segment</Label>
-                                    <select
-                                      value={segment.type}
-                                      onChange={(e) => handleUpdateSegment(index, "type", e.target.value)}
-                                      className="w-full h-10 px-3 rounded-md border border-input bg-background"
-                                    >
-                                      <option value="prize">🎁 Lot gagnant</option>
-                                      <option value="no-prize">❌ Pas de gain</option>
-                                    </select>
-                                  </div>
-
-                                  <div className="space-y-2">
-                                    <Label>Couleur</Label>
-                                    <div className="flex gap-2">
-                                      <Input
-                                        type="color"
-                                        value={segment.color}
-                                        onChange={(e) => handleUpdateSegment(index, "color", e.target.value)}
-                                        className="w-20 h-10 rounded cursor-pointer"
-                                      />
-                                      <Input
-                                        type="text"
-                                        value={segment.color}
-                                        onChange={(e) => handleUpdateSegment(index, "color", e.target.value)}
-                                        placeholder="#000000"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="space-y-2">
-                                    <Label>Probabilité (%)</Label>
-                                    <Input
-                                      type="number"
-                                      min="0"
-                                      max="100"
-                                      value={segment.probability}
-                                      onChange={(e) => handleUpdateSegment(index, "probability", parseInt(e.target.value) || 0)}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-
-                        <Button 
-                          onClick={handleAddSegment} 
-                          variant="outline" 
-                          className="w-full border-2 border-dashed hover:border-solid"
-                        >
-                          <Plus className="w-4 h-4 mr-2" />
-                          Ajouter un segment
-                        </Button>
-
-                        <Button 
-                          onClick={handleSaveSegments} 
-                          className="w-full prizmo-gradient text-white font-semibold"
-                          size="lg"
-                        >
-                          <Save className="w-4 h-4 mr-2" />
-                          Enregistrer la configuration
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </div>
-              </TabsContent>
+                                  {/* Segments en grille 2 colonnes */}
+                                  <Card className="border-2 shadow-xl">
+                                      <CardHeader>
+                                          <CardTitle className="text-xl">🎯 Segments de la roue</CardTitle>
+                                          <CardDescription>Personnalisez les lots et leurs probabilités</CardDescription>
+                                      </CardHeader>
+                                      <CardContent className="space-y-4">
+                                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                              {segments.map((segment, index) => (
+                                                  <div key={segment.id} className="p-4 border-2 rounded-xl space-y-3 bg-gray-50">
+                                                      <div className="flex items-center justify-between">
+                                                          <span className="text-sm font-semibold text-gray-500">Segment #{index + 1}</span>
+                                                          <Button variant="ghost" size="sm"
+                                                              onClick={() => handleDeleteSegment(index)}
+                                                              className="tex
 
                           {/* Tab: Affiches */}
                           <TabsContent value="posters">
