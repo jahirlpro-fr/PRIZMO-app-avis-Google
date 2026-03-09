@@ -189,9 +189,9 @@ export default function NewEstablishmentPage() {
     if (step === 5) {
       if (!formData.email.trim()) {
         newErrors.email = "L'email est requis";
-      } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
-        newErrors.email = "Format d'email invalide (ex: exemple@domaine.com)";
-      }
+} else if (!/^[a-zA-Z0-9][a-zA-Z0-9._%+-]{1,}@[a-zA-Z0-9][a-zA-Z0-9.-]{1,}\.[a-zA-Z]{2,}$/.test(formData.email)) {
+  newErrors.email = "Format d'email invalide (ex: exemple@domaine.com)";
+}
       if (!formData.password.trim()) {
         newErrors.password = "Le mot de passe est requis";
       } else if (formData.password.length < 6) {
