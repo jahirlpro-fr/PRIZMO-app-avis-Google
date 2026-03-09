@@ -1307,7 +1307,64 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                           <span className="text-sm font-semibold text-gray-500">Segment #{index + 1}</span>
                                                           <Button variant="ghost" size="sm"
                                                               onClick={() => handleDeleteSegment(index)}
-                                                              className="tex
+                                                              className="text-red-600 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0">
+                                                              <Trash2 className="w-4 h-4" />
+                                                          </Button>
+                                                      </div>
+                                                      <div className="space-y-1">
+                                                          <Label className="text-xs">Titre du lot</Label>
+                                                          <Input value={segment.title}
+                                                              onChange={(e) => handleUpdateSegment(index, "title", e.target.value)}
+                                                              placeholder="Ex: Café offert" />
+                                                      </div>
+                                                      <div className="space-y-1">
+                                                          <Label className="text-xs">Type de segment</Label>
+                                                          <select value={segment.type}
+                                                              onChange={(e) => handleUpdateSegment(index, "type", e.target.value)}
+                                                              className="w-full h-10 px-3 rounded-md border border-input bg-white text-sm">
+                                                              <option value="prize">🎁 Lot gagnant</option>
+                                                              <option value="no-prize">❌ Pas de gain</option>
+                                                          </select>
+                                                      </div>
+                                                      <div className="grid grid-cols-2 gap-2">
+                                                          <div className="space-y-1">
+                                                              <Label className="text-xs">Couleur</Label>
+                                                              <div className="flex gap-2 items-center">
+                                                                  <Input type="color" value={segment.color}
+                                                                      onChange={(e) => handleUpdateSegment(index, "color", e.target.value)}
+                                                                      className="w-10 h-10 p-1 rounded cursor-pointer" />
+                                                                  <Input type="text" value={segment.color}
+                                                                      onChange={(e) => handleUpdateSegment(index, "color", e.target.value)}
+                                                                      className="font-mono text-xs" />
+                                                              </div>
+                                                          </div>
+                                                          <div className="space-y-1">
+                                                              <Label className="text-xs">Probabilité (%)</Label>
+                                                              <Input type="number" min="0" max="100"
+                                                                  value={segment.probability}
+                                                                  onChange={(e) => handleUpdateSegment(index, "probability", parseInt(e.target.value) || 0)} />
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              ))}
+                                          </div>
+
+                                          <Button onClick={handleAddSegment} variant="outline"
+                                              className="w-full border-2 border-dashed hover:border-solid">
+                                              <Plus className="w-4 h-4 mr-2" />
+                                              Ajouter un segment
+                                          </Button>
+
+                                          <Button onClick={handleSaveSegments}
+                                              className="w-full prizmo-gradient text-white font-semibold" size="lg">
+                                              <Save className="w-4 h-4 mr-2" />
+                                              Enregistrer la configuration
+                                          </Button>
+                                      </CardContent>
+                                  </Card>
+
+                              </div>
+                          </TabsContent>
 
                           {/* Tab: Affiches */}
                           <TabsContent value="posters">
