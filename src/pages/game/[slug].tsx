@@ -317,7 +317,7 @@ export default function GamePage() {
                             💳 Je veux ma carte de fidélité !
                         </button>
                         <button
-                            onClick={() => { window.close(); setTimeout(() => router.push("/"), 300); }}
+                            onClick={() => window.close()}
                             className="w-full text-gray-400 text-sm py-3 rounded-2xl hover:text-gray-600 transition-colors"
                         >
                             Non merci, terminer →
