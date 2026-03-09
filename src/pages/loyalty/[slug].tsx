@@ -566,10 +566,10 @@ if (!/^0[67][0-9]{8}$/.test(phoneDigits)) {
                             >
                                 ✅ Valider ma visite
                             </Button>
-                            <Button variant="ghost" onClick={() => setStep("hero")}
-                                className="w-full text-gray-400 text-sm">
-                                Retour à l'accueil
-                            </Button>
+<Button variant="ghost" onClick={() => window.close()}
+    className="w-full text-gray-400 text-sm">
+    Fermer
+</Button>
                         </div>
                     </div>
                 )}
