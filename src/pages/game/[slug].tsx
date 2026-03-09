@@ -115,7 +115,15 @@ export default function GamePage() {
             setParticipant(newParticipant);
         }
 
-        setTimeout(() => setStep("result1"), 200);
+setTimeout(() => setStep("result1"), 200);
+    };
+
+    const handleFinish = () => {
+        if (loyaltyActive) {
+            setStep("loyalty-prompt");
+        } else {
+            window.close();
+        }
     };
 
     // Etats de chargement et erreurs
