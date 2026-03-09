@@ -687,7 +687,7 @@ if (!/^0[67][0-9]{8}$/.test(phoneDigits)) {
                 <p className="text-sm text-gray-500 mt-2">Montrez cet écran à votre serveur 📱</p>
               </div>
 
-              {/* Bouton retour */}
+{/* Bouton retour */}
               <Button
                 onClick={() => { setPrizeWon(false); setStep("card"); }}
                 className="w-full max-w-sm text-white font-bold py-6 text-base rounded-2xl shadow-lg"
@@ -696,7 +696,14 @@ if (!/^0[67][0-9]{8}$/.test(phoneDigits)) {
                 Retour à ma carte 💳
               </Button>
 
-              <p className="mt-6 text-xs text-gray-300 font-medium">Propulsé par Prizmo 🎡</p>
+              <button
+                onClick={() => window.close()}
+                className="mt-4 text-gray-400 text-sm hover:text-gray-600 transition-colors"
+              >
+                Fermer la fenêtre →
+              </button>
+
+              <p className="mt-4 text-xs text-gray-300 font-medium">Propulsé par Prizmo 🎡</p>
             </div>
           )}
             </div>
