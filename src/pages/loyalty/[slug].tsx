@@ -100,10 +100,19 @@ export default function LoyaltyPage() {
     };
 
     const handleRegister = async () => {
-        if (!formData.email.trim() || !formData.phone.trim()) {
-            setError("Email et téléphone requis");
-            return;
-        }
+if (!formData.email.trim() || !formData.phone.trim()) {
+    setError("Email et téléphone requis");
+    return;
+}
+if (!/^[a-zA-Z0-9][a-zA-Z0-9._%+-]{1,}@[a-zA-Z0-9][a-zA-Z0-9.-]{1,}\.[a-zA-Z]{2,}$/.test(formData.email.trim())) {
+    setError("Adresse email invalide (ex: exemple@domaine.com)");
+    return;
+}
+const phoneDigits = formData.phone.replace(/\D/g, "");
+if (!/^0[67][0-9]{8}$/.test(phoneDigits)) {
+    setError("Numéro invalide — doit commencer par 06 ou 07 (10 chiffres)");
+    return;
+}
         if (!establishment) return;
 
         setSubmitting(true);
