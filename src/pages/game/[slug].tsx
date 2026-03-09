@@ -118,13 +118,8 @@ export default function GamePage() {
         setTimeout(() => setStep("result1"), 200);
     };
 
-    const handleFinish = () => {
-        if (loyaltyActive) {
-            setStep("loyalty-prompt");
-        } else {
-            window.close();
-        }
-    };
+    onClick = {() => window.close()
+}
 
     // Etats de chargement et erreurs
     if (step === "loading") {
