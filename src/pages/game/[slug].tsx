@@ -118,9 +118,6 @@ export default function GamePage() {
         setTimeout(() => setStep("result1"), 200);
     };
 
-    onClick = {() => window.close()
-}
-
     // Etats de chargement et erreurs
     if (step === "loading") {
         return (
