@@ -526,8 +526,8 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                   </div>
         </header>
 
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-7xl mx-auto">
+              <div className="container mx-auto px-3 py-4 sm:px-4 sm:py-8">
+                  <div className="max-w-7xl mx-auto w-full overflow-hidden">
             <div className="mb-6">
               <h1 className="text-3xl font-bold">{establishment.name}</h1>
               <p className="text-muted-foreground">Gérez votre établissement et personnalisez l'expérience client</p>
