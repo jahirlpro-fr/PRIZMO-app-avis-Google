@@ -821,7 +821,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                   </div>
                               ) : (
                                   <>
-                                      <div className="grid lg:grid-cols-2 gap-6">
+                                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
                   {/* GAUCHE — Configuration */}
                   <div className="space-y-4">
@@ -1262,7 +1262,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
 
                           {/* Tab: Configuration de la roue - SPLIT SCREEN */}
                           <TabsContent value="wheel">
-                              <div className="grid lg:grid-cols-2 gap-6">
+                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {/* LEFT: Preview */}
                   <Card className="border-2 shadow-xl lg:sticky lg:top-24 h-fit">
                     <CardHeader>
