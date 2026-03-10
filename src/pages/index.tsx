@@ -859,7 +859,7 @@ export default function LandingPage() {
     </span>
     <span style={{ color: "#888", fontSize: "15px" }}>/mois</span>
     {isAnnual && (
-        <div style={{ fontSize: "12px", color: "#aaa", marginTop: "4px" }}>facturé 468€/an</div>
+        <div style={{ fontSize: "12px", color: "#aaa", marginTop: "4px" }}>facturé 490€/an</div>
     )}
 </div>
                             <div className="divider" />
