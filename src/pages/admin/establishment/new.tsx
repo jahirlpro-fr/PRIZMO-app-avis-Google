@@ -270,15 +270,6 @@ export default function NewEstablishmentPage() {
           ]);
 
           router.push("/admin");
-          ```
-
----
-
-## ÉTAPE 3 — Variable d'environnement pour la relance J-3
-
-Dans Softgen → **Environment**, ajoute :
-```
-          CRON_SECRET = prizmo_cron_2025
       } catch (authError: any) {
         console.error("Auth error:", authError);
         setErrors({ submit: authError.message || "Erreur lors de la création du compte. Veuillez réessayer." });
