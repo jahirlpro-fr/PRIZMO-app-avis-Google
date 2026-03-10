@@ -26,9 +26,10 @@ export default function LoginPage() {
       return;
     }
 
-    try {
-      await signIn(email, password);
-    } catch (err: any) {
+      try {
+          const redirect = router.query.redirect as string | undefined;
+          await signIn(email, password, redirect);
+      } catch (err: any) {
       console.error("Login error:", err);
       setError(err.message || "Email ou mot de passe incorrect");
     }
