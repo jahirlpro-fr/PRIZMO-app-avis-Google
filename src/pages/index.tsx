@@ -734,10 +734,15 @@ const [isAnnual, setIsAnnual] = useState(false);
                                 <div style={{ fontSize: "13px", fontWeight: "700", color: "rgba(255,255,255,0.8)", letterSpacing: "0.08em", textTransform: "uppercase" }}>PRO</div>
                                 <div style={{ background: "rgba(255,255,255,0.2)", padding: "4px 12px", borderRadius: "100px", fontSize: "12px", fontWeight: "700" }}>⭐ Recommandé</div>
                             </div>
-                            <div style={{ marginBottom: "24px" }}>
-                                <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>69€</span>
-                                <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "15px" }}>/mois</span>
-                            </div>
+<div style={{ marginBottom: "24px" }}>
+    <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>
+        {isAnnual ? "55€" : "69€"}
+    </span>
+    <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "15px" }}>/mois</span>
+    {isAnnual && (
+        <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.6)", marginTop: "4px" }}>facturé 660€/an</div>
+    )}
+</div>
                             <div style={{ width: "48px", height: "3px", background: "rgba(255,255,255,0.4)", borderRadius: "2px", margin: "0 0 24px" }} />
                             <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
                                 {["1 établissement", "Participants illimités", "Roue de la fortune", "Carte fidélité digitale", "Analytics complets", "Relance SMS clients", "2 chevalets inclus", "Support prioritaire"].map((item, i) => (
