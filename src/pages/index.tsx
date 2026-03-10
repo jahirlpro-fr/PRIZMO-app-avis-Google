@@ -394,6 +394,7 @@ const [isAnnual, setIsAnnual] = useState(false);
                         <a href="#comment" className="nav-link hide-mobile">Comment ça marche</a>
                         <a href="#tarifs" className="nav-link hide-mobile">Tarifs</a>
                         <a href="#faq" className="nav-link hide-mobile">FAQ</a>
+                        <a href="/contact" className="nav-link hide-mobile">Contact</a>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                         <a href="/login" className="btn-secondary" style={{ padding: "10px 20px", fontSize: "14px" }}>Connexion</a>
