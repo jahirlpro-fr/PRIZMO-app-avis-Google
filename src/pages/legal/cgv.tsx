@@ -96,7 +96,7 @@ export default function CGV() {
                         <p>Les prix sont indiqués hors taxes. En tant qu'auto-entrepreneur sous le régime de la franchise en base de TVA (article 293 B du CGI), l'Éditeur ne facture pas de TVA. La mention « TVA non applicable, article 293 B du CGI » figure sur les factures.</p>
 
                         <h3>2.2 Essai gratuit</h3>
-                        <p>Tout nouveau Client bénéficie d'une période d'essai gratuite de <strong>14 jours</strong> avec accès complet au plan PRO. Aucune information de paiement n'est requise pour démarrer l'essai. À l'issue de cette période, le Client choisit librement son plan ou met fin à son utilisation du service.</p>
+                        <p>Tout nouveau Client bénéficie d'une période d'essai gratuite de <strong>21 jours</strong> avec accès complet au plan PRO. Aucune information de paiement n'est requise pour démarrer l'essai. À l'issue de cette période, le Client choisit librement son plan ou met fin à son utilisation du service.</p>
 
                         <h2>3. Commande et souscription</h2>
                         <div className="section-divider" />
