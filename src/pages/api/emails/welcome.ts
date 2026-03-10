@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const trialDate = trialEndsAt
         ? new Date(trialEndsAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })
-        : "dans 14 jours";
+        : "dans 21 jours";
 
     try {
         // 1. Email de bienvenue au marchand
@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                   <td style="background:linear-gradient(135deg,#7c3aed,#db2777);padding:40px;text-align:center;">
                     <div style="font-size:48px;margin-bottom:12px;">🎡</div>
                     <h1 style="color:white;margin:0;font-size:26px;font-weight:800;">Bienvenue sur Prizmo !</h1>
-                    <p style="color:rgba(255,255,255,0.85);margin:10px 0 0;font-size:15px;">Votre essai gratuit de 14 jours commence maintenant</p>
+                    <p style="color:rgba(255,255,255,0.85);margin:10px 0 0;font-size:15px;">Votre essai gratuit de 21 jours commence maintenant</p>
                   </td>
                 </tr>
 
