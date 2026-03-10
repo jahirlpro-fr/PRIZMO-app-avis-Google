@@ -1,4 +1,5 @@
 import { useState, FormEvent } from "react";
+import { useRouter } from "next/router";
 import { useAuth } from "@/contexts/AuthContext";
 import { SEO } from "@/components/SEO";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,8 +11,9 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 export default function LoginPage() {
-  const { signIn, loading } = useAuth();
-  const [email, setEmail] = useState("");
+    const { signIn, loading } = useAuth();
+    const router = useRouter();
+    const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
