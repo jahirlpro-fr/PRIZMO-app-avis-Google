@@ -250,27 +250,24 @@ export default function NewEstablishmentPage() {
       try {
           await authService.signUp(formData.email, formData.password, "merchant", newEstablishment.id);
 
-          // Email de bienvenue
+// Emails de bienvenue
           const trialEndsAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
-          await fetch("/api/emails/welcome", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                  email: formData.email,
-                  establishmentName: formData.name,
-                  trialEndsAt,
+          const emailData = {
+              email: formData.email,
+              establishmentName: formData.name,
+          };
+          await Promise.all([
+              fetch("/api/emails/welcome", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ ...emailData, trialEndsAt }),
               }),
-          });
-
-// Email J+1 envoyé immédiatement (le cron le déclenchera plus tard)
-void fetch("/api/emails/day1", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-        email: formData.email,
-        establishmentName: formData.name,
-    }),
-});
+              fetch("/api/emails/day1", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(emailData),
+              }),
+          ]);
 
           router.push("/admin");
           ```
