@@ -120,11 +120,11 @@ const FAQS = [
     },
     {
         q: "Puis-je tester gratuitement ?",
-        a: "Oui ! L'essai gratuit de 14 jours vous donne accès à toutes les fonctionnalités PRO. Aucune carte bancaire requise pour démarrer.",
+        a: "Oui ! L'essai gratuit de 21 jours vous donne accès à toutes les fonctionnalités PRO. Aucune carte bancaire requise pour démarrer.",
     },
     {
     q: "L'essai gratuit nécessite-t-il une carte bancaire ?",
-    a: "Non. Vous démarrez avec 14 jours d'accès complet au plan PRO, sans renseigner aucune information de paiement. À la fin de l'essai, vous choisissez votre plan ou supprimez votre compte.",
+    a: "Non. Vous démarrez avec 21 jours d'accès complet au plan PRO, sans renseigner aucune information de paiement. À la fin de l'essai, vous choisissez votre plan ou supprimez votre compte.",
 },
 {
     q: "Puis-je changer de plan à tout moment ?",
@@ -797,7 +797,7 @@ export default function LandingPage() {
     <div className="tag">💰 Tarifs</div>
     <h2>Simple et transparent</h2>
     <p style={{ color: "#666", fontSize: "17px", marginTop: "16px", marginBottom: "32px" }}>
-        Essai gratuit 14 jours, sans carte bancaire. Annulez à tout moment.
+        Essai gratuit 21 jours, sans carte bancaire. Annulez à tout moment.
     </p>
     {/* Toggle mensuel / annuel */}
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
@@ -864,7 +864,7 @@ export default function LandingPage() {
 </div>
                             <div className="divider" />
                             <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
-                                {["1 établissement", "100 participants/mois", "Roue de la fortune", "Avis Google intégrés", "Analytics basiques", "Affiches imprimables"].map((item, i) => (
+                                {["1 établissement", "100 participants/mois", "Roue de la fortune", "Tunnel avis Google", "Collecte emails + tél clients", "Graphiques Analytics (basic)", "Affiches imprimables"].map((item, i) => (
                                     <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
                                         <div className="check-dark">✓</div>
                                         <span>{item}</span>
@@ -893,7 +893,7 @@ export default function LandingPage() {
 </div>
                             <div style={{ width: "48px", height: "3px", background: "rgba(255,255,255,0.4)", borderRadius: "2px", margin: "0 0 24px" }} />
                             <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
-                                {["1 établissement", "Participants illimités", "Roue de la fortune", "Carte fidélité digitale", "Analytics complets", "Relance SMS clients", "2 chevalets inclus", "Support prioritaire"].map((item, i) => (
+                                {["1 établissement", "Participants illimités", "Roue de la fortune", "Tunnel avis Google + Instagram", "Collecte emails + tél clients", "Graphiques Analytics (avancés)", "Programme de fidélité", "2 chevalets inclus", "Support prioritaire"].map((item, i) => (
                                     <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
                                         <div className="check">✓</div>
                                         <span>{item}</span>
@@ -927,7 +927,7 @@ export default function LandingPage() {
                             </div>
                             <div className="divider" />
                             <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
-                                {["Multi-établissements", "Tarification dégressive", "Tout le plan PRO", "Branding personnalisé", "Tableau de bord centralisé", "Account manager dédié", "SLA garanti", "Onboarding accompagné"].map((item, i) => (
+                                {["Multi-établissements (5+)", "Tout le plan PRO", "Tunnel avis Google + Instagram", "Graphiques Analytics (avancés)", "Programme de fidélité", "Chevalets physiques (sur devis)", "White label", "Account manager dédié", "Onboarding accompagné"].map((item, i) => (
                                     <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
                                         <div className="check-dark">✓</div>
                                         <span>{item}</span>
@@ -941,7 +941,7 @@ export default function LandingPage() {
                     </div>
 
 <p style={{ textAlign: "center", color: "#888", fontSize: "13px", marginTop: "32px" }}>
-    Tous les plans incluent un essai gratuit de 14 jours · Aucune carte bancaire requise · Annulation sans préavis
+    Tous les plans incluent un essai gratuit de 21 jours · Aucune carte bancaire requise · Annulation sans préavis
 </p>
 
 {/* ── TABLEAU COMPARATIF ── */}
