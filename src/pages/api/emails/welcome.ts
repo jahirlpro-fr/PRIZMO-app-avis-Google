@@ -121,7 +121,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           <p><strong>Email :</strong> ${email}</p>
           <p><strong>Établissement :</strong> ${establishmentName || "Non renseigné"}</p>
           <p><strong>Fin d'essai :</strong> ${trialDate}</p>
-          <a href="hhttps://prizmo.pro/login?redirect=/admin/crm" style="background:#7c3aed;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;display:inline-block;margin-top:12px;">Voir dans le CRM →</a>
+          <a href="https://prizmo.pro/login?redirect=/admin/crm" style="background:#7c3aed;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;display:inline-block;margin-top:12px;">Voir dans le CRM →</a>
         </div>
       `,
         });
