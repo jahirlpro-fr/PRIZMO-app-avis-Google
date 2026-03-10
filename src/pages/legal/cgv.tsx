@@ -89,8 +89,8 @@ export default function CGV() {
                         <div className="section-divider" />
                         <h3>2.1 Plans disponibles</h3>
                         <ul>
-                            <li><strong>SOLO — 49€ HT/mois</strong> (ou 41€ HT/mois en annuel, facturé 490€/an) : 1 établissement, 100 participants/mois, fonctionnalités de base</li>
-                            <li><strong>PRO — 69€ HT/mois</strong> (ou 58€ HT/mois en annuel, facturé 690€/an) : 1 établissement, participants illimités, carte fidélité, analytics complets, relance SMS</li>
+                            <li><strong>SOLO — 49€ HT/mois</strong> (ou 41€ HT/mois en annuel, facturé 490€/an) : 1 établissement, 100 participants/mois, tunnel avis Google, analytics basic</li>
+                            <li><strong>PRO — 69€ HT/mois</strong> (ou 58€ HT/mois en annuel, facturé 690€/an) : 1 établissement, participants illimités, tunnel Instagram, programme de fidélité, analytics avancés</li>
                             <li><strong>BUSINESS — sur devis</strong> : multi-établissements, tarification dégressive</li>
                         </ul>
                         <p>Les prix sont indiqués hors taxes. En tant qu'auto-entrepreneur sous le régime de la franchise en base de TVA (article 293 B du CGI), l'Éditeur ne facture pas de TVA. La mention « TVA non applicable, article 293 B du CGI » figure sur les factures.</p>
