@@ -131,7 +131,8 @@ const STATS = [
 
 export default function LandingPage() {
     const router = useRouter();
-    const [openFaq, setOpenFaq] = useState < number | null > (null);
+const [openFaq, setOpenFaq] = useState<number | null>(null);
+const [isAnnual, setIsAnnual] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [wheelAngle, setWheelAngle] = useState(0);
     const wheelRef = useRef < ReturnType < typeof setInterval > | null > (null);
