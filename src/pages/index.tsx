@@ -792,9 +792,71 @@ const [isAnnual, setIsAnnual] = useState(false);
                         </div>
                     </div>
 
-                    <p style={{ textAlign: "center", color: "#888", fontSize: "13px", marginTop: "32px" }}>
-                        Tous les plans incluent un essai gratuit de 14 jours · Aucune carte bancaire requise · Annulation sans préavis
-                    </p>
+<p style={{ textAlign: "center", color: "#888", fontSize: "13px", marginTop: "32px" }}>
+    Tous les plans incluent un essai gratuit de 14 jours · Aucune carte bancaire requise · Annulation sans préavis
+</p>
+
+{/* ── TABLEAU COMPARATIF ── */}
+<div style={{ marginTop: "72px" }}>
+    <h3 style={{ textAlign: "center", fontFamily: "'DM Serif Display', serif", fontSize: "clamp(24px, 3vw, 36px)", fontWeight: "400", marginBottom: "40px" }}>
+        Comparez les plans
+    </h3>
+    <div style={{ background: "white", border: "1.5px solid #efefef", borderRadius: "24px", overflow: "hidden" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+                <tr>
+                    <th style={{ padding: "16px 24px", textAlign: "left", fontSize: "14px", fontWeight: "700", color: "#333", background: "#fafafa", borderBottom: "1px solid #f0f0f0", width: "40%" }}>Fonctionnalité</th>
+                    <th style={{ padding: "16px 24px", textAlign: "center", fontSize: "14px", fontWeight: "700", color: "#333", background: "#fafafa", borderBottom: "1px solid #f0f0f0" }}>SOLO</th>
+                    <th style={{ padding: "16px 24px", textAlign: "center", fontSize: "14px", fontWeight: "700", color: "#7c3aed", background: "#f5f0ff", borderBottom: "1px solid #f0f0f0" }}>PRO ⭐</th>
+                    <th style={{ padding: "16px 24px", textAlign: "center", fontSize: "14px", fontWeight: "700", color: "#333", background: "#fafafa", borderBottom: "1px solid #f0f0f0" }}>BUSINESS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {[
+                    ["Roue de la fortune", "✅", "✅", "✅"],
+                    ["Avis Google intégrés", "✅", "✅", "✅"],
+                    ["Affiches imprimables", "✅", "✅", "✅"],
+                    ["Participants / mois", "100", "Illimités", "Illimités"],
+                    ["Analytics", "3 KPIs", "Complets", "Complets"],
+                    ["Carte fidélité digitale", "❌", "✅", "✅"],
+                    ["Relance SMS", "❌", "✅", "✅"],
+                    ["Multi-établissements", "❌", "❌", "✅"],
+                    ["Branding personnalisé", "❌", "❌", "✅"],
+                    ["Support", "Email", "Prioritaire", "Dédié"],
+                ].map(([feature, solo, pro, business], i, arr) => (
+                    <tr key={i}>
+                        <td style={{ padding: "14px 24px", fontSize: "14px", color: "#555", borderBottom: i < arr.length - 1 ? "1px solid #f0f0f0" : "none", fontWeight: "500" }}>{feature}</td>
+                        <td style={{ padding: "14px 24px", fontSize: "14px", textAlign: "center", borderBottom: i < arr.length - 1 ? "1px solid #f0f0f0" : "none" }}>{solo}</td>
+                        <td style={{ padding: "14px 24px", fontSize: "14px", textAlign: "center", borderBottom: i < arr.length - 1 ? "1px solid #f0f0f0" : "none", background: "#fdf9ff", fontWeight: pro !== "❌" ? "600" : "400", color: pro === "❌" ? "#ddd" : "#7c3aed" }}>{pro}</td>
+                        <td style={{ padding: "14px 24px", fontSize: "14px", textAlign: "center", borderBottom: i < arr.length - 1 ? "1px solid #f0f0f0" : "none" }}>{business}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{/* ── GARANTIE ── */}
+<div style={{
+    background: "white", border: "1.5px solid #efefef", borderRadius: "24px",
+    padding: "48px 40px", textAlign: "center", marginTop: "48px",
+}}>
+    <div style={{ fontSize: "40px", marginBottom: "16px" }}>🛡️</div>
+    <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "28px", fontWeight: "400", marginBottom: "12px" }}>
+        Essai sans risque, 14 jours
+    </h3>
+    <p style={{ color: "#666", fontSize: "16px", lineHeight: "1.7", maxWidth: "500px", margin: "0 auto 28px" }}>
+        Testez Prizmo avec toutes les fonctionnalités PRO. Si ce n'est pas pour vous, supprimez votre compte en un clic. Aucune question posée.
+    </p>
+    <div style={{ display: "flex", justifyContent: "center", gap: "28px", flexWrap: "wrap" }}>
+        {["Aucune carte bancaire", "Annulation en 1 clic", "Données effacées sur demande", "RGPD conforme"].map((item, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: "#555" }}>
+                <span style={{ color: "#22c55e", fontWeight: "700" }}>✓</span>
+                {item}
+            </div>
+        ))}
+    </div>
+</div>
                 </div>
             </section>
 
