@@ -553,7 +553,7 @@ const [isAnnual, setIsAnnual] = useState(false);
                 </div>
             </section>
 
-            {/* ── POURQUOI PRIZMO ── */}
+            {/* ── POURQUOI PRIZMO — BENTO GRID ── */}
             <section className="section" id="features">
                 <div className="container">
                     <div style={{ textAlign: "center", marginBottom: "64px" }}>
@@ -563,14 +563,109 @@ const [isAnnual, setIsAnnual] = useState(false);
                             Prizmo réunit dans une seule plateforme tout ce qu'il faut pour engager vos clients et les fidéliser durablement.
                         </p>
                     </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
-                        {FEATURES.map((f, i) => (
-                            <div key={i} className="feature-card">
-                                <div style={{ fontSize: "32px", marginBottom: "16px" }}>{f.icon}</div>
-                                <h3 style={{ marginBottom: "10px" }}>{f.title}</h3>
-                                <p style={{ color: "#666", fontSize: "15px", lineHeight: "1.65" }}>{f.desc}</p>
+
+                    {/* Bento Grid */}
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridTemplateRows: "auto auto", gap: "16px" }}>
+
+                        {/* Grande carte gauche — Roue */}
+                        <motion.div
+                            whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(124,58,237,0.15)" }}
+                            transition={{ duration: 0.2 }}
+                            style={{
+                                gridColumn: "span 2", background: "white",
+                                border: "1.5px solid #efefef", borderRadius: "24px",
+                                padding: "40px", overflow: "hidden", position: "relative",
+                                cursor: "default",
+                            }}
+                        >
+                            <div style={{
+                                position: "absolute", top: "-40px", right: "-40px",
+                                width: "200px", height: "200px", borderRadius: "50%",
+                                background: "radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)",
+                            }} />
+                            <div style={{ fontSize: "48px", marginBottom: "20px" }}>🎡</div>
+                            <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "12px" }}>Roue de la Fortune</h3>
+                            <p style={{ color: "#666", fontSize: "15px", lineHeight: "1.7", maxWidth: "420px" }}>
+                                Vos clients tournent la roue après avoir laissé un avis Google. <strong>100% gagnant</strong>, zéro frustration. L'expérience est mémorable et donne envie de revenir.
+                            </p>
+                            <div style={{ marginTop: "20px", display: "inline-flex", alignItems: "center", gap: "6px", background: "#f3f0ff", color: "#7c3aed", padding: "6px 14px", borderRadius: "100px", fontSize: "13px", fontWeight: "600" }}>
+                                ✓ Accessible par QR code · Sans installation
                             </div>
-                        ))}
+                        </motion.div>
+
+                        {/* Carte droite haute — Avis Google */}
+                        <motion.div
+                            whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(219,39,119,0.12)" }}
+                            transition={{ duration: 0.2 }}
+                            style={{
+                                background: "linear-gradient(135deg, #7c3aed, #db2777)",
+                                borderRadius: "24px", padding: "36px",
+                                overflow: "hidden", position: "relative", cursor: "default",
+                            }}
+                        >
+                            <div style={{ fontSize: "40px", marginBottom: "16px" }}>⭐</div>
+                            <h3 style={{ fontSize: "20px", fontWeight: "700", marginBottom: "10px", color: "white" }}>Avis Google automatiques</h3>
+                            <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "14px", lineHeight: "1.65" }}>
+                                Le parcours est conçu pour rediriger vers votre fiche Google <strong style={{ color: "white" }}>avant</strong> de jouer. Plus d'avis, mieux classé.
+                            </p>
+                        </motion.div>
+
+                        {/* Carte basse gauche — Carte fidélité */}
+                        <motion.div
+                            whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(0,0,0,0.08)" }}
+                            transition={{ duration: 0.2 }}
+                            style={{
+                                background: "#0f0f0f", borderRadius: "24px",
+                                padding: "36px", overflow: "hidden", position: "relative", cursor: "default",
+                            }}
+                        >
+                            <div style={{ fontSize: "40px", marginBottom: "16px" }}>💳</div>
+                            <h3 style={{ fontSize: "20px", fontWeight: "700", marginBottom: "10px", color: "white" }}>Carte fidélité digitale</h3>
+                            <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "14px", lineHeight: "1.65" }}>
+                                Fini les cartes papier perdues. Tampons sur téléphone, sans installation.
+                            </p>
+                        </motion.div>
+
+                        {/* Carte basse milieu — Analytics */}
+                        <motion.div
+                            whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(124,58,237,0.1)" }}
+                            transition={{ duration: 0.2 }}
+                            style={{
+                                background: "#f9f5ff", border: "1.5px solid #e9d8fd",
+                                borderRadius: "24px", padding: "36px", cursor: "default",
+                            }}
+                        >
+                            <div style={{ fontSize: "40px", marginBottom: "16px" }}>📊</div>
+                            <h3 style={{ fontSize: "20px", fontWeight: "700", marginBottom: "10px", color: "#0f0f0f" }}>Analytics en temps réel</h3>
+                            <p style={{ color: "#666", fontSize: "14px", lineHeight: "1.65" }}>
+                                Participants, avis générés, emails collectés. Décisions basées sur des données.
+                            </p>
+                        </motion.div>
+
+                        {/* Grande carte droite bas — Affiches + RGPD */}
+                        <motion.div
+                            whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(0,0,0,0.06)" }}
+                            transition={{ duration: 0.2 }}
+                            style={{
+                                background: "white", border: "1.5px solid #efefef",
+                                borderRadius: "24px", padding: "36px", cursor: "default",
+                            }}
+                        >
+                            <div style={{ display: "flex", gap: "24px", height: "100%" }}>
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ fontSize: "40px", marginBottom: "16px" }}>🖨️</div>
+                                    <h3 style={{ fontSize: "18px", fontWeight: "700", marginBottom: "8px" }}>Affiches imprimables</h3>
+                                    <p style={{ color: "#666", fontSize: "13px", lineHeight: "1.6" }}>A4/A5 en un clic avec votre logo et vos couleurs.</p>
+                                </div>
+                                <div style={{ width: "1px", background: "#f0f0f0" }} />
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ fontSize: "40px", marginBottom: "16px" }}>🔒</div>
+                                    <h3 style={{ fontSize: "18px", fontWeight: "700", marginBottom: "8px" }}>100% RGPD conforme</h3>
+                                    <p style={{ color: "#666", fontSize: "13px", lineHeight: "1.6" }}>Données hébergées en Europe. Vous restez propriétaire.</p>
+                                </div>
+                            </div>
+                        </motion.div>
+
                     </div>
                 </div>
             </section>
