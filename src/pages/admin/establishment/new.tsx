@@ -251,7 +251,7 @@ export default function NewEstablishmentPage() {
           await authService.signUp(formData.email, formData.password, "merchant", newEstablishment.id);
 
 // Emails de bienvenue
-          const trialEndsAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
+          const trialEndsAt = new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString();
           const emailData = {
               email: formData.email,
               establishmentName: formData.name,
