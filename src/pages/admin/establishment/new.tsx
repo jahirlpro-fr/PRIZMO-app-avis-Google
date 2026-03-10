@@ -262,17 +262,15 @@ export default function NewEstablishmentPage() {
               }),
           });
 
-          // Email J+1 (bienvenue avec conseils) — déclenché 24h plus tard
-          setTimeout(async () => {
-              await fetch("/api/emails/day1", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                      email: formData.email,
-                      establishmentName: formData.name,
-                  }),
-              });
-          }, 24 * 60 * 60 * 1000);
+// Email J+1 envoyé immédiatement (le cron le déclenchera plus tard)
+void fetch("/api/emails/day1", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        email: formData.email,
+        establishmentName: formData.name,
+    }),
+});
 
           router.push("/admin");
           ```
