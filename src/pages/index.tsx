@@ -120,6 +120,22 @@ const FAQS = [
         q: "Puis-je tester gratuitement ?",
         a: "Oui ! L'essai gratuit de 14 jours vous donne accès à toutes les fonctionnalités PRO. Aucune carte bancaire requise pour démarrer.",
     },
+    {
+    q: "L'essai gratuit nécessite-t-il une carte bancaire ?",
+    a: "Non. Vous démarrez avec 14 jours d'accès complet au plan PRO, sans renseigner aucune information de paiement. À la fin de l'essai, vous choisissez votre plan ou supprimez votre compte.",
+},
+{
+    q: "Puis-je changer de plan à tout moment ?",
+    a: "Oui, à tout moment. Vous pouvez upgrader immédiatement ou downgrader en fin de période. Aucun engagement minimum.",
+},
+{
+    q: "Que se passe-t-il si je dépasse les 100 participants en SOLO ?",
+    a: "Vous recevez une notification à 80% de votre quota. Au-delà de 100, les nouveaux joueurs verront un message d'indisponibilité temporaire jusqu'au mois suivant ou jusqu'à votre upgrade.",
+},
+{
+    q: "La réduction annuelle s'applique dès le départ ?",
+    a: "Oui. Si vous choisissez la facturation annuelle, vous bénéficiez immédiatement du tarif réduit, soit environ 20% d'économie sur le tarif mensuel.",
+},
 ];
 
 const STATS = [
