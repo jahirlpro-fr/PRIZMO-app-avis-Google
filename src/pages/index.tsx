@@ -705,10 +705,15 @@ const [isAnnual, setIsAnnual] = useState(false);
                         {/* SOLO */}
                         <div className="pricing-card">
                             <div style={{ fontSize: "13px", fontWeight: "700", color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "16px" }}>SOLO</div>
-                            <div style={{ marginBottom: "24px" }}>
-                                <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>49€</span>
-                                <span style={{ color: "#888", fontSize: "15px" }}>/mois</span>
-                            </div>
+<div style={{ marginBottom: "24px" }}>
+    <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>
+        {isAnnual ? "39€" : "49€"}
+    </span>
+    <span style={{ color: "#888", fontSize: "15px" }}>/mois</span>
+    {isAnnual && (
+        <div style={{ fontSize: "12px", color: "#aaa", marginTop: "4px" }}>facturé 468€/an</div>
+    )}
+</div>
                             <div className="divider" />
                             <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
                                 {["1 établissement", "100 participants/mois", "Roue de la fortune", "Avis Google intégrés", "Analytics basiques", "Affiches imprimables"].map((item, i) => (
