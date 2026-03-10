@@ -884,7 +884,7 @@ export default function LandingPage() {
                             </div>
 <div style={{ marginBottom: "24px" }}>
     <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>
-        {isAnnual ? "55€" : "69€"}
+        {isAnnual ? "58€" : "69€"}
     </span>
     <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "15px" }}>/mois</span>
     {isAnnual && (
