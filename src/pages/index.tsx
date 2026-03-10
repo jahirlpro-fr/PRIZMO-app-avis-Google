@@ -686,37 +686,64 @@ const [isAnnual, setIsAnnual] = useState(false);
                 </div>
             </section>
 
-            {/* ── COMMENT ÇA MARCHE ── */}
-            <section className="section" id="comment">
-                <div className="container">
-                    <div style={{ textAlign: "center", marginBottom: "72px" }}>
-                        <div className="tag">🗺️ Processus</div>
-                        <h2>Démarrez en 4 étapes simples</h2>
-                        <p style={{ color: "#666", fontSize: "17px", marginTop: "16px" }}>
-                            De la création de compte à votre premier avis Google, comptez moins d'une heure.
-                        </p>
+            {/* ── COMMENT ÇA MARCHE — TIMELINE ── */}
+            <section id="comment" style={{ background: "white", padding: "96px 0 0" }}>
+                <div className="container-sm" style={{ textAlign: "center", padding: "0 24px", marginBottom: "0" }}>
+                    <div className="tag">🗺️ Processus</div>
+                    <h2>Démarrez en 4 étapes simples</h2>
+                    <p style={{ color: "#666", fontSize: "17px", marginTop: "16px" }}>
+                        De la création de compte à votre premier avis Google, comptez moins d'une heure.
+                    </p>
+                </div>
+
+                {/* Timeline */}
+                <div ref={timelineContainerRef} style={{ position: "relative", maxWidth: "860px", margin: "0 auto", padding: "60px 24px 80px" }}>
+                    {/* Ligne verticale */}
+                    <div style={{ position: "absolute", left: "32px", top: 0, bottom: 0, width: "2px", background: "linear-gradient(to bottom, transparent, #efefef 10%, #efefef 90%, transparent)" }}>
+                        <motion.div
+                            style={{
+                                height: timelineHeight,
+                                opacity: timelineOpacity,
+                                width: "2px",
+                                background: "linear-gradient(to bottom, #7c3aed, #db2777)",
+                                borderRadius: "2px",
+                                position: "absolute", top: 0, left: 0,
+                            }}
+                        />
                     </div>
 
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "40px" }}>
-                        {STEPS.map((step, i) => (
-                            <div key={i} style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
-                                <div style={{ flexShrink: 0 }}>
-                                    <div className="step-num">{step.num}</div>
-                                </div>
-                                <div style={{ paddingTop: "8px" }}>
-                                    <div style={{ fontSize: "28px", marginBottom: "10px" }}>{step.emoji}</div>
-                                    <h3 style={{ fontSize: "20px", marginBottom: "10px" }}>{step.title}</h3>
-                                    <p style={{ color: "#666", lineHeight: "1.7", fontSize: "15px" }}>{step.desc}</p>
+                    {STEPS.map((step, i) => (
+                        <div key={i} style={{ display: "flex", gap: "32px", marginBottom: i < STEPS.length - 1 ? "72px" : "0", alignItems: "flex-start" }}>
+                            {/* Dot */}
+                            <div style={{ flexShrink: 0, position: "relative", zIndex: 10 }}>
+                                <div style={{
+                                    width: "64px", height: "64px", borderRadius: "50%",
+                                    background: "white", border: "2px solid #efefef",
+                                    display: "flex", alignItems: "center", justifyContent: "center",
+                                    fontSize: "28px", boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                                }}>
+                                    {step.emoji}
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                            {/* Contenu */}
+                            <div style={{ paddingTop: "12px", flex: 1 }}>
+                                <div style={{
+                                    fontSize: "11px", fontWeight: "700", letterSpacing: "0.1em",
+                                    textTransform: "uppercase", color: "#7c3aed", marginBottom: "8px",
+                                }}>
+                                    Étape {step.num}
+                                </div>
+                                <h3 style={{ fontSize: "22px", fontWeight: "700", marginBottom: "12px" }}>{step.title}</h3>
+                                <p style={{ color: "#666", lineHeight: "1.75", fontSize: "15px", maxWidth: "560px" }}>{step.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
 
-                    <div style={{ textAlign: "center", marginTop: "56px" }}>
-                        <a href="/admin/establishment/new" className="btn-primary" style={{ fontSize: "16px", padding: "16px 36px" }}>
-                            Démarrer maintenant →
-                        </a>
-                    </div>
+                <div style={{ textAlign: "center", paddingBottom: "96px" }}>
+                    <a href="/admin/establishment/new" className="btn-primary" style={{ fontSize: "16px", padding: "16px 36px" }}>
+                        Démarrer maintenant →
+                    </a>
                 </div>
             </section>
 
