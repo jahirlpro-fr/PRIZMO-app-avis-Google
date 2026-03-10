@@ -107,6 +107,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       `,
         });
 
+        // Délai pour respecter la limite Resend (2 req/sec)
+        await new Promise(resolve => setTimeout(resolve, 600));
+
         // 2. Notification interne
         await resend.emails.send({
             from: "Prizmo <contact@prizmo.pro>",
