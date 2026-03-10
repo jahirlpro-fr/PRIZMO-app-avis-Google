@@ -970,8 +970,8 @@ const [isAnnual, setIsAnnual] = useState(false);
                                 ["Politique RGPD", "/legal/rgpd"],
                                 ["Cookies", "/legal/rgpd#cookies"],
                             ].map(([l, href], i) => (
-                                <a key={i} href={href} ...> { l }</a>
-))}
+                                <a key={i} href={href} style={{ display: "block", color: "#888", textDecoration: "none", fontSize: "14px", marginBottom: "10px" }}>{l}</a>
+                            ))}
                         </div>
                         <div>
                             <p style={{ color: "white", fontWeight: "600", marginBottom: "16px", fontSize: "14px" }}>Contact</p>
