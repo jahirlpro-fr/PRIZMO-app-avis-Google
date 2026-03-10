@@ -148,8 +148,13 @@ const STATS = [
 
 export default function LandingPage() {
     const router = useRouter();
-const [openFaq, setOpenFaq] = useState<number | null>(null);
-const [isAnnual, setIsAnnual] = useState(false);
+    const timelineContainerRef = useRef < HTMLDivElement > (null);
+    const { scrollYProgress } = useScroll({
+        target: timelineContainerRef,
+        offset: ["start 80%", "end 30%"],
+    });
+    const timelineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+    const timelineOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
     const [isScrolled, setIsScrolled] = useState(false);
     const [wheelAngle, setWheelAngle] = useState(0);
     const wheelRef = useRef < ReturnType < typeof setInterval > | null > (null);
