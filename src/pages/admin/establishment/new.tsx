@@ -248,8 +248,42 @@ export default function NewEstablishmentPage() {
       await dbStorage.saveSegments(newEstablishment.id, defaultSegments);
 
       try {
-        await authService.signUp(formData.email, formData.password, "merchant", newEstablishment.id);
-        router.push("/admin");
+          await authService.signUp(formData.email, formData.password, "merchant", newEstablishment.id);
+
+          // Email de bienvenue
+          const trialEndsAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
+          await fetch("/api/emails/welcome", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                  email: formData.email,
+                  establishmentName: formData.name,
+                  trialEndsAt,
+              }),
+          });
+
+          // Email J+1 (bienvenue avec conseils) — déclenché 24h plus tard
+          setTimeout(async () => {
+              await fetch("/api/emails/day1", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                      email: formData.email,
+                      establishmentName: formData.name,
+                  }),
+              });
+          }, 24 * 60 * 60 * 1000);
+
+          router.push("/admin");
+          ```
+
+---
+
+## ÉTAPE 3 — Variable d'environnement pour la relance J-3
+
+Dans Softgen → **Environment**, ajoute :
+```
+          CRON_SECRET = prizmo_cron_2025
       } catch (authError: any) {
         console.error("Auth error:", authError);
         setErrors({ submit: authError.message || "Erreur lors de la création du compte. Veuillez réessayer." });
