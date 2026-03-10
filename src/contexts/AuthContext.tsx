@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 interface AuthContextType {
   user: UserProfile | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
+    signIn: (email: string, password: string, redirect?: string) => Promise<void>;
   signOut: () => Promise<void>;
   canAccessEstablishment: (establishmentId: string) => boolean;
 }
@@ -48,19 +48,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const signIn = async (email: string, password: string) => {
-    setLoading(true);
-    try {
-      await authService.signIn(email, password);
-      const profile = await authService.getUserProfile();
-      setUser(profile);
+    const signIn = async (email: string, password: string, redirect?: string) => {
+        setLoading(true);
+        try {
+            await authService.signIn(email, password);
+            const profile = await authService.getUserProfile();
+            setUser(profile);
 
-      // Redirect based on role
-      if (profile?.role === "superadmin") {
-        router.push("/admin");
-      } else if (profile?.role === "merchant" && profile.establishmentId) {
-        router.push(`/admin/establishment/${profile.establishmentId}`);
-      }
+            // Redirect based on role or custom redirect
+            if (redirect) {
+                router.push(redirect);
+            } else if (profile?.role === "superadmin") {
+                router.push("/admin");
+            } else if (profile?.role === "merchant" && profile.establishmentId) {
+                router.push(`/admin/establishment/${profile.establishmentId}`);
+            }
     } catch (error) {
       console.error("Sign in error:", error);
       throw error;
