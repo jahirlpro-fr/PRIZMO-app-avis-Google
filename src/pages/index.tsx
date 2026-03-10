@@ -149,6 +149,8 @@ const STATS = [
 
 export default function LandingPage() {
     const router = useRouter();
+    const [openFaq, setOpenFaq] = useState < number | null > (null);
+    const [isAnnual, setIsAnnual] = useState(false);
     const timelineContainerRef = useRef < HTMLDivElement > (null);
     const { scrollYProgress } = useScroll({
         target: timelineContainerRef,
