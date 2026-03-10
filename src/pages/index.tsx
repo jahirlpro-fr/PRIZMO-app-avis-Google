@@ -645,13 +645,60 @@ const [isAnnual, setIsAnnual] = useState(false);
             {/* ── TARIFS ── */}
             <section className="section" style={{ background: "#f9f9f9" }} id="tarifs">
                 <div className="container">
-                    <div style={{ textAlign: "center", marginBottom: "64px" }}>
-                        <div className="tag">💰 Tarifs</div>
-                        <h2>Simple et transparent</h2>
-                        <p style={{ color: "#666", fontSize: "17px", marginTop: "16px" }}>
-                            Essai gratuit 14 jours, sans carte bancaire. Annulez à tout moment.
-                        </p>
-                    </div>
+<div style={{ textAlign: "center", marginBottom: "64px" }}>
+    <div className="tag">💰 Tarifs</div>
+    <h2>Simple et transparent</h2>
+    <p style={{ color: "#666", fontSize: "17px", marginTop: "16px", marginBottom: "32px" }}>
+        Essai gratuit 14 jours, sans carte bancaire. Annulez à tout moment.
+    </p>
+    {/* Toggle mensuel / annuel */}
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
+        <div style={{
+            display: "inline-flex", alignItems: "center", gap: "8px",
+            background: "white", border: "1.5px solid #efefef",
+            borderRadius: "100px", padding: "6px 8px",
+        }}>
+            <button
+                onClick={() => setIsAnnual(false)}
+                style={{
+                    padding: "8px 20px", borderRadius: "100px", border: "none",
+                    fontFamily: "inherit", fontSize: "14px", fontWeight: "600", cursor: "pointer",
+                    background: !isAnnual ? "linear-gradient(135deg, #7c3aed, #db2777)" : "transparent",
+                    color: !isAnnual ? "white" : "#888",
+                    transition: "all 0.2s",
+                }}
+            >
+                Mensuel
+            </button>
+            <button
+                onClick={() => setIsAnnual(true)}
+                style={{
+                    padding: "8px 20px", borderRadius: "100px", border: "none",
+                    fontFamily: "inherit", fontSize: "14px", fontWeight: "600", cursor: "pointer",
+                    background: isAnnual ? "linear-gradient(135deg, #7c3aed, #db2777)" : "transparent",
+                    color: isAnnual ? "white" : "#888",
+                    transition: "all 0.2s",
+                }}
+            >
+                Annuel
+            </button>
+        </div>
+        {isAnnual && (
+            <span style={{
+                background: "#dcfce7", color: "#16a34a",
+                padding: "4px 12px", borderRadius: "100px",
+                fontSize: "12px", fontWeight: "700",
+            }}>
+                🎉 2 mois offerts
+            </span>
+        )}
+        {!isAnnual && (
+            <span style={{ fontSize: "13px", color: "#aaa" }}>
+                Passer à l'annuel → économisez ~20%
+            </span>
+        )}
+    </div>
+</div>
 
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", alignItems: "start" }}>
 
