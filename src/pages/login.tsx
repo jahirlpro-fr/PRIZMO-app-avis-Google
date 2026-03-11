@@ -125,7 +125,7 @@ export default function LoginPage() {
                                         className="mx-auto mb-4"
                                     >
                                         <Link href="/">
-                                            <img src="/LOGO.svg" alt="Prizmo" className="h-10 mx-auto brightness-0 invert" />
+                                            <img src="/LOGO.svg" alt="Prizmo" className="h-10 mx-auto" />
                                         </Link>
                                     </motion.div>
                                     <motion.h1
