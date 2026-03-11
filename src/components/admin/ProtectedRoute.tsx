@@ -18,10 +18,10 @@ export function ProtectedRoute({ children, requireRole, establishmentId }: Prote
     if (loading) return;
 
     // Not authenticated - redirect to login
-    if (!user) {
-      router.replace("/login");
-      return;
-    }
+      if (!user) {
+          router.replace(`/login?redirect=${encodeURIComponent(router.asPath)}`);
+          return;
+      }
 
     // Check role requirements
     if (requireRole && user.role !== requireRole && user.role !== "superadmin") {
