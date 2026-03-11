@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).json({ error: "Non autorisé" });
     }
 
-    if (req.method !== "POST") return res.status(405).end();
+    if (req.method !== "POST" && req.method !== "GET") return res.status(405).end();
 
     try {
         const now = new Date();
