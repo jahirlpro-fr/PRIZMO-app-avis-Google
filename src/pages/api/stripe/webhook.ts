@@ -55,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
         switch (event.type) {
             case "checkout.session.completed": {
-                const session = event.data.object as Stripe.CheckoutSession;
+                const session = event.data.object as Stripe.Checkout.Session;
                 const userId = session.metadata?.userId;
                 const plan = session.metadata?.plan;
                 const billing = session.metadata?.billing;
