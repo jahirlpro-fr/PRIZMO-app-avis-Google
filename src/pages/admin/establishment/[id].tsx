@@ -655,9 +655,20 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                         <div className="text-3xl font-bold">
                           {participants.filter(p => p.email && p.email.trim() !== "").length}
                         </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Clients dans votre base
-                        </p>
+<p className="text-xs text-muted-foreground mt-1">
+  Clients dans votre base
+</p>
+{merchantPlan === "solo" && participants.length >= 80 && (
+  <div className={`mt-2 px-2 py-1 rounded-lg text-xs font-semibold ${
+    participants.length >= 100
+      ? "bg-red-100 text-red-700"
+      : "bg-orange-100 text-orange-700"
+  }`}>
+    {participants.length >= 100
+      ? "⛔ Limite atteinte (100/100)"
+      : `⚠️ ${participants.length}/100 participants`}
+  </div>
+)}
                       </CardContent>
                     </Card>
                   </div>
