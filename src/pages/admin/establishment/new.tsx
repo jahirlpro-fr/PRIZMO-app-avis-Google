@@ -285,14 +285,10 @@ export default function NewEstablishmentPage() {
       <SEO title="Nouvel établissement - Prizmo" description="Créez votre établissement" />
 
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
-        <header className="bg-white border-b shadow-sm">
-          <div className="container mx-auto px-4 py-4">
-            <Button onClick={() => router.push("/admin")} variant="ghost">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Retour au dashboard
-            </Button>
-          </div>
-        </header>
+              <header className="bg-white border-b shadow-sm">
+                  <div className="container mx-auto px-4 py-4">
+                  </div>
+              </header>
 
         <div className="container mx-auto px-4 py-8 max-w-2xl">
           <div className="text-center mb-8">
