@@ -97,8 +97,8 @@ export default function GamePage() {
     };
 
     const handleReviewConfirmed = () => {
-        // Si l'établissement a un Instagram, on affiche l'étape Instagram
-        if (establishment?.instagramUrl) {
+        // Instagram uniquement pour PRO et BUSINESS
+        if (establishment?.instagramUrl && merchantPlan !== "solo") {
             setStep("instagram");
         } else {
             setStep("wheel1");
