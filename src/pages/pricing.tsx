@@ -227,13 +227,13 @@ export default function PricingPage() {
                 </div>
 
                 {/* BUSINESS */}
-                <div>
-                    <p style={{ fontSize: "12px", fontWeight: "800", letterSpacing: "0.1em", color: "#888", textTransform: "uppercase", marginBottom: "8px" }}>BUSINESS</p>
-                    <h3 style={{ fontSize: "22px", fontWeight: "800", marginBottom: "6px" }}>Multi-établissements & White label</h3>
-                    <p style={{ color: "#888", fontSize: "14px" }}>Tarification dégressive à partir de 5 établissements. Support téléphonique dédié.</p>
-                </div>
-
-                <a href="mailto:contact@prizmo.pro?subject=Demande BUSINESS" style={{ background: "#0f0f0f", color: "white", padding: "14px 28px", borderRadius: "14px", textDecoration: "none", fontWeight: "700", fontSize: "14px", whiteSpace: "nowrap" }}>Nous contacter</a>
+                <div style={{ background: "white", border: "1.5px solid #efefef", borderRadius: "24px", padding: "32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "24px", flexWrap: "wrap" }}>
+                    <div>
+                        <p style={{ fontSize: "12px", fontWeight: "800", letterSpacing: "0.1em", color: "#888", textTransform: "uppercase", marginBottom: "8px" }}>BUSINESS</p>
+                        <h3 style={{ fontSize: "22px", fontWeight: "800", marginBottom: "6px" }}>Multi-établissements & White label</h3>
+                        <p style={{ color: "#888", fontSize: "14px" }}>Tarification dégressive à partir de 5 établissements. Support téléphonique dédié.</p>
+                    </div>
+                    <a href="mailto:contact@prizmo.pro?subject=Demande BUSINESS" style={{ background: "#0f0f0f", color: "white", padding: "14px 28px", borderRadius: "14px", textDecoration: "none", fontWeight: "700", fontSize: "14px", whiteSpace: "nowrap" }}>Nous contacter</a>
                 </div>
 
                 {/* REASSURANCE */}
@@ -242,6 +242,7 @@ export default function PricingPage() {
                         <span key={i} style={{ color: "#888", fontSize: "14px", fontWeight: "500" }}>{item}</span>
                     ))}
                 </div>
+
             </div>
         </div>
     );
