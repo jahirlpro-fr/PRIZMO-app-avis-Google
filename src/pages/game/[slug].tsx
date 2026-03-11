@@ -53,6 +53,17 @@ export default function GamePage() {
                     setLoyaltyActive(true);
                     setLoyaltyCardColor(loyaltyData.card_color || "#e3d6c0");
                 }
+
+                // Récupérer le plan du marchand
+                const { data: profileData } = await supabase
+                    .from("profiles")
+                    .select("plan")
+                    .eq("establishment_id", found.id)
+                    .maybeSingle();
+                if (profileData?.plan) {
+                    setMerchantPlan(profileData.plan);
+                }
+
                 setStep("email");
             } else {
                 setStep("error");
