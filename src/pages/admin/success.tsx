@@ -40,7 +40,7 @@ export default function SuccessPage() {
                     onClick={() => router.push("/admin")}
                     className="prizmo-gradient text-white px-8 py-3 rounded-full font-bold"
                 >
-                    Accéder à mon dashboard →
+                    Accéder à mon dashboard &rarr;
                 </Button>
             </div>
         </div>
