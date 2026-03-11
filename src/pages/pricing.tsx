@@ -245,7 +245,7 @@ export default function PricingPage() {
                             fontSize: "14px", whiteSpace: "nowrap",
                         }}
                     >
-                    Nous contacter &rarr;
+                    Nous contacter &#x2192;
                     </a>
                 </div>
 
