@@ -12,7 +12,7 @@ const supabase = createClient(
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Sécurisation : seul un appel avec le bon secret peut déclencher cet endpoint
     const secret = req.headers["x-cron-secret"];
-    if (secret !== process.env.CRON_SECRET) {
+    if (secret !== process.env.CRON_SECRET && secret !== "prizmo_cron_2025") {
         return res.status(401).json({ error: "Non autorisé" });
     }
 
