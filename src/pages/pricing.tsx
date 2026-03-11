@@ -233,15 +233,7 @@ export default function PricingPage() {
                     <p style={{ color: "#888", fontSize: "14px" }}>Tarification dégressive à partir de 5 établissements. Support téléphonique dédié.</p>
                 </div>
 
-                href="mailto:contact@prizmo.pro?subject=Demande BUSINESS"
-                style={{
-                    background: "#0f0f0f", color: "white", padding: "14px 28px",
-                    borderRadius: "14px", textDecoration: "none", fontWeight: "700",
-                    fontSize: "14px", whiteSpace: "nowrap",
-                }}
-                    >
-                Nous contacter
-            </a>
+                <a href="mailto:contact@prizmo.pro?subject=Demande BUSINESS" style={{ background: "#0f0f0f", color: "white", padding: "14px 28px", borderRadius: "14px", textDecoration: "none", fontWeight: "700", fontSize: "14px", whiteSpace: "nowrap" }}>Nous contacter</a>
                 </div>
 
                 {/* REASSURANCE */}
