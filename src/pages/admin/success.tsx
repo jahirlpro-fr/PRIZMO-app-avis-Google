@@ -12,7 +12,7 @@ export default function SuccessPage() {
             setCountdown(prev => {
                 if (prev <= 1) {
                     clearInterval(timer);
-                    router.push("/admin");
+                    router.push("/admin/establishment");
                     return 0;
                 }
                 return prev - 1;
@@ -37,7 +37,7 @@ export default function SuccessPage() {
                     Redirection automatique dans {countdown}s...
                 </p>
                 <Button
-                    onClick={() => router.push("/admin")}
+                    onClick={() => router.push("/admin/establishment")}
                     className="prizmo-gradient text-white px-8 py-3 rounded-full font-bold"
                 >
                     Accéder à mon dashboard &rarr;
