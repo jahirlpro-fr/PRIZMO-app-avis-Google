@@ -292,9 +292,6 @@ export default function NewEstablishmentPage() {
 
               <div className="container mx-auto px-4 py-8 max-w-2xl">
                   <div className="text-center mb-8">
-                      <a href="/">
-                          <img src="/LOGO.svg" alt="Prizmo" className="h-9 mx-auto mb-4" />
-                      </a>
                       <h1 className="text-4xl font-bold prizmo-text-gradient mb-2">Nouvel établissement</h1>
                       <p className="text-gray-500">Configurez votre roue de la fortune en quelques étapes</p>
                   </div>
