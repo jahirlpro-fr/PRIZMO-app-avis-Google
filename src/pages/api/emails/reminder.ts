@@ -29,7 +29,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             .select("id, email, trial_ends_at, establishment_id")
             .eq("plan", "trial")
             .eq("plan_status", "active")
-            .gte("trial_ends_at", now.toISOString());
+            .gte("trial_ends_at", in3Days.toISOString())
+            .lte("trial_ends_at", in4Days.toISOString());
 
         if (error) throw error;
         if (!profiles || profiles.length === 0) {
