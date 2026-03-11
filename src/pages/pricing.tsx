@@ -155,7 +155,7 @@ export default function PricingPage() {
                                 cursor: "pointer", marginBottom: "28px", transition: "all 0.2s",
                             }}
                         >
-                            {loading === "solo" ? "Chargement..." : "Choisir SOLO &rarr;"}
+                            {loading === "solo" ? "Chargement..." : "Choisir SOLO \u2192"}
                         </button>
                         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                             {features.map((f, i) => (
@@ -211,7 +211,7 @@ export default function PricingPage() {
                                 boxShadow: "0 4px 20px rgba(124,58,237,0.3)",
                             }}
                         >
-                            {loading === "pro" ? "Chargement..." : "Choisir PRO &rarr;"}
+                            {loading === "pro" ? "Chargement..." : "Choisir PRO \u2192"}
                         </button>
                         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                             {features.map((f, i) => (
