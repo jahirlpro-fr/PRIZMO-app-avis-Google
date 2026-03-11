@@ -993,7 +993,7 @@ export default function LandingPage() {
 }}>
     <div style={{ fontSize: "40px", marginBottom: "16px" }}>🛡️</div>
     <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "28px", fontWeight: "400", marginBottom: "12px" }}>
-        Essai sans risque, 14 jours
+        Essai sans risque, 21 jours
     </h3>
     <p style={{ color: "#666", fontSize: "16px", lineHeight: "1.7", maxWidth: "500px", margin: "0 auto 28px" }}>
         Testez Prizmo avec toutes les fonctionnalités PRO. Si ce n'est pas pour vous, supprimez votre compte en un clic. Aucune question posée.
