@@ -559,6 +559,10 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                   className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 border-transparent data-[state=active]:border-purple-500 data-[state=active]:bg-purple-50 bg-gray-50 text-xs font-semibold">
                                   💳<span>Fidélité</span>
                               </TabsTrigger>
+                              <TabsTrigger value="subscription"
+                                  className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 border-transparent data-[state=active]:border-purple-500 data-[state=active]:bg-purple-50 bg-gray-50 text-xs font-semibold">
+                                  🧾<span>Abonnement</span>
+                              </TabsTrigger>
                           </TabsList>
 
                           {/* Tab: Analytics - NEW PRIORITY */}
