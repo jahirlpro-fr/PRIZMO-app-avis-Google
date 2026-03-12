@@ -256,18 +256,24 @@ export default function NewEstablishmentPage() {
               email: formData.email,
               establishmentName: formData.name,
           };
-          await Promise.all([
-              fetch("/api/emails/welcome", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ ...emailData, trialEndsAt }),
-              }),
-              fetch("/api/emails/day1", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(emailData),
-              }),
-          ]);
+          // J+0 : bienvenue
+          await fetch("/api/emails/welcome", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ ...emailData, trialEndsAt }),
+          });
+
+          // Délai 600ms pour respecter Resend
+          await new Promise(resolve => setTimeout(resolve, 600));
+
+          // J+1 : conseils
+          await fetch("/api/emails/day1", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(emailData),
+          });
+
+          // J+3 et J+7 : envoyés via cron (vercel.json)
 
           router.push("/admin");
       } catch (authError: any) {
