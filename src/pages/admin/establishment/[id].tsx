@@ -75,6 +75,14 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
     // Plan du commerçant
     const [merchantPlan, setMerchantPlan] = useState < string > ("trial");
     const [trialEndsAt, setTrialEndsAt] = useState < string | null > (null);
+    const [subscriptionInfo, setSubscriptionInfo] = useState < {
+        plan: string;
+        plan_status: string;
+        billing_cycle: string | null;
+        trial_ends_at: string | null;
+        stripe_subscription_id: string | null;
+    } | null > (null);
+    const [portalLoading, setPortalLoading] = useState(false);
 
 
   useEffect(() => {
@@ -114,6 +122,14 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                   setMerchantPlan(profileData.plan || "trial");
                   setTrialEndsAt(profileData.trial_ends_at || null);
               }
+
+              // Charger infos complètes abonnement
+              const { data: subData } = await supabase
+                  .from("profiles")
+                  .select("plan, plan_status, billing_cycle, trial_ends_at, stripe_subscription_id")
+                  .eq("id", user.id)
+                  .maybeSingle();
+              if (subData) setSubscriptionInfo(subData);
           }
 
           // Charger config fidélité
@@ -2045,8 +2061,132 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                     )}
                   </CardContent>
                 </Card>
-              </TabsContent>
-            </Tabs>
+</TabsContent>
+
+                          {/* Tab: Abonnement */}
+                          <TabsContent value="subscription">
+                              <div className="space-y-6">
+                                  <Card className="border-2 shadow-xl">
+                                      <CardHeader>
+                                          <CardTitle className="text-xl flex items-center gap-2">
+                                              🧾 Mon abonnement
+                                          </CardTitle>
+                                          <CardDescription>Gérez votre plan et votre facturation</CardDescription>
+                                      </CardHeader>
+                                      <CardContent className="space-y-6">
+
+                                          {/* Plan actuel */}
+                                          <div className="p-5 rounded-2xl border-2 border-purple-100 bg-purple-50">
+                                              <div className="flex items-center justify-between flex-wrap gap-4">
+                                                  <div>
+                                                      <p className="text-sm text-muted-foreground mb-1">Plan actuel</p>
+                                                      <div className="flex items-center gap-2">
+                                                          <span className="text-2xl font-black uppercase text-purple-700">
+                                                              {subscriptionInfo?.plan || "trial"}
+                                                          </span>
+                                                          {subscriptionInfo?.billing_cycle && (
+                                                              <span className="text-xs bg-purple-200 text-purple-800 px-2 py-1 rounded-full font-semibold">
+                                                                  {subscriptionInfo.billing_cycle === "yearly" ? "Annuel" : "Mensuel"}
+                                                              </span>
+                                                          )}
+                                                      </div>
+                                                  </div>
+                                                  <div className="text-right">
+                                                      <p className="text-sm text-muted-foreground mb-1">Statut</p>
+                                                      <span className={`text-sm font-bold px-3 py-1 rounded-full ${
+                                                          subscriptionInfo?.plan_status === "active"
+                                                              ? "bg-green-100 text-green-700"
+                                                              : subscriptionInfo?.plan_status === "expired"
+                                                              ? "bg-red-100 text-red-700"
+                                                              : "bg-orange-100 text-orange-700"
+                                                      }`}>
+                                                          {subscriptionInfo?.plan_status === "active" ? "✅ Actif"
+                                                              : subscriptionInfo?.plan_status === "expired" ? "❌ Expiré"
+                                                              : subscriptionInfo?.plan_status === "cancelled" ? "⚠️ Annulé"
+                                                              : "🎁 Essai gratuit"}
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                              {subscriptionInfo?.trial_ends_at && subscriptionInfo?.plan === "trial" && (
+                                                  <div className="mt-4 pt-4 border-t border-purple-200">
+                                                      <p className="text-sm text-purple-700">
+                                                          ⏳ Essai gratuit jusqu'au{" "}
+                                                          <strong>
+                                                              {new Date(subscriptionInfo.trial_ends_at).toLocaleDateString("fr-FR", {
+                                                                  day: "numeric", month: "long", year: "numeric"
+                                                              })}
+                                                          </strong>
+                                                      </p>
+                                                  </div>
+                                              )}
+                                          </div>
+
+                                          {/* Bouton gestion */}
+                                          {subscriptionInfo?.stripe_subscription_id ? (
+                                              <div className="space-y-3">
+                                                  <Button
+                                                      onClick={handlePortal}
+                                                      disabled={portalLoading}
+                                                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3"
+                                                  >
+                                                      {portalLoading ? "Chargement..." : "⚙️ Gérer mon abonnement"}
+                                                  </Button>
+                                                  <p className="text-xs text-center text-muted-foreground">
+                                                      Modifier le plan, télécharger les factures, annuler l'abonnement
+                                                  </p>
+                                              </div>
+                                          ) : (
+                                              <div className="space-y-3">
+                                                  <Button
+                                                      onClick={() => router.push("/pricing")}
+                                                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3"
+                                                  >
+                                                      🚀 Choisir un plan →
+                                                  </Button>
+                                                  <p className="text-xs text-center text-muted-foreground">
+                                                      SOLO à 49€/mois · PRO à 69€/mois · Annuel -20%
+                                                  </p>
+                                              </div>
+                                          )}
+
+                                          {/* Avantages */}
+                                          <div className="p-5 rounded-2xl border bg-gray-50">
+                                              <p className="font-semibold text-sm mb-3">📋 Votre plan inclut :</p>
+                                              <div className="space-y-2">
+                                                  <p className="text-sm text-gray-600">✅ Roue de la fortune</p>
+                                                  <p className="text-sm text-gray-600">✅ Tunnel avis Google</p>
+                                                  <p className="text-sm text-gray-600">✅ Collecte emails + téléphone</p>
+                                                  <p className="text-sm text-gray-600">✅ Affiches imprimables</p>
+                                                  {(subscriptionInfo?.plan === "pro" || subscriptionInfo?.plan === "trial" || subscriptionInfo?.plan === "business") && (
+                                                      <>
+                                                          <p className="text-sm text-gray-600">✅ Tunnel avis Instagram</p>
+                                                          <p className="text-sm text-gray-600">✅ Programme de fidélité</p>
+                                                          <p className="text-sm text-gray-600">✅ Participants illimités</p>
+                                                          <p className="text-sm text-gray-600">✅ Analytics avancés</p>
+                                                      </>
+                                                  )}
+                                                  {subscriptionInfo?.plan === "solo" && (
+                                                      <p className="text-sm text-gray-400">❌ Instagram, Fidélité, Analytics avancés</p>
+                                                  )}
+                                              </div>
+                                          </div>
+
+                                          {/* Support */}
+                                          <div className="text-center pt-2">
+                                              <p className="text-sm text-muted-foreground">
+                                                  Une question ?{" "}
+                                                  <a href="mailto:contact@prizmo.pro" className="text-purple-600 font-semibold hover:underline">
+                                                      contact@prizmo.pro
+                                                  </a>
+                                              </p>
+                                          </div>
+
+                                      </CardContent>
+                                  </Card>
+                              </div>
+                          </TabsContent>
+
+                      </Tabs>
           </div>
         </div>
       </div>
