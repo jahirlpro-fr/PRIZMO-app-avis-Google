@@ -374,6 +374,23 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
         }
     };
 
+    const handlePortal = async () => {
+        setPortalLoading(true);
+        try {
+            const res = await fetch("/api/stripe/portal", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ establishmentId: id }),
+            });
+            const data = await res.json();
+            if (data.url) window.location.href = data.url;
+        } catch (err) {
+            console.error("Portal error:", err);
+        } finally {
+            setPortalLoading(false);
+        }
+    };
+
     const handleDeleteEstablishment = async () => {
         if (!establishment || !confirm("Êtes-vous sûr de vouloir supprimer cet établissement ? Cette action est irréversible.")) return;
 
