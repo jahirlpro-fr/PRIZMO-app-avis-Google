@@ -54,28 +54,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         switch (event.type) {
-            case "checkout.session.completed": {
-                const session = event.data.object as Stripe.Checkout.Session;
-                const userId = session.metadata?.userId;
-                const plan = session.metadata?.plan;
-                const billing = session.metadata?.billing;
-                if (!userId || !plan) break;
+case "checkout.session.completed": {
+    const session = event.data.object as Stripe.Checkout.Session;
+    const userId = session.metadata?.userId;
+    const plan = session.metadata?.plan;
+    const billing = session.metadata?.billing;
+    if (!userId || !plan) break;
 
-                const sub = await stripe.subscriptions.retrieve(session.subscription as string);
-                const priceId = sub.items.data[0].price.id;
-                const periodEnd = new Date(sub.current_period_end * 1000).toISOString();
+    const sub = await stripe.subscriptions.retrieve(session.subscription as string);
+    const priceId = sub.items.data[0].price.id;
+    const periodEnd = new Date(sub.current_period_end * 1000).toISOString();
 
-                await supabase.from("profiles").update({
-                    plan,
-                    plan_status: "active",
-                    billing_cycle: billing,
-                    stripe_customer_id: session.customer as string,
-                    stripe_subscription_id: session.subscription as string,
-                    current_period_ends_at: periodEnd,
-                    trial_ends_at: null,
-                }).eq("id", userId);
-                break;
-            }
+    await supabase.from("profiles").update({
+        plan,
+        plan_status: "active",
+        billing_cycle: billing,
+        stripe_customer_id: session.customer as string,
+        stripe_subscription_id: session.subscription as string,
+        current_period_ends_at: periodEnd,
+        trial_ends_at: null,
+    }).eq("id", userId);
+
+    // Email confirmation paiement
+    if (session.customer_email) {
+        await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/emails/payment-confirmation`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: session.customer_email, plan, billing }),
+        });
+    }
+    break;
+}
 
             case "customer.subscription.updated": {
                 const sub = event.data.object as Stripe.Subscription;
@@ -93,21 +102,44 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 break;
             }
 
-            case "customer.subscription.deleted": {
-                const sub = event.data.object as Stripe.Subscription;
-                await supabase.from("profiles").update({
-                    plan_status: "cancelled",
-                }).eq("stripe_subscription_id", sub.id);
-                break;
-            }
+case "customer.subscription.deleted": {
+    const sub = event.data.object as Stripe.Subscription;
+    await supabase.from("profiles").update({
+        plan_status: "cancelled",
+    }).eq("stripe_subscription_id", sub.id);
 
-            case "invoice.payment_failed": {
-                const invoice = event.data.object as Stripe.Invoice;
-                await supabase.from("profiles").update({
-                    plan_status: "suspended",
-                }).eq("stripe_customer_id", invoice.customer as string);
-                break;
-            }
+    // Email annulation
+    const { data: profile } = await supabase
+        .from("profiles")
+        .select("email")
+        .eq("stripe_subscription_id", sub.id)
+        .single();
+    if (profile?.email) {
+        await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/emails/subscription-cancelled`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: profile.email }),
+        });
+    }
+    break;
+}
+
+case "invoice.payment_failed": {
+    const invoice = event.data.object as Stripe.Invoice;
+    await supabase.from("profiles").update({
+        plan_status: "suspended",
+    }).eq("stripe_customer_id", invoice.customer as string);
+
+    // Email échec paiement
+    if (invoice.customer_email) {
+        await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/emails/payment-failed`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: invoice.customer_email }),
+        });
+    }
+    break;
+}
         }
 
         return res.status(200).json({ received: true });
