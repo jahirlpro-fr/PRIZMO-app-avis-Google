@@ -320,15 +320,45 @@ export default function LandingPage() {
   text-align: center;
   padding: 32px 24px;
 }
+
 @media (max-width: 768px) {
-  .stat-card {
-    padding: 28px 16px !important;
-    border-right: none !important;
-    border-bottom: 1px solid rgba(255,255,255,0.15) !important;
-  }
+  .section { padding: 48px 16px !important; }
+  .hide-mobile { display: none !important; }
+
+  /* Header */
+  .btn-secondary { padding: 8px 14px !important; font-size: 13px !important; }
+  .btn-primary { padding: 8px 14px !important; font-size: 13px !important; }
+
+  /* Hero */
+  .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .hero-visual { display: none !important; }
+
+  /* Stats */
+  .stats-band .container { grid-template-columns: repeat(2, 1fr) !important; }
+  .stat-card { padding: 24px 12px !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.15) !important; }
   .stat-card:last-child { border-bottom: none !important; }
-  .stats-band > .container { grid-template-columns: repeat(2, 1fr) !important; }
+  .stat-card:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.15) !important; }
+
+  /* Bento features */
+  .bento-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .bento-grid > * { grid-column: span 1 !important; }
+
+  /* Use cases */
+  .usecases-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+  /* Pricing */
+  .pricing-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+  .pricing-card.featured { transform: scale(1) !important; }
+
+  /* Tableau comparatif */
+  .compare-wrapper { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
 }
+
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
 
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
