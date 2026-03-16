@@ -624,7 +624,10 @@ html, body { overflow-x: hidden; }
             <section className="stats-band" style={{ background: "linear-gradient(135deg, #7c3aed, #db2777)", padding: "0" }}>
                 <div className="container stats-band" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
                     {STATS.map((s, i) => (
-                        <div key={i} className="stat-card" style={{ borderRight: i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none", borderBottom: "none" }}>
+                        <div key={i} className="stat-card" style={{
+                            borderRight: i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none",
+                            borderBottom: "none"
+                        }}>
                             <div style={{ fontSize: "36px", fontWeight: "800", color: "white", fontFamily: "'DM Serif Display', serif" }}>{s.value}</div>
                             <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)", marginTop: "4px" }}>{s.label}</div>
                         </div>
