@@ -414,7 +414,7 @@ export default function LandingPage() {
 }
 
 * { box-sizing: border-box; }
-html, body { overflow-x: hidden; max-width: 100vw; }
+html, body { overflow-x: hidden; }
       `}</style>
 
             {/* ── NAV ── */}
