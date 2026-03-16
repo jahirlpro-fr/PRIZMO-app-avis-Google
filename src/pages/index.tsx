@@ -383,6 +383,34 @@ export default function LandingPage() {
 @media (max-width: 768px) {
   .section { padding: 64px 20px; }
   .hide-mobile { display: none !important; }
+
+  /* Header */
+  .btn-secondary { padding: 8px 14px !important; font-size: 13px !important; }
+  .btn-primary { padding: 8px 14px !important; font-size: 13px !important; }
+
+  /* Hero — passe en colonne */
+  .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .hero-visual { display: none !important; }
+
+  /* Stats */
+  .stats-grid { flex-wrap: wrap !important; gap: 16px !important; }
+  .stat-item { width: 45% !important; border-right: none !important; }
+
+  /* Bento features */
+  .bento-grid { grid-template-columns: 1fr !important; }
+  .bento-span2 { grid-column: span 1 !important; }
+
+  /* Timeline */
+  .timeline-container { padding: 40px 16px 60px !important; }
+
+  /* Pricing */
+  .pricing-grid { grid-template-columns: 1fr !important; }
+
+  /* Tableau comparatif */
+  .compare-table-wrapper { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
 }
 
 * { box-sizing: border-box; }
