@@ -316,10 +316,19 @@ export default function LandingPage() {
           padding: 28px;
         }
 
-        .stat-card {
-          text-align: center;
-          padding: 32px 24px;
-        }
+.stat-card {
+  text-align: center;
+  padding: 32px 24px;
+}
+@media (max-width: 768px) {
+  .stat-card {
+    padding: 28px 16px !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.15) !important;
+  }
+  .stat-card:last-child { border-bottom: none !important; }
+  .stats-band > .container { grid-template-columns: repeat(2, 1fr) !important; }
+}
 
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
