@@ -380,10 +380,13 @@ export default function LandingPage() {
           color: #7c3aed;
         }
 
-        @media (max-width: 768px) {
-          .section { padding: 64px 20px; }
-          .hide-mobile { display: none !important; }
-        }
+@media (max-width: 768px) {
+  .section { padding: 64px 20px; }
+  .hide-mobile { display: none !important; }
+}
+
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; max-width: 100vw; }
       `}</style>
 
             {/* ── NAV ── */}
