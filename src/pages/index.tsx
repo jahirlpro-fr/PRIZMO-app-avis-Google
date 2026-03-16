@@ -611,8 +611,9 @@ html, body { overflow-x: hidden; }
                         <motion.div
                             whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(124,58,237,0.15)" }}
                             transition={{ duration: 0.2 }}
+                            className="bento-span2"
                             style={{
-                                className="bento-span2" style={{ gridColumn: "span 2", background: "white",gridColumn: "span 2", background: "white",
+                                gridColumn: "span 2", background: "white",
                                 border: "1.5px solid #efefef", borderRadius: "24px",
                                 padding: "40px", overflow: "hidden", position: "relative",
                                 cursor: "default",
