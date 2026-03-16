@@ -295,7 +295,7 @@ export default function ContactPage() {
                                 <div>
                                     <p style={{ fontWeight: "700", fontSize: "15px", marginBottom: "4px", color: "white" }}>Essai gratuit</p>
                                     <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "14px", lineHeight: "1.6", margin: "0 0 12px" }}>
-                                        Pas besoin d'attendre — testez Prizmo gratuitement pendant 14 jours, sans carte bancaire.
+                                        Pas besoin d'attendre — testez Prizmo gratuitement pendant 21 jours, sans carte bancaire.
                                     </p>
                                     <a href="/admin/establishment/new" style={{
                                         background: "white", color: "#7c3aed", padding: "10px 20px",
