@@ -599,8 +599,6 @@ html, body { overflow-x: hidden; }
                             borderRight: isMobile ? "none" : i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none",
                             borderBottom: isMobile && i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none"
                         }}>
-                            borderBottom: "none"
-                        }}>
                             <div style={{ fontSize: "36px", fontWeight: "800", color: "white", fontFamily: "'DM Serif Display', serif" }}>{s.value}</div>
                             <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)", marginTop: "4px" }}>{s.label}</div>
                         </div>
