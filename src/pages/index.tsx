@@ -333,8 +333,8 @@ export default function LandingPage() {
   .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
   .hero-visual { display: none !important; }
 
-  /* Stats */
-  .stats-band .container { grid-template-columns: repeat(2, 1fr) !important; }
+/* Stats */
+.stats-band.container { grid-template-columns: repeat(2, 1fr) !important; }
   .stat-card { padding: 24px 12px !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.15) !important; }
   .stat-card:last-child { border-bottom: none !important; }
   .stat-card:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.15) !important; }
