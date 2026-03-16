@@ -381,36 +381,37 @@ export default function LandingPage() {
         }
 
 @media (max-width: 768px) {
-  .section { padding: 64px 20px; }
+  .section { padding: 48px 16px !important; }
   .hide-mobile { display: none !important; }
 
   /* Header */
   .btn-secondary { padding: 8px 14px !important; font-size: 13px !important; }
   .btn-primary { padding: 8px 14px !important; font-size: 13px !important; }
 
-  /* Hero — passe en colonne */
+  /* Hero */
   .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
   .hero-visual { display: none !important; }
 
-  /* Stats */
-  .stats-grid { flex-wrap: wrap !important; gap: 16px !important; }
-  .stat-item { width: 45% !important; border-right: none !important; }
+  /* Stats — 2 colonnes */
+  .stats-band > div { grid-template-columns: repeat(2, 1fr) !important; }
+  .stats-band > div > div { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.15) !important; padding: 24px 16px !important; }
 
-  /* Bento features */
-  .bento-grid { grid-template-columns: 1fr !important; }
-  .bento-span2 { grid-column: span 1 !important; }
+  /* Bento features — 1 colonne */
+  .bento-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .bento-grid > * { grid-column: span 1 !important; }
 
-  /* Timeline */
-  .timeline-container { padding: 40px 16px 60px !important; }
+  /* Use cases — 1 colonne */
+  .usecases-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
 
-  /* Pricing */
-  .pricing-grid { grid-template-columns: 1fr !important; }
+  /* Pricing — 1 colonne */
+  .pricing-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+  .pricing-card.featured { transform: scale(1) !important; }
 
   /* Tableau comparatif */
-  .compare-table-wrapper { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
+  .compare-wrapper { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
 
-  /* Footer */
-  .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  /* Footer — 1 colonne */
+  .footer-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
 }
 
 * { box-sizing: border-box; }
