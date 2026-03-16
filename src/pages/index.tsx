@@ -622,7 +622,10 @@ html, body { overflow-x: hidden; }
 
             {/* ── STATS BAND ── */}
             <section className="stats-band" style={{ background: "linear-gradient(135deg, #7c3aed, #db2777)", padding: "0" }}>
-                <div className="container stats-band" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+                <div className="container stats-band" style={{
+                    display: "grid",
+                    gridTemplateColumns: typeof window !== "undefined" && window.innerWidth <= 768 ? "repeat(2, 1fr)" : "repeat(4, 1fr)"
+                }}>
                     {STATS.map((s, i) => (
                         <div key={i} className="stat-card" style={{
                             borderRight: i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none",
