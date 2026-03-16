@@ -445,7 +445,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 
             {/* ── HERO ── */}
             <section className="hero-bg" style={{ paddingTop: "140px", paddingBottom: "80px", paddingLeft: "24px", paddingRight: "24px" }}>
-                <div className="container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }}>
+                <div className="container hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }}>
 
                     {/* Left */}
                     <div>
@@ -476,7 +476,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
                     </div>
 
                     {/* Right — Roue animée */}
-                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <div className="hero-visual" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <div className="float" style={{ position: "relative", width: "340px", height: "340px" }}>
 
                             {/* Glow */}
