@@ -590,13 +590,15 @@ html, body { overflow-x: hidden; }
 
             {/* ── STATS BAND ── */}
             <section className="stats-band" style={{ background: "linear-gradient(135deg, #7c3aed, #db2777)", padding: "0" }}>
-                <div className="container stats-band" style={{
+                <div className="container" style={{
                     display: "grid",
-                    gridTemplateColumns: typeof window !== "undefined" && window.innerWidth <= 768 ? "repeat(2, 1fr)" : "repeat(4, 1fr)"
+                    gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)"
                 }}>
                     {STATS.map((s, i) => (
                         <div key={i} className="stat-card" style={{
-                            borderRight: i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none",
+                            borderRight: isMobile ? "none" : i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none",
+                            borderBottom: isMobile && i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none"
+                        }}>
                             borderBottom: "none"
                         }}>
                             <div style={{ fontSize: "36px", fontWeight: "800", color: "white", fontFamily: "'DM Serif Display', serif" }}>{s.value}</div>
