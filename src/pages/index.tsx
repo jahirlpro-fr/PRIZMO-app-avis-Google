@@ -159,13 +159,20 @@ export default function LandingPage() {
     const timelineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
     const timelineOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const [wheelAngle, setWheelAngle] = useState(0);
     const wheelRef = useRef < ReturnType < typeof setInterval > | null > (null);
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 20);
         window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        setIsMobile(window.innerWidth <= 768);
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("resize", handleResize);
+        };
     }, []);
 
     useEffect(() => {
