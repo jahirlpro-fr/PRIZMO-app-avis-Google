@@ -581,8 +581,8 @@ html, body { overflow-x: hidden; }
             </section>
 
             {/* ── STATS BAND ── */}
-            <section style={{ background: "linear-gradient(135deg, #7c3aed, #db2777)", padding: "0" }}>
-                <div className="container" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+            <section className="stats-band" style={{ background: "linear-gradient(135deg, #7c3aed, #db2777)", padding: "0" }}>
+                <div className="container stats-band" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
                     {STATS.map((s, i) => (
                         <div key={i} className="stat-card" style={{ borderRight: i < 3 ? "1px solid rgba(255,255,255,0.15)" : "none" }}>
                             <div style={{ fontSize: "36px", fontWeight: "800", color: "white", fontFamily: "'DM Serif Display', serif" }}>{s.value}</div>
@@ -604,14 +604,14 @@ html, body { overflow-x: hidden; }
                     </div>
 
                     {/* Bento Grid */}
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridTemplateRows: "auto auto", gap: "16px" }}>
+                    <div className="bento-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridTemplateRows: "auto auto", gap: "16px" }}>
 
                         {/* Grande carte gauche — Roue */}
                         <motion.div
                             whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(124,58,237,0.15)" }}
                             transition={{ duration: 0.2 }}
                             style={{
-                                gridColumn: "span 2", background: "white",
+                                className="bento-span2" style={{ gridColumn: "span 2", background: "white",gridColumn: "span 2", background: "white",
                                 border: "1.5px solid #efefef", borderRadius: "24px",
                                 padding: "40px", overflow: "hidden", position: "relative",
                                 cursor: "default",
@@ -793,7 +793,7 @@ html, body { overflow-x: hidden; }
                         <div className="tag">🏪 Pour qui ?</div>
                         <h2>Conçu pour tous les commerces de proximité</h2>
                     </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+                    <div className="usecases-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
                         {USE_CASES.map((uc, i) => (
                             <div key={i} className="feature-card" style={{ background: "white" }}>
                                 <div style={{ fontSize: "36px", marginBottom: "14px" }}>{uc.emoji}</div>
@@ -879,7 +879,7 @@ html, body { overflow-x: hidden; }
     </div>
 </div>
 
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", alignItems: "start" }}>
+                    <div className="pricing-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", alignItems: "start" }}>
 
                         {/* SOLO */}
                         <div className="pricing-card">
@@ -1112,7 +1112,7 @@ html, body { overflow-x: hidden; }
             {/* ── FOOTER ── */}
             <footer style={{ background: "#0f0f0f", color: "#888", padding: "60px 24px 40px" }}>
                 <div className="container">
-                    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "48px", marginBottom: "48px" }}>
+                    <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "48px", marginBottom: "48px" }}>
                         <div>
                             <img src="/LOGO.svg" alt="Prizmo" style={{ height: "32px", filter: "brightness(0) invert(1)", marginBottom: "16px" }} />
                             <p style={{ fontSize: "14px", lineHeight: "1.7", maxWidth: "280px" }}>
