@@ -459,7 +459,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 
                         <div className="fade-up-3" style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "40px" }}>
                             <a href="/admin/establishment/new" className="btn-primary" style={{ fontSize: "16px", padding: "16px 32px" }}>
-                                Essai gratuit 14 jours →
+                                Essai gratuit 21 jours →
                             </a>
                             <a href="#comment" className="btn-secondary" style={{ fontSize: "16px", padding: "16px 32px" }}>
                                 Voir la démo
@@ -1085,7 +1085,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
                         Prêt à transformer votre restaurant ?
                     </h2>
                     <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "18px", marginBottom: "40px", lineHeight: "1.7" }}>
-                        Rejoignez les commerçants qui utilisent Prizmo pour booster leurs avis Google et fidéliser leurs clients. 14 jours gratuits, sans engagement.
+                        Rejoignez les commerçants qui utilisent Prizmo pour booster leurs avis Google et fidéliser leurs clients. 21 jours gratuits, sans engagement.
                     </p>
                     <a href="/admin/establishment/new" style={{
                         background: "white",
@@ -1104,7 +1104,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
                         Démarrer gratuitement →
                     </a>
                     <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "13px", marginTop: "20px" }}>
-                        ✓ Sans carte bancaire · ✓ 14 jours d'essai · ✓ Annulation libre
+                        ✓ Sans carte bancaire · ✓ 21 jours d'essai · ✓ Annulation libre
                     </p>
                 </div>
             </section>
