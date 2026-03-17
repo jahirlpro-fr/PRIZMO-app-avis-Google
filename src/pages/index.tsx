@@ -160,6 +160,7 @@ export default function LandingPage() {
     const timelineOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [activePlan, setActivePlan] = useState(1);
     const [wheelAngle, setWheelAngle] = useState(0);
     const wheelRef = useRef < ReturnType < typeof setInterval > | null > (null);
 
