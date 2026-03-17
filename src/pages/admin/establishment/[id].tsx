@@ -1506,6 +1506,13 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                                   : "Placez cette affiche près de la caisse pour inciter vos clients à souscrire."
                                               }</p>
                                           </div>
+                                          <Button
+                                              onClick={handleSaveEstablishment}
+                                              className="w-full prizmo-gradient text-white font-semibold"
+                                              size="lg">
+                                              <Save className="w-4 h-4 mr-2" />
+                                              Enregistrer les modifications
+                                          </Button>
                                       </CardContent>
                                   </Card>
 
