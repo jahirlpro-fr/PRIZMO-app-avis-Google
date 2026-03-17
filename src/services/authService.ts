@@ -70,24 +70,33 @@ export const authService = {
   /**
    * Sign in with email and password
    */
-  async signIn(email: string, password: string) {
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+    async signIn(email: string, password: string) {
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
 
-      if (error) {
-        console.error("Sign in error:", error);
-        throw error;
-      }
+            if (error) {
+                console.error("Sign in error:", error);
+                if (error.message.includes("Invalid login credentials") || error.message.includes("invalid_credentials")) {
+                    throw new Error("Email ou mot de passe incorrect. Veuillez réessayer.");
+                }
+                if (error.message.includes("Email not confirmed")) {
+                    throw new Error("Veuillez confirmer votre email avant de vous connecter.");
+                }
+                if (error.message.includes("Too many requests")) {
+                    throw new Error("Trop de tentatives. Veuillez patienter quelques minutes.");
+                }
+                throw new Error("Erreur de connexion. Veuillez réessayer.");
+            }
 
-      return data;
-    } catch (error) {
-      console.error("Exception in signIn:", error);
-      throw error;
-    }
-  },
+            return data;
+        } catch (error: any) {
+            console.error("Exception in signIn:", error);
+            throw error;
+        }
+    },
 
   /**
    * Sign out current user
