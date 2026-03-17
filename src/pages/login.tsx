@@ -234,9 +234,12 @@ export default function LoginPage() {
 
                                 {/* Footer */}
                                 <div className="mt-5 text-center space-y-2">
-                                    <Link href="/admin/establishment/new" className="block text-xs text-white/40 hover:text-white/70 transition-colors">
-                                        Pas encore de compte ? <span className="text-purple-400 font-medium">Essai gratuit 21 jours →</span>
-                                    </Link>
+<Link href="/admin/establishment/new" className="block text-xs text-white/40 hover:text-white/70 transition-colors">
+    Pas encore de compte ? <span className="text-purple-400 font-medium">Essai gratuit 21 jours →</span>
+</Link>
+<Link href="/forgot-password" className="block text-xs text-white/40 hover:text-white/70 transition-colors">
+    Mot de passe oublié ? <span className="text-purple-400 font-medium">Réinitialiser →</span>
+</Link>
                                     <Link href="/" className="block text-xs text-white/25 hover:text-white/50 transition-colors">
                                         ← Retour à l'accueil
                                     </Link>
