@@ -895,101 +895,170 @@ html, body { overflow-x: hidden; }
     </div>
 </div>
 
-                    <div className="pricing-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", alignItems: "start" }}>
-
-                        {/* SOLO */}
-                        <div className="pricing-card">
-                            <div style={{ fontSize: "13px", fontWeight: "700", color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "16px" }}>SOLO</div>
-<div style={{ marginBottom: "24px" }}>
-    <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>
-        {isAnnual ? "41€" : "49€"}
-    </span>
-    <span style={{ color: "#888", fontSize: "15px" }}>/mois</span>
-    {isAnnual && (
-        <div style={{ fontSize: "12px", color: "#aaa", marginTop: "4px" }}>facturé 490€/an</div>
-    )}
-</div>
-                            <div className="divider" />
-                            <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
-                                {["1 établissement", "100 participants/mois", "Roue de la fortune", "Tunnel avis Google", "Collecte emails + tél clients", "Graphiques Analytics (basic)", "Affiches imprimables"].map((item, i) => (
-                                    <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
-                                        <div className="check-dark">✓</div>
-                                        <span>{item}</span>
+                    {isMobile ? (
+                        <div style={{ position: "relative" }}>
+                            <div style={{ overflow: "hidden" }}>
+                                <div style={{
+                                    display: "flex",
+                                    transform: `translateX(${activePlan * -100}%)`,
+                                    transition: "transform 0.35s ease",
+                                }}>
+                                    {/* SOLO */}
+                                    <div style={{ minWidth: "100%", padding: "4px" }}>
+                                        <div className="pricing-card">
+                                            <div style={{ fontSize: "13px", fontWeight: "700", color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "16px" }}>SOLO</div>
+                                            <div style={{ marginBottom: "24px" }}>
+                                                <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>{isAnnual ? "41€" : "49€"}</span>
+                                                <span style={{ color: "#888", fontSize: "15px" }}>/mois</span>
+                                                {isAnnual && <div style={{ fontSize: "12px", color: "#aaa", marginTop: "4px" }}>facturé 490€/an</div>}
+                                            </div>
+                                            <div className="divider" />
+                                            <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
+                                                {["1 établissement", "100 participants/mois", "Roue de la fortune", "Tunnel avis Google", "Collecte emails + tél clients", "Graphiques Analytics (basic)", "Affiches imprimables"].map((item, i) => (
+                                                    <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
+                                                        <div className="check-dark">✓</div><span>{item}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <a href="/admin/establishment/new" className="btn-secondary" style={{ width: "100%", textAlign: "center", display: "block" }}>Démarrer l'essai →</a>
+                                        </div>
                                     </div>
+
+                                    {/* PRO */}
+                                    <div style={{ minWidth: "100%", padding: "4px" }}>
+                                        <div className="pricing-card featured">
+                                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+                                                <div style={{ fontSize: "13px", fontWeight: "700", color: "rgba(255,255,255,0.8)", letterSpacing: "0.08em", textTransform: "uppercase" }}>PRO</div>
+                                                <div style={{ background: "rgba(255,255,255,0.2)", padding: "4px 12px", borderRadius: "100px", fontSize: "12px", fontWeight: "700" }}>⭐ Recommandé</div>
+                                            </div>
+                                            <div style={{ marginBottom: "24px" }}>
+                                                <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>{isAnnual ? "58€" : "69€"}</span>
+                                                <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "15px" }}>/mois</span>
+                                                {isAnnual && <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.6)", marginTop: "4px" }}>facturé 690€/an</div>}
+                                            </div>
+                                            <div style={{ width: "48px", height: "3px", background: "rgba(255,255,255,0.4)", borderRadius: "2px", margin: "0 0 24px" }} />
+                                            <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
+                                                {["1 établissement", "Participants illimités", "Roue de la fortune", "Tunnel avis Google + Instagram", "Collecte emails + tél clients", "Graphiques Analytics (avancés)", "Programme de fidélité", "2 chevalets inclus", "Support prioritaire"].map((item, i) => (
+                                                    <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
+                                                        <div className="check">✓</div><span>{item}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <a href="/admin/establishment/new" style={{
+                                                background: "white", color: "#7c3aed", border: "none", padding: "14px 28px",
+                                                borderRadius: "100px", fontSize: "15px", fontWeight: "700", cursor: "pointer",
+                                                width: "100%", textAlign: "center", display: "block", textDecoration: "none",
+                                            }}>Démarrer l'essai →</a>
+                                        </div>
+                                    </div>
+
+                                    {/* BUSINESS */}
+                                    <div style={{ minWidth: "100%", padding: "4px" }}>
+                                        <div className="pricing-card">
+                                            <div style={{ fontSize: "13px", fontWeight: "700", color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "16px" }}>BUSINESS</div>
+                                            <div style={{ marginBottom: "24px" }}>
+                                                <span style={{ fontSize: "36px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>Sur devis</span>
+                                            </div>
+                                            <div className="divider" />
+                                            <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
+                                                {["Multi-établissements (5+)", "Tout le plan PRO", "Tunnel avis Google + Instagram", "Graphiques Analytics (avancés)", "Programme de fidélité", "Chevalets physiques (sur devis)", "White label", "Account manager dédié", "Onboarding accompagné"].map((item, i) => (
+                                                    <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
+                                                        <div className="check-dark">✓</div><span>{item}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <a href="mailto:contact@prizmo.pro" className="btn-secondary" style={{ width: "100%", textAlign: "center", display: "block" }}>Nous contacter →</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Dots */}
+                            <div style={{ display: "flex", justifyContent: "center", gap: "8px", marginTop: "24px" }}>
+                                {["SOLO", "PRO", "BUSINESS"].map((plan, i) => (
+                                    <button key={i} onClick={() => setActivePlan(i)} style={{
+                                        width: activePlan === i ? "24px" : "8px",
+                                        height: "8px", borderRadius: "100px", border: "none", cursor: "pointer",
+                                        background: activePlan === i ? "#7c3aed" : "#ddd",
+                                        transition: "all 0.3s", padding: 0,
+                                    }} />
                                 ))}
                             </div>
-                            <a href="/admin/establishment/new" className="btn-secondary" style={{ width: "100%", textAlign: "center", display: "block" }}>
-                                Démarrer l'essai →
-                            </a>
+                            <p style={{ textAlign: "center", fontSize: "13px", color: "#888", marginTop: "8px" }}>
+                                {["SOLO", "PRO ⭐", "BUSINESS"][activePlan]}
+                            </p>
                         </div>
+                    ) : (
+                        <div className="pricing-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", alignItems: "start" }}>
 
-                        {/* PRO */}
-                        <div className="pricing-card featured">
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
-                                <div style={{ fontSize: "13px", fontWeight: "700", color: "rgba(255,255,255,0.8)", letterSpacing: "0.08em", textTransform: "uppercase" }}>PRO</div>
-                                <div style={{ background: "rgba(255,255,255,0.2)", padding: "4px 12px", borderRadius: "100px", fontSize: "12px", fontWeight: "700" }}>⭐ Recommandé</div>
+                            {/* SOLO */}
+                            <div className="pricing-card">
+                                <div style={{ fontSize: "13px", fontWeight: "700", color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "16px" }}>SOLO</div>
+                                <div style={{ marginBottom: "24px" }}>
+                                    <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>{isAnnual ? "41€" : "49€"}</span>
+                                    <span style={{ color: "#888", fontSize: "15px" }}>/mois</span>
+                                    {isAnnual && <div style={{ fontSize: "12px", color: "#aaa", marginTop: "4px" }}>facturé 490€/an</div>}
+                                </div>
+                                <div className="divider" />
+                                <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
+                                    {["1 établissement", "100 participants/mois", "Roue de la fortune", "Tunnel avis Google", "Collecte emails + tél clients", "Graphiques Analytics (basic)", "Affiches imprimables"].map((item, i) => (
+                                        <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
+                                            <div className="check-dark">✓</div><span>{item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <a href="/admin/establishment/new" className="btn-secondary" style={{ width: "100%", textAlign: "center", display: "block" }}>Démarrer l'essai →</a>
                             </div>
-<div style={{ marginBottom: "24px" }}>
-    <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>
-        {isAnnual ? "58€" : "69€"}
-    </span>
-    <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "15px" }}>/mois</span>
-    {isAnnual && (
-        <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.6)", marginTop: "4px" }}>facturé 690€/an</div>
-    )}
-</div>
-                            <div style={{ width: "48px", height: "3px", background: "rgba(255,255,255,0.4)", borderRadius: "2px", margin: "0 0 24px" }} />
-                            <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
-                                {["1 établissement", "Participants illimités", "Roue de la fortune", "Tunnel avis Google + Instagram", "Collecte emails + tél clients", "Graphiques Analytics (avancés)", "Programme de fidélité", "2 chevalets inclus", "Support prioritaire"].map((item, i) => (
-                                    <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
-                                        <div className="check">✓</div>
-                                        <span>{item}</span>
-                                    </div>
-                                ))}
+
+                            {/* PRO */}
+                            <div className="pricing-card featured">
+                                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+                                    <div style={{ fontSize: "13px", fontWeight: "700", color: "rgba(255,255,255,0.8)", letterSpacing: "0.08em", textTransform: "uppercase" }}>PRO</div>
+                                    <div style={{ background: "rgba(255,255,255,0.2)", padding: "4px 12px", borderRadius: "100px", fontSize: "12px", fontWeight: "700" }}>⭐ Recommandé</div>
+                                </div>
+                                <div style={{ marginBottom: "24px" }}>
+                                    <span style={{ fontSize: "48px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>{isAnnual ? "58€" : "69€"}</span>
+                                    <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "15px" }}>/mois</span>
+                                    {isAnnual && <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.6)", marginTop: "4px" }}>facturé 690€/an</div>}
+                                </div>
+                                <div style={{ width: "48px", height: "3px", background: "rgba(255,255,255,0.4)", borderRadius: "2px", margin: "0 0 24px" }} />
+                                <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
+                                    {["1 établissement", "Participants illimités", "Roue de la fortune", "Tunnel avis Google + Instagram", "Collecte emails + tél clients", "Graphiques Analytics (avancés)", "Programme de fidélité", "2 chevalets inclus", "Support prioritaire"].map((item, i) => (
+                                        <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
+                                            <div className="check">✓</div><span>{item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <a href="/admin/establishment/new" style={{
+                                    background: "white", color: "#7c3aed", border: "none", padding: "14px 28px",
+                                    borderRadius: "100px", fontSize: "15px", fontWeight: "700", cursor: "pointer",
+                                    width: "100%", textAlign: "center", display: "block", textDecoration: "none",
+                                }}>Démarrer l'essai →</a>
                             </div>
-                            <a href="/admin/establishment/new" style={{
-                                background: "white",
-                                color: "#7c3aed",
-                                border: "none",
-                                padding: "14px 28px",
-                                borderRadius: "100px",
-                                fontSize: "15px",
-                                fontWeight: "700",
-                                cursor: "pointer",
-                                width: "100%",
-                                textAlign: "center",
-                                display: "block",
-                                textDecoration: "none",
-                                transition: "transform 0.2s",
-                            }}>
-                                Démarrer l'essai →
-                            </a>
+
+                            {/* BUSINESS */}
+                            <div className="pricing-card">
+                                <div style={{ fontSize: "13px", fontWeight: "700", color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "16px" }}>BUSINESS</div>
+                                <div style={{ marginBottom: "24px" }}>
+                                    <span style={{ fontSize: "36px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>Sur devis</span>
+                                </div>
+                                <div className="divider" />
+                                <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
+                                    {["Multi-établissements (5+)", "Tout le plan PRO", "Tunnel avis Google + Instagram", "Graphiques Analytics (avancés)", "Programme de fidélité", "Chevalets physiques (sur devis)", "White label", "Account manager dédié", "Onboarding accompagné"].map((item, i) => (
+                                        <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
+                                            <div className="check-dark">✓</div><span>{item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <a href="mailto:contact@prizmo.pro" className="btn-secondary" style={{ width: "100%", textAlign: "center", display: "block" }}>Nous contacter →</a>
+                            </div>
+
                         </div>
+                    )}
 
-                        {/* BUSINESS */}
-                        <div className="pricing-card">
-                            <div style={{ fontSize: "13px", fontWeight: "700", color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "16px" }}>BUSINESS</div>
-                            <div style={{ marginBottom: "24px" }}>
-                                <span style={{ fontSize: "36px", fontWeight: "800", fontFamily: "'DM Serif Display', serif" }}>Sur devis</span>
-                            </div>
-                            <div className="divider" />
-                            <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
-                                {["Multi-établissements (5+)", "Tout le plan PRO", "Tunnel avis Google + Instagram", "Graphiques Analytics (avancés)", "Programme de fidélité", "Chevalets physiques (sur devis)", "White label", "Account manager dédié", "Onboarding accompagné"].map((item, i) => (
-                                    <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
-                                        <div className="check-dark">✓</div>
-                                        <span>{item}</span>
-                                    </div>
-                                ))}
-                            </div>
-                            <a href="mailto:contact@prizmo.pro" className="btn-secondary" style={{ width: "100%", textAlign: "center", display: "block" }}>
-                                Nous contacter →
-                            </a>
-                        </div>
-                    </div>
-
-<p style={{ textAlign: "center", color: "#888", fontSize: "13px", marginTop: "32px" }}>
-    Tous les plans incluent un essai gratuit de 21 jours · Aucune carte bancaire requise · Annulation sans préavis
-</p>
+                    <p style={{ textAlign: "center", color: "#888", fontSize: "13px", marginTop: "32px" }}>
+                        Tous les plans incluent un essai gratuit de 21 jours · Aucune carte bancaire requise · Annulation sans préavis
+                    </p>
 
 {/* ── TABLEAU COMPARATIF ── */}
 <div style={{ marginTop: "72px" }}>
