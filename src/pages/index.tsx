@@ -1065,8 +1065,9 @@ html, body { overflow-x: hidden; }
     <h3 style={{ textAlign: "center", fontFamily: "'DM Serif Display', serif", fontSize: "clamp(24px, 3vw, 36px)", fontWeight: "400", marginBottom: "40px" }}>
         Comparez les plans
     </h3>
-    <div style={{ background: "white", border: "1.5px solid #efefef", borderRadius: "24px", overflow: "hidden" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                        <div className="compare-wrapper" style={{ background: "white", border: "1.5px solid #efefef", borderRadius: "24px", overflow: "hidden" }}>
+                            <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+                                <table style={{ width: "100%", minWidth: "560px", borderCollapse: "collapse" }}>
             <thead>
                 <tr>
                     <th style={{ padding: "16px 24px", textAlign: "left", fontSize: "14px", fontWeight: "700", color: "#333", background: "#fafafa", borderBottom: "1px solid #f0f0f0", width: "40%" }}>Fonctionnalité</th>
