@@ -1098,10 +1098,11 @@ html, body { overflow-x: hidden; }
                         <td style={{ padding: "14px 24px", fontSize: "14px", textAlign: "center", borderBottom: i < arr.length - 1 ? "1px solid #f0f0f0" : "none" }}>{business}</td>
                     </tr>
                 ))}
-            </tbody>
-        </table>
-    </div>
-</div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
 {/* ── GARANTIE ── */}
 <div style={{
