@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Link from "next/link";
+import Head from "next/head";
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState("");
@@ -27,7 +28,9 @@ export default function ForgotPassword() {
     };
 
     return (
-        <div style={{
+    <>
+            <Head><title>Réinitialisation du mot de passe — Prizmo</title></Head>
+            <div style={{
             minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
             background: "linear-gradient(135deg, #0f0f0f 0%, #1a1040 50%, #0f0f0f 100%)",
             padding: "24px", fontFamily: "'DM Sans', sans-serif",
@@ -112,6 +115,7 @@ export default function ForgotPassword() {
                     </Link>
                 </div>
             </div>
-        </div>
+            </div>
+        </>
     );
 }
