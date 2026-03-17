@@ -374,22 +374,29 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
         }
     };
 
-    const handlePortal = async () => {
-        setPortalLoading(true);
-        try {
-            const res = await fetch("/api/stripe/portal", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ establishmentId: id }),
-            });
-            const data = await res.json();
-            if (data.url) window.location.href = data.url;
-        } catch (err) {
-            console.error("Portal error:", err);
-        } finally {
-            setPortalLoading(false);
+const handlePortal = async () => {
+    setPortalLoading(true);
+    try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) { alert("Vous devez être connecté."); return; }
+        const res = await fetch("/api/stripe/portal", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId: user.id }),
+        });
+        const data = await res.json();
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert("Aucun abonnement Stripe actif trouvé. Ce bouton fonctionne uniquement après souscription à un plan payant.");
         }
-    };
+    } catch (err) {
+        console.error("Portal error:", err);
+        alert("Erreur lors de l'ouverture du portail.");
+    } finally {
+        setPortalLoading(false);
+    }
+};
 
     const handleDeleteEstablishment = async () => {
         if (!establishment || !confirm("Êtes-vous sûr de vouloir supprimer cet établissement ? Cette action est irréversible.")) return;
