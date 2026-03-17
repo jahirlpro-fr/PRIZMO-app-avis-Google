@@ -101,18 +101,18 @@ export const authService = {
   /**
    * Sign out current user
    */
-  async signOut() {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error("Sign out error:", error);
-        throw error;
-      }
-    } catch (error) {
-      console.error("Exception in signOut:", error);
-      throw error;
-    }
-  },
+    async signOut() {
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+                console.error("Sign out error:", error);
+                throw new Error("Erreur lors de la déconnexion. Veuillez réessayer.");
+            }
+        } catch (error: any) {
+            console.error("Exception in signOut:", error);
+            throw error;
+        }
+    },
 
   /**
    * Get current session
