@@ -1510,7 +1510,7 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
                                   </Card>
 
                                   {/* Right: Preview avec switcher */}
-                                  <div className="lg:col-span-2 flex flex-col gap-4">
+                                  <div className="lg:col-span-2 flex flex-col gap-4 overflow-hidden">
 
                                       {/* Switcher */}
                                       <div className="flex items-center justify-between bg-white border-2 rounded-xl px-4 py-3 shadow-sm">
