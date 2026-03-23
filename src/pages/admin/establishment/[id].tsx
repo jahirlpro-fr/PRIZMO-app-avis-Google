@@ -179,24 +179,31 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
       fetchData();
   }, [router.isReady, id]);
 
-  const handleSaveEstablishment = async () => {
-    if (!establishment) return;
+    const handleSaveEstablishment = async () => {
+        if (!establishment) return;
 
-    const updated: Establishment = {
-      ...establishment,
-      name: formData.name,
-      address: formData.address,
-      googleMapsUrl: formData.googleMapsUrl,
-      instagramUrl: formData.instagramUrl || undefined,
-      primaryColor: formData.primaryColor,
-      secondaryColor: formData.secondaryColor,
-      enableInstagramWheel: formData.enableInstagramWheel,
+        const updated: Establishment = {
+            ...establishment,
+            name: formData.name,
+            address: formData.address,
+            googleMapsUrl: formData.googleMapsUrl,
+            instagramUrl: formData.instagramUrl || undefined,
+            tiktokUrl: formData.tiktokUrl || undefined,
+            snapchatUrl: formData.snapchatUrl || undefined,
+            facebookUrl: formData.facebookUrl || undefined,
+            primaryColor: formData.primaryColor,
+            secondaryColor: formData.secondaryColor,
+            enableInstagramWheel: formData.enableInstagramWheel,
+            enableInstagram: formData.enableInstagram || false,
+            enableTiktok: formData.enableTiktok || false,
+            enableSnapchat: formData.enableSnapchat || false,
+            enableFacebook: formData.enableFacebook || false,
+        };
+
+        await storageService.saveEstablishment(updated);
+        setEstablishment(updated);
+        alert("Établissement mis à jour avec succès !");
     };
-
-    await storageService.saveEstablishment(updated);
-    setEstablishment(updated);
-    alert("Établissement mis à jour avec succès !");
-  };
 
   const handleSaveSegments = async () => {
     if (!establishment) return;
