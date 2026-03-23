@@ -140,11 +140,6 @@ export function SocialStep({ establishmentName, networks, onDone, onSkip }: Soci
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
-                        <p className="text-sm text-purple-900 font-medium">
-                            {networkIcons} Rejoignez notre communauté et ne manquez aucune offre exclusive !
-                        </p>
-                    </div>
 
                     {activeNetworks.map((network) => {
                         const config = getNetworkConfig(network.name);
