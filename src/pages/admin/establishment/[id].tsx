@@ -94,15 +94,22 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
       
       if (found) {
         setEstablishment(found);
-        setFormData({
-          name: found.name,
-          address: found.address,
-          googleMapsUrl: found.googleMapsUrl,
-          instagramUrl: found.instagramUrl || "",
-          primaryColor: found.primaryColor,
-          secondaryColor: found.secondaryColor,
-          enableInstagramWheel: found.enableInstagramWheel,
-        });
+          setFormData({
+              name: found.name,
+              address: found.address,
+              googleMapsUrl: found.googleMapsUrl,
+              instagramUrl: found.instagramUrl || "",
+              tiktokUrl: found.tiktokUrl || "",
+              snapchatUrl: found.snapchatUrl || "",
+              facebookUrl: found.facebookUrl || "",
+              primaryColor: found.primaryColor,
+              secondaryColor: found.secondaryColor,
+              enableInstagramWheel: found.enableInstagramWheel,
+              enableInstagram: found.enableInstagram || false,
+              enableTiktok: found.enableTiktok || false,
+              enableSnapchat: found.enableSnapchat || false,
+              enableFacebook: found.enableFacebook || false,
+          });
         
         const establishmentSegments = await storageService.getSegments(establishmentId);
         setSegments(establishmentSegments);
