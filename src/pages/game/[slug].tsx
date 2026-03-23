@@ -49,8 +49,15 @@ export default function GamePage() {
                     snapchatUrl: (found as any).snapchat_url || found.snapchatUrl || "",
                     facebookUrl: (found as any).facebook_url || found.facebookUrl || "",
                 });
-                const establishmentSegments = await storageService.getSegments(found.id);
-                setSegments(establishmentSegments);
+// Ajoute ici
+console.log("establishment réseaux:", {
+    enableInstagram: found.enableInstagram,
+    enableTiktok: found.enableTiktok,
+    instagramUrl: found.instagramUrl,
+});
+
+const establishmentSegments = await storageService.getSegments(found.id);
+setSegments(establishmentSegments);
 
                 // Vérifie si carte fidélité active
                 const { data: loyaltyData } = await supabase
@@ -67,10 +74,12 @@ export default function GamePage() {
                 const { data: profileData } = await supabase
                     .from("profiles")
                     .select("plan")
-                    .eq("id", found.ownerId)
+                    .eq("establishment_id", found.id)
                     .maybeSingle();
                 if (profileData?.plan) {
                     setMerchantPlan(profileData.plan);
+                } else {
+                    setMerchantPlan("pro");
                 }
 
                 setStep("email");
