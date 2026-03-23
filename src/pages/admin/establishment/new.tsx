@@ -219,20 +219,27 @@ export default function NewEstablishmentPage() {
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
 
-      const newEstablishment: Establishment = {
-        id: crypto.randomUUID(),
-        name: formData.name,
-        slug,
-        address: formData.address,
-        googleMapsUrl: formData.googleMapsUrl,
-        instagramUrl: formData.instagramUrl || undefined,
-        primaryColor: formData.primaryColor,
-        secondaryColor: formData.secondaryColor,
-        enableInstagramWheel: formData.enableInstagramWheel,
-        logo_url: formData.logo_url,
-        logo_secondary_url: formData.logo_secondary_url || undefined,
-        createdAt: new Date().toISOString(),
-      };
+        const newEstablishment: Establishment = {
+            id: crypto.randomUUID(),
+            name: formData.name,
+            slug,
+            address: formData.address,
+            googleMapsUrl: formData.googleMapsUrl,
+            instagramUrl: formData.instagramUrl || undefined,
+            tiktokUrl: formData.tiktokUrl || undefined,
+            snapchatUrl: formData.snapchatUrl || undefined,
+            facebookUrl: formData.facebookUrl || undefined,
+            primaryColor: formData.primaryColor,
+            secondaryColor: formData.secondaryColor,
+            enableInstagramWheel: formData.enableInstagramWheel,
+            enableInstagram: formData.enableInstagram || false,
+            enableTiktok: formData.enableTiktok || false,
+            enableSnapchat: formData.enableSnapchat || false,
+            enableFacebook: formData.enableFacebook || false,
+            logo_url: formData.logo_url,
+            logo_secondary_url: formData.logo_secondary_url || undefined,
+            createdAt: new Date().toISOString(),
+        };
 
       await dbStorage.saveEstablishment(newEstablishment);
 
