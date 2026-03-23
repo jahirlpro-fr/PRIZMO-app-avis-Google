@@ -62,46 +62,46 @@ function getNetworkConfig(name: string) {
         case "instagram":
             return {
                 label: "Instagram",
-                emoji: "📸",
                 gradient: "from-purple-500 via-pink-500 to-orange-400",
                 hoverGradient: "hover:from-purple-600 hover:via-pink-600 hover:to-orange-500",
-                icon: <Instagram className="w-6 h-6 mr-2" />,
+                icon: <img src="/social/instagram_icon.svg" className="w-6 h-6 mr-2" alt="Instagram" />,
+                wordmark: <img src="/social/instagram_wordmark.svg" className="h-5" alt="Instagram" style={{ filter: "brightness(0) invert(1)" }} />,
                 bgIcon: "from-purple-500 via-pink-500 to-orange-400",
             };
         case "tiktok":
             return {
                 label: "TikTok",
-                emoji: "🎵",
                 gradient: "from-gray-900 via-gray-800 to-black",
                 hoverGradient: "hover:from-black hover:via-gray-900 hover:to-gray-800",
-                icon: <span className="mr-2 text-lg">🎵</span>,
+                icon: <img src="/social/tiktok_icon.svg" className="w-6 h-6 mr-2" alt="TikTok" />,
+                wordmark: <img src="/social/tiktok_wordmark.svg" className="h-5" alt="TikTok" style={{ filter: "brightness(0) invert(1)" }} />,
                 bgIcon: "from-gray-900 to-black",
             };
         case "snapchat":
             return {
                 label: "Snapchat",
-                emoji: "👻",
                 gradient: "from-yellow-300 via-yellow-400 to-yellow-500",
                 hoverGradient: "hover:from-yellow-400 hover:via-yellow-500 hover:to-yellow-600",
-                icon: <span className="mr-2 text-lg">👻</span>,
+                icon: <img src="/social/snapchat_icon.svg" className="w-6 h-6 mr-2" alt="Snapchat" />,
+                wordmark: null,
                 bgIcon: "from-yellow-300 to-yellow-500",
             };
         case "facebook":
             return {
                 label: "Facebook",
-                emoji: "👍",
                 gradient: "from-blue-600 via-blue-500 to-blue-700",
                 hoverGradient: "hover:from-blue-700 hover:via-blue-600 hover:to-blue-800",
-                icon: <span className="mr-2 text-lg">👍</span>,
+                icon: <img src="/social/facebook_icon.svg" className="w-6 h-6 mr-2" alt="Facebook" />,
+                wordmark: <img src="/social/facebook_wordmark.svg" className="h-5" alt="Facebook" style={{ filter: "brightness(0) invert(1)" }} />,
                 bgIcon: "from-blue-600 to-blue-700",
             };
         default:
             return {
                 label: name,
-                emoji: "🔗",
                 gradient: "from-purple-500 to-pink-500",
                 hoverGradient: "hover:from-purple-600 hover:to-pink-600",
                 icon: <span className="mr-2">🔗</span>,
+                wordmark: null,
                 bgIcon: "from-purple-500 to-pink-500",
             };
     }
@@ -129,7 +129,7 @@ export function SocialStep({ establishmentName, networks, onDone, onSkip }: Soci
                                     key={network.name}
                                     className={`w-14 h-14 bg-gradient-to-br ${config.bgIcon} rounded-full flex items-center justify-center shadow-lg`}
                                 >
-                                    <span className="text-2xl">{config.emoji}</span>
+                                    <img src={`/social/${network.name}_icon.svg`} className="w-8 h-8" alt={network.name} style={{ filter: "brightness(0) invert(1)" }} />
                                 </div>
                             );
                         })}
@@ -150,7 +150,13 @@ export function SocialStep({ establishmentName, networks, onDone, onSkip }: Soci
                                 className={`w-full bg-gradient-to-r ${config.gradient} ${config.hoverGradient} text-white text-lg font-bold py-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105`}
                             >
                                 {config.icon}
-                                S'abonner sur {config.label}
+                                {config.wordmark ? (
+                                    <span className="flex items-center gap-2">
+                                        S'abonner sur {config.wordmark}
+                                    </span>
+                                ) : (
+                                    `S'abonner sur ${config.label}`
+                                )}
                             </Button>
                         );
                     })}
