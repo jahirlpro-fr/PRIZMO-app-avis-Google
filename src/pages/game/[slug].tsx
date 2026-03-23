@@ -227,13 +227,19 @@ setTimeout(() => setStep("result1"), 200);
             )}
 
             {step === "review" && (
-                <ReviewStep
-                    googleMapsUrl={establishment.googleMapsUrl}
-                    establishmentName={establishment.name}
-                    onReviewConfirmed={handleReviewConfirmed}
-                    hasInstagram={!!establishment.instagramUrl}
-                    secondaryColor={establishment.secondaryColor}
-                />
+<ReviewStep
+    googleMapsUrl={establishment.googleMapsUrl}
+    establishmentName={establishment.name}
+    onReviewConfirmed={handleReviewConfirmed}
+    hasInstagram={!!establishment.instagramUrl}
+    hasNetworks={!!(
+        (establishment.enableInstagram && establishment.instagramUrl) ||
+        (establishment.enableTiktok && establishment.tiktokUrl) ||
+        (establishment.enableSnapchat && establishment.snapchatUrl) ||
+        (establishment.enableFacebook && establishment.facebookUrl)
+    )}
+    secondaryColor={establishment.secondaryColor}
+/>
             )}
 
             {step === "instagram" && (
