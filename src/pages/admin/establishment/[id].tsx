@@ -39,15 +39,22 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterPrize, setFilterPrize] = useState<string>("all");
   const [analyticsPeriod, setAnalyticsPeriod] = useState<7 | 30 | 90 | 365>(30);
-  const [formData, setFormData] = useState({
-    name: "",
-    address: "",
-    googleMapsUrl: "",
-    instagramUrl: "",
-    primaryColor: "#8b5cf6",
-    secondaryColor: "#d946ef",
-    enableInstagramWheel: false,
-  });
+    const [formData, setFormData] = useState({
+        name: "",
+        address: "",
+        googleMapsUrl: "",
+        instagramUrl: "",
+        tiktokUrl: "",
+        snapchatUrl: "",
+        facebookUrl: "",
+        primaryColor: "",
+        secondaryColor: "",
+        enableInstagramWheel: false,
+        enableInstagram: false,
+        enableTiktok: false,
+        enableSnapchat: false,
+        enableFacebook: false,
+    });
     const [uploadingPrimaryLogo, setUploadingPrimaryLogo] = useState(false);
     const [uploadingSecondaryLogo, setUploadingSecondaryLogo] = useState(false);
 
