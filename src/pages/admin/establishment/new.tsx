@@ -453,13 +453,9 @@ export default function NewEstablishmentPage() {
                                   {/* Instagram */}
                                   <div className="space-y-2">
                                       <div className="flex items-center gap-3">
-                                          <input
-                                              type="checkbox"
-                                              id="enableInstagram"
+                                          <Switch
                                               checked={formData.enableInstagram || false}
-                                              onChange={(e) => handleChange("enableInstagram", e.target.checked)}
-                                              className="w-10 h-6 appearance-none bg-gray-200 rounded-full cursor-pointer relative transition-colors duration-200 checked:bg-purple-600"
-                                              style={{ WebkitAppearance: "none" }}
+                                              onCheckedChange={(checked) => handleChange("enableInstagram", checked)}
                                           />
                                           <Label htmlFor="instagramUrl">📸 Lien Instagram (optionnel)</Label>
                                       </div>
@@ -477,13 +473,9 @@ export default function NewEstablishmentPage() {
                                   {/* TikTok */}
                                   <div className="space-y-2">
                                       <div className="flex items-center gap-3">
-                                          <input
-                                              type="checkbox"
-                                              id="enableTiktok"
+                                          <Switch
                                               checked={formData.enableTiktok || false}
-                                              onChange={(e) => handleChange("enableTiktok", e.target.checked)}
-                                              className="w-10 h-6 appearance-none bg-gray-200 rounded-full cursor-pointer relative transition-colors duration-200 checked:bg-black"
-                                              style={{ WebkitAppearance: "none" }}
+                                              onCheckedChange={(checked) => handleChange("enableTiktok", checked)}
                                           />
                                           <Label htmlFor="tiktokUrl">🎵 Lien TikTok (optionnel)</Label>
                                       </div>
@@ -501,13 +493,9 @@ export default function NewEstablishmentPage() {
                                   {/* Snapchat */}
                                   <div className="space-y-2">
                                       <div className="flex items-center gap-3">
-                                          <input
-                                              type="checkbox"
-                                              id="enableSnapchat"
+                                          <Switch
                                               checked={formData.enableSnapchat || false}
-                                              onChange={(e) => handleChange("enableSnapchat", e.target.checked)}
-                                              className="w-10 h-6 appearance-none bg-gray-200 rounded-full cursor-pointer relative transition-colors duration-200 checked:bg-yellow-400"
-                                              style={{ WebkitAppearance: "none" }}
+                                              onCheckedChange={(checked) => handleChange("enableSnapchat", checked)}
                                           />
                                           <Label htmlFor="snapchatUrl">👻 Lien Snapchat (optionnel)</Label>
                                       </div>
@@ -525,13 +513,9 @@ export default function NewEstablishmentPage() {
                                   {/* Facebook */}
                                   <div className="space-y-2">
                                       <div className="flex items-center gap-3">
-                                          <input
-                                              type="checkbox"
-                                              id="enableFacebook"
+                                          <Switch
                                               checked={formData.enableFacebook || false}
-                                              onChange={(e) => handleChange("enableFacebook", e.target.checked)}
-                                              className="w-10 h-6 appearance-none bg-gray-200 rounded-full cursor-pointer relative transition-colors duration-200 checked:bg-blue-600"
-                                              style={{ WebkitAppearance: "none" }}
+                                              onCheckedChange={(checked) => handleChange("enableFacebook", checked)}
                                           />
                                           <Label htmlFor="facebookUrl">👍 Lien Facebook (optionnel)</Label>
                                       </div>
