@@ -8,10 +8,11 @@ interface ReviewStepProps {
     establishmentName: string;
     onReviewConfirmed: () => void;
     hasInstagram: boolean;
+    hasNetworks?: boolean;
     secondaryColor?: string;
 }
 
-export function ReviewStep({ googleMapsUrl, establishmentName, onReviewConfirmed, hasInstagram, secondaryColor = "#ffffff" }: ReviewStepProps) {
+export function ReviewStep({ googleMapsUrl, establishmentName, onReviewConfirmed, hasInstagram, hasNetworks, secondaryColor = "#ffffff" }: ReviewStepProps) {
     const handleOpenReview = () => {
         window.open(googleMapsUrl, "_blank");
     };
