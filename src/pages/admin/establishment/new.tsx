@@ -33,20 +33,27 @@ interface PlaceSuggestion {
 export default function NewEstablishmentPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    name: "",
-    address: "",
-    googleMapsUrl: "",
-    instagramUrl: "",
-    primaryColor: "#8b5cf6",
-    secondaryColor: "#d946ef",
-    enableInstagramWheel: false,
-    email: "",
-    password: "",
-    logo_url: "",
-    logo_secondary_url: "",
-    placeId: "",
-  });
+    const [formData, setFormData] = useState({
+        name: "",
+        address: "",
+        googleMapsUrl: "",
+        instagramUrl: "",
+        tiktokUrl: "",
+        snapchatUrl: "",
+        facebookUrl: "",
+        primaryColor: "#8b5cf6",
+        secondaryColor: "#d946ef",
+        enableInstagramWheel: false,
+        enableInstagram: false,
+        enableTiktok: false,
+        enableSnapchat: false,
+        enableFacebook: false,
+        email: "",
+        password: "",
+        logo_url: "",
+        logo_secondary_url: "",
+        placeId: "",
+    });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [uploadingPrimaryLogo, setUploadingPrimaryLogo] = useState(false);
   const [uploadingSecondaryLogo, setUploadingSecondaryLogo] = useState(false);
