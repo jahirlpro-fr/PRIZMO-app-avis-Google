@@ -39,7 +39,16 @@ export default function GamePage() {
             const found = await storageService.getEstablishmentBySlug(slugValue);
 
             if (found) {
-                setEstablishment(found);
+                setEstablishment({
+                    ...found,
+                    enableInstagram: (found as any).enable_instagram || found.enableInstagram || false,
+                    enableTiktok: (found as any).enable_tiktok || found.enableTiktok || false,
+                    enableSnapchat: (found as any).enable_snapchat || found.enableSnapchat || false,
+                    enableFacebook: (found as any).enable_facebook || found.enableFacebook || false,
+                    tiktokUrl: (found as any).tiktok_url || found.tiktokUrl || "",
+                    snapchatUrl: (found as any).snapchat_url || found.snapchatUrl || "",
+                    facebookUrl: (found as any).facebook_url || found.facebookUrl || "",
+                });
                 const establishmentSegments = await storageService.getSegments(found.id);
                 setSegments(establishmentSegments);
 
