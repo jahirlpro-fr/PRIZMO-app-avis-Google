@@ -67,7 +67,7 @@ export default function GamePage() {
                 const { data: profileData } = await supabase
                     .from("profiles")
                     .select("plan")
-                    .eq("establishment_id", found.id)
+                    .eq("id", found.ownerId)
                     .maybeSingle();
                 if (profileData?.plan) {
                     setMerchantPlan(profileData.plan);
