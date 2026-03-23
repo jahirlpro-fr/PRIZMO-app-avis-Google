@@ -114,19 +114,19 @@ setSegments(establishmentSegments);
         setStep("review");
     };
 
-    const handleReviewConfirmed = () => {
-        const hasAnySocial = merchantPlan !== "solo" && establishment && (
-            (establishment.enableInstagram && establishment.instagramUrl) ||
-            (establishment.enableTiktok && establishment.tiktokUrl) ||
-            (establishment.enableSnapchat && establishment.snapchatUrl) ||
-            (establishment.enableFacebook && establishment.facebookUrl)
-        );
-        if (hasAnySocial) {
-            setStep("instagram");
-        } else {
-            setStep("wheel1");
-        }
-    };
+const handleReviewConfirmed = () => {
+    const hasAnySocial = establishment && (
+        (establishment.enableInstagram && establishment.instagramUrl) ||
+        (establishment.enableTiktok && establishment.tiktokUrl) ||
+        (establishment.enableSnapchat && establishment.snapchatUrl) ||
+        (establishment.enableFacebook && establishment.facebookUrl)
+    );
+    if (hasAnySocial) {
+        setStep("instagram");
+    } else {
+        setStep("wheel1");
+    }
+};
 
     const handleInstagramDone = () => {
         setStep("wheel1");
