@@ -1933,9 +1933,84 @@ const handlePortal = async () => {
                                           <Input id="googleMapsUrl" type="url" value={formData.googleMapsUrl} onChange={(e) => setFormData({ ...formData, googleMapsUrl: e.target.value })} />
                                       </div>
 
+                                      {/* Instagram */}
                                       <div className="space-y-2">
-                                          <Label htmlFor="instagramUrl">Lien Instagram (optionnel)</Label>
-                                          <Input id="instagramUrl" type="url" value={formData.instagramUrl} onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })} />
+                                          <div className="flex items-center justify-between">
+                                              <Label>📸 Instagram</Label>
+                                              <div className="flex items-center gap-2">
+                                                  <span className="text-xs text-muted-foreground">{formData.enableInstagram ? "Activé" : "Désactivé"}</span>
+                                                  <button
+                                                      type="button"
+                                                      onClick={() => setFormData({ ...formData, enableInstagram: !formData.enableInstagram })}
+                                                      className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${formData.enableInstagram ? "bg-purple-600" : "bg-gray-200"}`}
+                                                  >
+                                                      <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${formData.enableInstagram ? "translate-x-5" : "translate-x-0"}`} />
+                                                  </button>
+                                              </div>
+                                          </div>
+                                          {formData.enableInstagram && (
+                                              <Input type="url" placeholder="https://www.instagram.com/votrerestaurant" value={formData.instagramUrl || ""} onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })} />
+                                          )}
+                                      </div>
+
+                                      {/* TikTok */}
+                                      <div className="space-y-2">
+                                          <div className="flex items-center justify-between">
+                                              <Label>🎵 TikTok</Label>
+                                              <div className="flex items-center gap-2">
+                                                  <span className="text-xs text-muted-foreground">{formData.enableTiktok ? "Activé" : "Désactivé"}</span>
+                                                  <button
+                                                      type="button"
+                                                      onClick={() => setFormData({ ...formData, enableTiktok: !formData.enableTiktok })}
+                                                      className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${formData.enableTiktok ? "bg-black" : "bg-gray-200"}`}
+                                                  >
+                                                      <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${formData.enableTiktok ? "translate-x-5" : "translate-x-0"}`} />
+                                                  </button>
+                                              </div>
+                                          </div>
+                                          {formData.enableTiktok && (
+                                              <Input type="url" placeholder="https://www.tiktok.com/@votrerestaurant" value={formData.tiktokUrl || ""} onChange={(e) => setFormData({ ...formData, tiktokUrl: e.target.value })} />
+                                          )}
+                                      </div>
+
+                                      {/* Snapchat */}
+                                      <div className="space-y-2">
+                                          <div className="flex items-center justify-between">
+                                              <Label>👻 Snapchat</Label>
+                                              <div className="flex items-center gap-2">
+                                                  <span className="text-xs text-muted-foreground">{formData.enableSnapchat ? "Activé" : "Désactivé"}</span>
+                                                  <button
+                                                      type="button"
+                                                      onClick={() => setFormData({ ...formData, enableSnapchat: !formData.enableSnapchat })}
+                                                      className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${formData.enableSnapchat ? "bg-yellow-400" : "bg-gray-200"}`}
+                                                  >
+                                                      <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${formData.enableSnapchat ? "translate-x-5" : "translate-x-0"}`} />
+                                                  </button>
+                                              </div>
+                                          </div>
+                                          {formData.enableSnapchat && (
+                                              <Input type="url" placeholder="https://www.snapchat.com/add/votrerestaurant" value={formData.snapchatUrl || ""} onChange={(e) => setFormData({ ...formData, snapchatUrl: e.target.value })} />
+                                          )}
+                                      </div>
+
+                                      {/* Facebook */}
+                                      <div className="space-y-2">
+                                          <div className="flex items-center justify-between">
+                                              <Label>👍 Facebook</Label>
+                                              <div className="flex items-center gap-2">
+                                                  <span className="text-xs text-muted-foreground">{formData.enableFacebook ? "Activé" : "Désactivé"}</span>
+                                                  <button
+                                                      type="button"
+                                                      onClick={() => setFormData({ ...formData, enableFacebook: !formData.enableFacebook })}
+                                                      className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none ${formData.enableFacebook ? "bg-blue-600" : "bg-gray-200"}`}
+                                                  >
+                                                      <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${formData.enableFacebook ? "translate-x-5" : "translate-x-0"}`} />
+                                                  </button>
+                                              </div>
+                                          </div>
+                                          {formData.enableFacebook && (
+                                              <Input type="url" placeholder="https://www.facebook.com/votrerestaurant" value={formData.facebookUrl || ""} onChange={(e) => setFormData({ ...formData, facebookUrl: e.target.value })} />
+                                          )}
                                       </div>
 
                                       {/* Toggle fidélité */}
