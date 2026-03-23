@@ -436,16 +436,101 @@ export default function NewEstablishmentPage() {
                     {errors.googleMapsUrl && <p className="text-sm text-red-500">{errors.googleMapsUrl}</p>}
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="instagramUrl">📸 Lien Instagram (optionnel)</Label>
-                    <Input
-                      id="instagramUrl"
-                      type="url"
-                      placeholder="https://www.instagram.com/votrerestaurant"
-                      value={formData.instagramUrl}
-                      onChange={(e) => handleChange("instagramUrl", e.target.value)}
-                    />
-                  </div>
+                                  {/* Instagram */}
+                                  <div className="space-y-2">
+                                      <div className="flex items-center gap-3">
+                                          <input
+                                              type="checkbox"
+                                              id="enableInstagram"
+                                              checked={formData.enableInstagram || false}
+                                              onChange={(e) => handleChange("enableInstagram", e.target.checked)}
+                                              className="w-10 h-6 appearance-none bg-gray-200 rounded-full cursor-pointer relative transition-colors duration-200 checked:bg-purple-600"
+                                              style={{ WebkitAppearance: "none" }}
+                                          />
+                                          <Label htmlFor="instagramUrl">📸 Lien Instagram (optionnel)</Label>
+                                      </div>
+                                      {formData.enableInstagram && (
+                                          <Input
+                                              id="instagramUrl"
+                                              type="url"
+                                              placeholder="https://www.instagram.com/votrerestaurant"
+                                              value={formData.instagramUrl}
+                                              onChange={(e) => handleChange("instagramUrl", e.target.value)}
+                                          />
+                                      )}
+                                  </div>
+
+                                  {/* TikTok */}
+                                  <div className="space-y-2">
+                                      <div className="flex items-center gap-3">
+                                          <input
+                                              type="checkbox"
+                                              id="enableTiktok"
+                                              checked={formData.enableTiktok || false}
+                                              onChange={(e) => handleChange("enableTiktok", e.target.checked)}
+                                              className="w-10 h-6 appearance-none bg-gray-200 rounded-full cursor-pointer relative transition-colors duration-200 checked:bg-black"
+                                              style={{ WebkitAppearance: "none" }}
+                                          />
+                                          <Label htmlFor="tiktokUrl">🎵 Lien TikTok (optionnel)</Label>
+                                      </div>
+                                      {formData.enableTiktok && (
+                                          <Input
+                                              id="tiktokUrl"
+                                              type="url"
+                                              placeholder="https://www.tiktok.com/@votrerestaurant"
+                                              value={formData.tiktokUrl || ""}
+                                              onChange={(e) => handleChange("tiktokUrl", e.target.value)}
+                                          />
+                                      )}
+                                  </div>
+
+                                  {/* Snapchat */}
+                                  <div className="space-y-2">
+                                      <div className="flex items-center gap-3">
+                                          <input
+                                              type="checkbox"
+                                              id="enableSnapchat"
+                                              checked={formData.enableSnapchat || false}
+                                              onChange={(e) => handleChange("enableSnapchat", e.target.checked)}
+                                              className="w-10 h-6 appearance-none bg-gray-200 rounded-full cursor-pointer relative transition-colors duration-200 checked:bg-yellow-400"
+                                              style={{ WebkitAppearance: "none" }}
+                                          />
+                                          <Label htmlFor="snapchatUrl">👻 Lien Snapchat (optionnel)</Label>
+                                      </div>
+                                      {formData.enableSnapchat && (
+                                          <Input
+                                              id="snapchatUrl"
+                                              type="url"
+                                              placeholder="https://www.snapchat.com/add/votrerestaurant"
+                                              value={formData.snapchatUrl || ""}
+                                              onChange={(e) => handleChange("snapchatUrl", e.target.value)}
+                                          />
+                                      )}
+                                  </div>
+
+                                  {/* Facebook */}
+                                  <div className="space-y-2">
+                                      <div className="flex items-center gap-3">
+                                          <input
+                                              type="checkbox"
+                                              id="enableFacebook"
+                                              checked={formData.enableFacebook || false}
+                                              onChange={(e) => handleChange("enableFacebook", e.target.checked)}
+                                              className="w-10 h-6 appearance-none bg-gray-200 rounded-full cursor-pointer relative transition-colors duration-200 checked:bg-blue-600"
+                                              style={{ WebkitAppearance: "none" }}
+                                          />
+                                          <Label htmlFor="facebookUrl">👍 Lien Facebook (optionnel)</Label>
+                                      </div>
+                                      {formData.enableFacebook && (
+                                          <Input
+                                              id="facebookUrl"
+                                              type="url"
+                                              placeholder="https://www.facebook.com/votrerestaurant"
+                                              value={formData.facebookUrl || ""}
+                                              onChange={(e) => handleChange("facebookUrl", e.target.value)}
+                                          />
+                                      )}
+                                  </div>
                 </div>
               )}
 
