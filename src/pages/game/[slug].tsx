@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { SEO } from "@/components/SEO";
 import { EmailForm } from "@/components/game/EmailForm";
 import { ReviewStep } from "@/components/game/ReviewStep";
-import { InstagramStep } from "@/components/game/InstagramStep";
+import { InstagramStep, SocialStep } from "@/components/game/InstagramStep";
 import { WheelOfFortune } from "@/components/game/WheelOfFortune";
 import { PrizeResult } from "@/components/game/PrizeResult";
 import { storageService } from "@/lib/storage";
@@ -97,8 +97,13 @@ export default function GamePage() {
     };
 
     const handleReviewConfirmed = () => {
-        // Instagram uniquement pour PRO et BUSINESS
-        if (establishment?.instagramUrl && merchantPlan !== "solo") {
+        const hasAnySocial = merchantPlan !== "solo" && establishment && (
+            (establishment.enableInstagram && establishment.instagramUrl) ||
+            (establishment.enableTiktok && establishment.tiktokUrl) ||
+            (establishment.enableSnapchat && establishment.snapchatUrl) ||
+            (establishment.enableFacebook && establishment.facebookUrl)
+        );
+        if (hasAnySocial) {
             setStep("instagram");
         } else {
             setStep("wheel1");
@@ -213,11 +218,16 @@ setTimeout(() => setStep("result1"), 200);
                 />
             )}
 
-            {step === "instagram" && establishment.instagramUrl && (
-                <InstagramStep
-                    instagramUrl={establishment.instagramUrl}
+            {step === "instagram" && (
+                <SocialStep
                     establishmentName={establishment.name}
-                    onFollowConfirmed={handleInstagramDone}
+                    networks={[
+                        { name: "instagram", url: establishment.instagramUrl || "", enabled: !!(establishment.enableInstagram && establishment.instagramUrl) },
+                        { name: "tiktok", url: establishment.tiktokUrl || "", enabled: !!(establishment.enableTiktok && establishment.tiktokUrl) },
+                        { name: "snapchat", url: establishment.snapchatUrl || "", enabled: !!(establishment.enableSnapchat && establishment.snapchatUrl) },
+                        { name: "facebook", url: establishment.facebookUrl || "", enabled: !!(establishment.enableFacebook && establishment.facebookUrl) },
+                    ]}
+                    onDone={handleInstagramDone}
                     onSkip={handleInstagramDone}
                     secondaryColor={establishment.secondaryColor}
                 />
