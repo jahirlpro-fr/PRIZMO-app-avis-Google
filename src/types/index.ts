@@ -5,14 +5,21 @@ export interface Establishment {
   address: string;
   googleMapsUrl: string;
   instagramUrl?: string;
-    logo?: string;
-    logo_url?: string;
-    logo_secondary_url?: string;
-    logoUrl?: string;
-    logoSecondaryUrl?: string;
+  tiktokUrl?: string;
+  snapchatUrl?: string;
+  facebookUrl?: string;
+  logo?: string;
+  logo_url?: string;
+  logo_secondary_url?: string;
+  logoUrl?: string;
+  logoSecondaryUrl?: string;
   primaryColor: string;
   secondaryColor: string;
   enableInstagramWheel: boolean;
+  enableInstagram?: boolean;
+  enableTiktok?: boolean;
+  enableSnapchat?: boolean;
+  enableFacebook?: boolean;
   createdAt: string;
   ownerId?: string;
 }
