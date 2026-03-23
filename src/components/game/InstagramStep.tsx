@@ -114,7 +114,7 @@ export function SocialStep({ establishmentName, networks, onDone, onSkip }: Soci
         window.open(url, "_blank");
     };
 
-    const networkIcons = activeNetworks.map(n => getNetworkConfig(n.name).emoji).join(" ");
+    const networkIcons = activeNetworks.map(n => n.name).join(", ");
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-4 prizmo-gradient">
