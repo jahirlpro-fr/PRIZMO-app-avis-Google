@@ -129,7 +129,7 @@ export function SocialStep({ establishmentName, networks, onDone, onSkip }: Soci
                                     key={network.name}
                                     className={`w-14 h-14 bg-gradient-to-br ${config.bgIcon} rounded-full flex items-center justify-center shadow-lg`}
                                 >
-                                    <img src={`/social/${network.name}_icon.svg`} className="w-8 h-8" alt={network.name} style={{ filter: "brightness(0) invert(1)" }} />
+                                    <img src={`/social/${network.name}_icon.svg`} className="w-8 h-8" alt={network.name} />
                                 </div>
                             );
                         })}
