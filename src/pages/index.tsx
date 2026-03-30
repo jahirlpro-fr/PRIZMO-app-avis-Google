@@ -1078,18 +1078,20 @@ html, body { overflow-x: hidden; }
             </thead>
             <tbody>
 {[
-                    ["Roue de la fortune", "✅", "✅", "✅"],
-                    ["Tunnel avis Google", "✅", "✅", "✅"],
-                    ["Tunnel avis Instagram", "❌", "✅", "✅"],
-                    ["Collecte emails + tél", "✅", "✅", "✅"],
-                    ["Affiches imprimables", "✅", "✅", "✅"],
-                    ["Participants / mois", "100 max", "Illimités", "Illimités"],
-                    ["Chevalet physique", "❌", "2 chevalets", "Sur devis"],
-                    ["Graphiques Analytics", "Basic", "Avancés", "Avancés"],
-                    ["Programme de fidélité", "❌", "✅", "✅"],
-                    ["Multi-établissements", "❌", "❌", "✅ 5+"],
-                    ["White label", "❌", "❌", "✅"],
-                    ["Support", "Email", "Prioritaire", "Tél + Email"],
+["Roue de la fortune", "✅", "✅", "✅"],
+["Tunnel avis Google", "✅", "✅", "✅"],
+["Tunnel avis Instagram", "❌", "✅", "✅"],
+["Collecte emails + tél", "✅", "✅", "✅"],
+["Affiches imprimables", "✅", "✅", "✅"],
+["Dashboard client", "✅", "✅", "✅"],
+["Participants / mois", "100 max", "Illimités", "Illimités"],
+["Chevalet physique", "❌", "2 chevalets", "Sur devis"],
+["Graphiques Analytics", "Basic", "Avancés", "Avancés"],
+["Programme de fidélité", "❌", "✅", "✅"],
+["Onboarding personnalisé", "❌", "✅", "✅"],
+["Multi-établissements", "❌", "❌", "✅ 5+"],
+["White label", "❌", "❌", "✅"],
+["Support", "Email", "Prioritaire", "Tél + Email"],
                 ].map(([feature, solo, pro, business], i, arr) => (
                     <tr key={i}>
                         <td style={{ padding: "14px 24px", fontSize: "14px", color: "#555", borderBottom: i < arr.length - 1 ? "1px solid #f0f0f0" : "none", fontWeight: "500" }}>{feature}</td>
