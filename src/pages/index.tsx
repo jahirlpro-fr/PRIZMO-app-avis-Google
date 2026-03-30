@@ -961,7 +961,7 @@ html, body { overflow-x: hidden; }
                                             </div>
                                             <div className="divider" />
                                             <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
-                                                {["Multi-établissements (5+)", "Tout le plan PRO", "Tunnel avis Google + Instagram", "Graphiques Analytics (avancés)", "Programme de fidélité", "Chevalets physiques (sur devis)", "White label", "Account manager dédié", "Onboarding accompagné"].map((item, i) => (
+                                                {["Multi-établissements (5+)", "Tout le plan PRO", "Tunnel avis Google + Instagram", "Graphiques Analytics (avancés)", "Programme de fidélité", "Dashboard client", "Onboarding personnalisé", "Chevalets physiques (sur devis)", "White label", "Account manager dédié"].map((item, i) => (
                                                     <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
                                                         <div className="check-dark">✓</div><span>{item}</span>
                                                     </div>
