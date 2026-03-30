@@ -938,7 +938,7 @@ html, body { overflow-x: hidden; }
                                             </div>
                                             <div style={{ width: "48px", height: "3px", background: "rgba(255,255,255,0.4)", borderRadius: "2px", margin: "0 0 24px" }} />
                                             <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
-                                                {["1 établissement", "Participants illimités", "Roue de la fortune", "Tunnel avis Google + Instagram", "Collecte emails + tél clients", "Graphiques Analytics (avancés)", "Programme de fidélité", "2 chevalets inclus", "Support prioritaire"].map((item, i) => (
+                                                {["1 établissement", "Participants illimités", "Roue de la fortune", "Tunnel avis Google + Instagram", "Collecte emails + tél clients", "Dashboard client", "Graphiques Analytics (avancés)", "Programme de fidélité", "Onboarding personnalisé", "2 chevalets inclus", "Support prioritaire"].map((item, i) => (
                                                     <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px" }}>
                                                         <div className="check">✓</div><span>{item}</span>
                                                     </div>
