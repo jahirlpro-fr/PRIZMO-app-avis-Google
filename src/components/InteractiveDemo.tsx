@@ -284,7 +284,7 @@ function LoyaltyStepContent({ step, onNext }: { step: LoyaltyStep; onNext: () =>
             <div style={{ height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
                 <img src="/5.png" alt="Commerçant validant" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 55%)" }} />
-                <Caption text="Le client montre son téléphone au commerçant pour valider sa participation" />
+                <Caption text="Le commerçant va valider la participation du client en tapant sur son téléphone un code secret" />
             </div>
         );
     }
