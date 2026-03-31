@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { InteractiveDemo } from "@/components/InteractiveDemo";
 import { motion } from "framer-motion";
 import { useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
