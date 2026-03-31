@@ -453,6 +453,8 @@ html, body { overflow-x: hidden; }
                 </div>
             </nav>
 
+            <InteractiveDemo />
+
             {/* ── HERO ── */}
             <section className="hero-bg" style={{ paddingTop: "140px", paddingBottom: "80px", paddingLeft: "24px", paddingRight: "24px" }}>
                 <div className="container hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }}>
