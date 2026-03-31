@@ -602,7 +602,7 @@ if (!/^0[67][0-9]{8}$/.test(phoneDigits)) {
                                         <span className="text-3xl">🔐</span>
                                     </div>
                                     <h2 className="text-2xl font-black mb-2">Valider ma visite</h2>
-                                    <p className="text-gray-500 text-sm">Demandez le code secret au commerçant et donnez-lui votre téléphone</p>
+                                    <p className="text-gray-500 text-sm">Montrez cet écran au commerçant pour valider votre visite</p>
                                 </div>
 
                                 <div className="w-full max-w-sm space-y-5">
