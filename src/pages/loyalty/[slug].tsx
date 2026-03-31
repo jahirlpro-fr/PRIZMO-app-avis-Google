@@ -462,13 +462,16 @@ if (!/^0[67][0-9]{8}$/.test(phoneDigits)) {
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                     className="h-12 rounded-xl" />
                             </div>
-                            <div className="space-y-2">
-                                <Label>Téléphone *</Label>
-                                <Input type="tel" placeholder="06 00 00 00 00"
-                                    value={formData.phone}
-                                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                    className="h-12 rounded-xl" />
-                            </div>
+<div className="space-y-2">
+    <Label>Téléphone *</Label>
+    <Input type="tel" placeholder="06 00 00 00 00"
+        value={formData.phone}
+        onChange={(e) => {
+            const digits = e.target.value.replace(/\D/g, "");
+            if (digits.length <= 10) setFormData({ ...formData, phone: digits });
+        }}
+        className="h-12 rounded-xl" />
+</div>
 
                             {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
@@ -505,13 +508,16 @@ if (!/^0[67][0-9]{8}$/.test(phoneDigits)) {
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                     className="h-12 rounded-xl" />
                             </div>
-                            <div className="space-y-2">
-                                <Label>Téléphone *</Label>
-                                <Input type="tel" placeholder="06 00 00 00 00"
-                                    value={formData.phone}
-                                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                    className="h-12 rounded-xl" />
-                            </div>
+<div className="space-y-2">
+    <Label>Téléphone *</Label>
+    <Input type="tel" placeholder="06 00 00 00 00"
+        value={formData.phone}
+        onChange={(e) => {
+            const digits = e.target.value.replace(/\D/g, "");
+            if (digits.length <= 10) setFormData({ ...formData, phone: digits });
+        }}
+        className="h-12 rounded-xl" />
+</div>
 
                             {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
