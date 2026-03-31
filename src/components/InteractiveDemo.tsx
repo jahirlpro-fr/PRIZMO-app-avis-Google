@@ -193,7 +193,7 @@ function WheelStepContent({ step, onNext }: { step: WheelStep; onNext: () => voi
             <div style={{ height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
                 <img src="/2.png" alt="Cliente montrant son gain" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 55%)" }} />
-                <Caption text="Le client repart avec son gain — tout le monde est content !" />
+                <Caption text="Le client repart avec son gain !" />
             </div>
         );
     }
