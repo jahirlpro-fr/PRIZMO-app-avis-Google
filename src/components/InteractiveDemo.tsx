@@ -8,7 +8,7 @@ import { PrizeResult } from "@/components/game/PrizeResult";
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Scenario = "wheel" | "loyalty";
 type WheelStep = 0 | 1 | 2 | 3 | 4 | 5;
-type LoyaltyStep = 0 | 1 | 2 | 3 | 4;
+type LoyaltyStep = 0 | 1 | 2 | 3 | 4 | 5;
 
 // ─── Config démo Bimbambao ────────────────────────────────────────────────────
 const DEMO_NAME = "Bimbambao";
@@ -46,41 +46,23 @@ function Caption({ text }: { text: string }) {
     );
 }
 
-// ─── Wrapper faux téléphone avec scale pour éviter le scroll ─────────────────
-// Les vrais composants utilisent min-h-screen → on les scale pour qu'ils tiennent
+// ─── Wrapper faux téléphone ───────────────────────────────────────────────────
 function MobileWrapper({ children }: { children: React.ReactNode }) {
-    // On affiche dans une boîte de 390×680px, les composants full-screen
-    // sont scalés à 0.52 pour tenir sans scroll dans le faux tel
-    const PHONE_W = 340;
-    const PHONE_H = 660;
-    const CONTENT_W = 390;  // largeur cible du composant
-    const SCALE = PHONE_W / CONTENT_W;
-
     return (
         <div style={{
-            width: `${PHONE_W}px`,
-            margin: "0 auto",
-            borderRadius: "36px",
-            border: "8px solid #1a1a1a",
+            width: "100%", maxWidth: "390px", margin: "0 auto",
+            borderRadius: "36px", border: "8px solid #1a1a1a",
             boxShadow: "0 0 0 2px #2a2a2a, 0 32px 80px rgba(0,0,0,0.55)",
-            overflow: "hidden",
-            position: "relative",
-            background: "#f8f5ff",
+            overflow: "hidden", position: "relative",
         }}>
             {/* Notch */}
             <div style={{
                 position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-                width: "80px", height: "24px", background: "#1a1a1a",
-                borderRadius: "0 0 16px 16px", zIndex: 20,
+                width: "90px", height: "26px", background: "#1a1a1a",
+                borderRadius: "0 0 18px 18px", zIndex: 20,
             }} />
-            {/* Conteneur scalé */}
-            <div style={{
-                width: `${CONTENT_W}px`,
-                height: `${PHONE_H / SCALE}px`,
-                transform: `scale(${SCALE})`,
-                transformOrigin: "top left",
-                overflow: "hidden",
-            }}>
+            <div style={{ maxHeight: "640px", overflowY: "auto", overflowX: "hidden", paddingTop: "26px" }}
+                className="hide-scrollbar">
                 {children}
             </div>
         </div>
@@ -96,7 +78,7 @@ function LoyaltyCardVisual({ stamps = 0 }: { stamps?: number }) {
             padding: "18px", margin: "0 16px 16px",
             boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
         }}>
-            <div style={{ fontSize: "10px", fontWeight: "700", color: "#8b7355", letterSpacing: "0.08em", textTransform: "uppercase" as const, marginBottom: "10px" }}>
+            <div style={{ fontSize: "10px", fontWeight: "700", color: "#8b7355", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "10px" }}>
                 Bimbambao — Carte Fidélité
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", marginBottom: "10px" }}>
@@ -112,7 +94,7 @@ function LoyaltyCardVisual({ stamps = 0 }: { stamps?: number }) {
                     </div>
                 ))}
             </div>
-            <div style={{ fontSize: "10px", color: "#8b7355", textAlign: "center" as const }}>8 repas = 1 repas offert 🎁</div>
+            <div style={{ fontSize: "10px", color: "#8b7355", textAlign: "center" }}>8 repas = 1 repas offert 🎁</div>
         </div>
     );
 }
@@ -122,7 +104,6 @@ function WheelStepContent({ step, onNext }: { step: WheelStep; onNext: () => voi
     const [prize, setPrize] = useState("");
     const [spun, setSpun] = useState(false);
 
-    // Step 0 — Split image
     if (step === 0) {
         return (
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
@@ -138,7 +119,6 @@ function WheelStepContent({ step, onNext }: { step: WheelStep; onNext: () => voi
         );
     }
 
-    // Steps 1-4 — Vrais composants dans faux téléphone scalé
     if (step === 1) {
         return (
             <MobileWrapper>
@@ -208,13 +188,12 @@ function WheelStepContent({ step, onNext }: { step: WheelStep; onNext: () => voi
         );
     }
 
-    // Step 5 — Image finale
     if (step === 5) {
         return (
             <div style={{ height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
                 <img src="/2.png" alt="Cliente montrant son gain" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 55%)" }} />
-                <Caption text="Le client repart avec son gain — tout le monde est content !" />
+                <Caption text="Le client repart avec son gain !" />
             </div>
         );
     }
@@ -222,10 +201,9 @@ function WheelStepContent({ step, onNext }: { step: WheelStep; onNext: () => voi
     return null;
 }
 
-// ─── Steps Fidélité (5 étapes) ────────────────────────────────────────────────
+// ─── Steps Fidélité ───────────────────────────────────────────────────────────
 function LoyaltyStepContent({ step, onNext }: { step: LoyaltyStep; onNext: () => void }) {
 
-    // Step 0 — Split image scan + chevalet fidélité
     if (step === 0) {
         return (
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
@@ -241,11 +219,10 @@ function LoyaltyStepContent({ step, onNext }: { step: LoyaltyStep; onNext: () =>
         );
     }
 
-    // Step 1 — Page inscription fidélité (rendu réel)
     if (step === 1) {
         return (
             <MobileWrapper>
-                <div style={{ minHeight: "100vh", background: DEMO_SECONDARY, display: "flex", flexDirection: "column", alignItems: "center", padding: "32px 24px 40px" }}>
+                <div style={{ minHeight: "500px", background: DEMO_SECONDARY, display: "flex", flexDirection: "column", alignItems: "center", padding: "32px 24px 40px" }}>
                     <div style={{ textAlign: "center", marginBottom: "32px" }}>
                         <div style={{
                             width: "64px", height: "64px", borderRadius: "50%",
@@ -274,39 +251,26 @@ function LoyaltyStepContent({ step, onNext }: { step: LoyaltyStep; onNext: () =>
         );
     }
 
-    // Step 2 — Ma carte (rendu réel avec 0 tampon)
     if (step === 2) {
         return (
             <MobileWrapper>
-                <div style={{ background: `linear-gradient(160deg, ${DEMO_SECONDARY} 0%, #ffffff 60%)`, minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", padding: "48px 24px 40px" }}>
-                    {/* Fan de cartes simulé */}
-                    <div style={{ position: "relative", width: "280px", height: "200px", marginBottom: "32px" }}>
-                        {/* Verso incliné */}
-                        <div style={{ width: "260px", height: "170px", background: "#e3d6c0", borderRadius: "14px", boxShadow: "0 8px 20px rgba(0,0,0,0.15)", position: "absolute", zIndex: 1, transform: "rotate(8deg) translateX(18px) translateY(8px)", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", padding: "12px", gap: "6px" }}>
-                            {Array.from({ length: 8 }).map((_, i) => (
-                                <div key={i} style={{ width: "32px", height: "32px", borderRadius: "50%", border: "2px solid rgba(80,80,80,0.3)", background: "rgba(255,255,255,0.3)" }} />
-                            ))}
+                <div style={{ background: "#fafafa", minHeight: "520px", paddingBottom: "32px" }}>
+                    <div style={{ textAlign: "center", padding: "20px 16px 16px" }}>
+                        <p style={{ fontSize: "11px", color: "#bbb", margin: "0 0 4px" }}>Chez {DEMO_NAME}</p>
+                        <h2 style={{ fontSize: "20px", fontWeight: "900", color: "#0f0f0f", margin: 0 }}>Ma carte fidélité</h2>
+                    </div>
+                    <LoyaltyCardVisual stamps={0} />
+                    <div style={{ padding: "0 16px 16px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "#bbb", marginBottom: "6px" }}>
+                            <span>0 repas validés</span><span>8 restants</span>
                         </div>
-                        {/* Recto devant */}
-                        <div style={{ width: "260px", height: "170px", background: "#e3d6c0", borderRadius: "14px", boxShadow: "0 12px 28px rgba(0,0,0,0.18)", position: "absolute", zIndex: 2, transform: "rotate(-3deg) translateX(-8px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-                            <div style={{ fontSize: "28px", marginBottom: "8px" }}>🥟</div>
-                            <div style={{ fontWeight: "800", fontSize: "14px", color: "#5a3e2b" }}>Bimbambao</div>
-                            <div style={{ fontSize: "10px", color: "#8b7355", marginTop: "4px" }}>Carte Fidélité</div>
+                        <div style={{ background: "#efefef", borderRadius: "100px", height: "6px" }}>
+                            <div style={{ width: "0%", height: "6px", borderRadius: "100px", background: `linear-gradient(90deg, ${DEMO_PRIMARY}, #db2877)` }} />
                         </div>
                     </div>
-
-                    <div style={{ textAlign: "center", marginBottom: "24px", maxWidth: "280px" }}>
-                        <h1 style={{ fontSize: "26px", fontWeight: "900", color: "#1a1a2e", margin: "0 0 8px" }}>Fidélité récompensée 🎁</h1>
-                        <p style={{ fontSize: "14px", color: "#666", lineHeight: "1.6", margin: 0 }}>
-                            Cumulez vos visites et débloquez <strong style={{ color: DEMO_PRIMARY }}>1 repas offert</strong> après 8 repas.
-                        </p>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%", maxWidth: "280px" }}>
-                        <button onClick={onNext} style={{ width: "100%", padding: "16px", borderRadius: "16px", background: `linear-gradient(135deg, ${DEMO_PRIMARY}, #db2877)`, color: "white", fontWeight: "700", fontSize: "15px", border: "none", cursor: "pointer", boxShadow: "0 4px 16px rgba(124,58,237,0.35)" }}>
-                            💳 Je veux ma carte fidélité !
-                        </button>
-                        <button style={{ width: "100%", padding: "16px", borderRadius: "16px", border: `2px solid ${DEMO_PRIMARY}`, background: "transparent", color: DEMO_PRIMARY, fontWeight: "700", fontSize: "15px", cursor: "default" }}>
-                            J'en ai déjà une !
+                    <div style={{ padding: "0 16px" }}>
+                        <button onClick={onNext} style={{ width: "100%", padding: "14px", borderRadius: "14px", background: `linear-gradient(135deg, ${DEMO_PRIMARY}, #db2877)`, color: "white", fontWeight: "700", fontSize: "14px", border: "none", cursor: "pointer" }}>
+                            ✅ Valider ma visite
                         </button>
                     </div>
                     <p style={{ textAlign: "center", fontSize: "11px", color: "#ccc", marginTop: "24px" }}>Propulsé par Prizmo 🎡</p>
@@ -315,24 +279,32 @@ function LoyaltyStepContent({ step, onNext }: { step: LoyaltyStep; onNext: () =>
         );
     }
 
-    // Step 3 — Validation par le commerçant (image)
     if (step === 3) {
         return (
             <div style={{ height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
                 <img src="/5.png" alt="Commerçant validant" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 55%)" }} />
-                <Caption text="Le client montre son téléphone au commerçant pour valider sa participation" />
+                <Caption text="Le commerçant va valider la participation du client en tapant sur son téléphone un code secret" />
             </div>
         );
     }
 
-    // Step 4 — Carte tamponnée (image) — ex step 5, maintenant étape finale
     if (step === 4) {
         return (
             <div style={{ height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
                 <img src="/4.png" alt="Carte tamponnée" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 15%" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 55%)" }} />
-                <Caption text="Tampon validé — le client repart fidélisé, il reviendra !" />
+                <Caption text="1 tampon validé — plus que 7 repas pour la récompense !" />
+            </div>
+        );
+    }
+
+    if (step === 5) {
+        return (
+            <div style={{ height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
+                <img src="/6.png" alt="Cliente heureuse" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 8%" }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 55%)" }} />
+                <Caption text="Carte de fidélité tamponné !" />
             </div>
         );
     }
@@ -342,7 +314,7 @@ function LoyaltyStepContent({ step, onNext }: { step: LoyaltyStep; onNext: () =>
 
 // ─── Labels ───────────────────────────────────────────────────────────────────
 const WHEEL_LABELS = ["Scan QR", "Inscription", "Avis Google", "Réseaux", "La roue", "Le gain"];
-const LOYALTY_LABELS = ["Scan QR", "Inscription", "Ma carte", "Validation", "Tamponné"];
+const LOYALTY_LABELS = ["Scan QR", "Inscription", "Ma carte", "Validation", "Tampon", "Fidèle !"];
 
 // ─── Composant principal ──────────────────────────────────────────────────────
 export function InteractiveDemo() {
@@ -351,13 +323,11 @@ export function InteractiveDemo() {
     const [loyaltyStep, setLoyaltyStep] = useState < LoyaltyStep > (0);
 
     const step = scenario === "wheel" ? wheelStep : loyaltyStep;
-    const totalSteps = scenario === "wheel" ? 6 : 5;
     const labels = scenario === "wheel" ? WHEEL_LABELS : LOYALTY_LABELS;
-    const maxStep = scenario === "wheel" ? 5 : 4;
 
     const goNext = () => {
         if (scenario === "wheel" && wheelStep < 5) setWheelStep((s) => (s + 1) as WheelStep);
-        if (scenario === "loyalty" && loyaltyStep < 4) setLoyaltyStep((s) => (s + 1) as LoyaltyStep);
+        if (scenario === "loyalty" && loyaltyStep < 5) setLoyaltyStep((s) => (s + 1) as LoyaltyStep);
     };
 
     const goPrev = () => {
@@ -371,7 +341,7 @@ export function InteractiveDemo() {
         setLoyaltyStep(0);
     };
 
-    // Steps avec vrais composants → bouton "Passer" discret
+    // Steps qui utilisent les vrais composants → bouton "Passer" discret au lieu de "Suivant"
     const isRealComponentStep =
         (scenario === "wheel" && (step === 1 || step === 2 || step === 3 || step === 4)) ||
         (scenario === "loyalty" && (step === 1 || step === 2));
@@ -391,7 +361,7 @@ export function InteractiveDemo() {
 
                 {/* Header */}
                 <div style={{ textAlign: "center", marginBottom: "48px" }}>
-                    <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(124,58,237,0.18)", border: "1px solid rgba(124,58,237,0.32)", color: "#c4b5fd", padding: "6px 16px", borderRadius: "100px", fontSize: "12px", fontWeight: "600", letterSpacing: "0.06em", textTransform: "uppercase" as const, marginBottom: "20px" }}>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(124,58,237,0.18)", border: "1px solid rgba(124,58,237,0.32)", color: "#c4b5fd", padding: "6px 16px", borderRadius: "100px", fontSize: "12px", fontWeight: "600", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "20px" }}>
                         ▶ Démo interactive
                     </div>
                     <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(28px, 4vw, 48px)", color: "white", fontWeight: "400", lineHeight: "1.15", margin: "0 0 16px" }}>
@@ -429,7 +399,7 @@ export function InteractiveDemo() {
                     ))}
                 </div>
 
-                {/* Contenu step */}
+                {/* Contenu */}
                 <div key={`${scenario}-${step}`} style={{ animation: "fadeUp 0.35s ease forwards" }}>
                     {scenario === "wheel"
                         ? <WheelStepContent step={wheelStep} onNext={goNext} />
@@ -444,12 +414,12 @@ export function InteractiveDemo() {
                     </button>
 
                     <div style={{ display: "flex", gap: "6px" }}>
-                        {Array.from({ length: totalSteps }).map((_, i) => (
+                        {Array.from({ length: 6 }).map((_, i) => (
                             <div key={i} style={{ width: i === step ? "20px" : "6px", height: "6px", borderRadius: "100px", background: i === step ? "linear-gradient(90deg, #7c3aed, #db2877)" : "rgba(255,255,255,0.12)", transition: "all 0.3s" }} />
                         ))}
                     </div>
 
-                    {step < maxStep ? (
+                    {step < 5 ? (
                         <button onClick={goNext} style={{ padding: "10px 20px", borderRadius: "100px", background: isRealComponentStep ? "transparent" : "linear-gradient(135deg, #7c3aed, #db2877)", border: isRealComponentStep ? "1.5px solid rgba(255,255,255,0.1)" : "none", color: isRealComponentStep ? "rgba(255,255,255,0.45)" : "white", fontSize: isRealComponentStep ? "12px" : "13px", fontWeight: isRealComponentStep ? "500" : "700", cursor: "pointer", boxShadow: isRealComponentStep ? "none" : "0 4px 16px rgba(124,58,237,0.4)", transition: "all 0.2s" }}>
                             {isRealComponentStep ? "Passer →" : "Suivant →"}
                         </button>
