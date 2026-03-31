@@ -124,27 +124,17 @@ const [posterFormat, setPosterFormat] = useState < "A4" | "A5" > ("A4");
               const establishmentParticipants = await storageService.getParticipants(establishmentId);
               setParticipants(establishmentParticipants);
 
-          // Récupérer le plan du commerçant connecté
-          const { data: { user } } = await supabase.auth.getUser();
-          if (user) {
-              const { data: profileData } = await supabase
-                  .from("profiles")
-                  .select("plan, trial_ends_at")
-                  .eq("id", user.id)
-                  .single();
-              if (profileData) {
-                  setMerchantPlan(profileData.plan || "trial");
-                  setTrialEndsAt(profileData.trial_ends_at || null);
-              }
-
-              // Charger infos complètes abonnement
-              const { data: subData } = await supabase
-                  .from("profiles")
-                  .select("plan, plan_status, billing_cycle, trial_ends_at, stripe_subscription_id")
-                  .eq("id", user.id)
-                  .maybeSingle();
-              if (subData) setSubscriptionInfo(subData);
-          }
+// Récupérer le plan du propriétaire de l'établissement (pas l'utilisateur connecté)
+const { data: ownerProfile } = await supabase
+    .from("profiles")
+    .select("plan, plan_status, billing_cycle, trial_ends_at, stripe_subscription_id")
+    .eq("establishment_id", establishmentId)
+    .maybeSingle();
+if (ownerProfile) {
+    setMerchantPlan(ownerProfile.plan || "trial");
+    setTrialEndsAt(ownerProfile.trial_ends_at || null);
+    setSubscriptionInfo(ownerProfile);
+}
 
           // Charger config fidélité
           const { data: loyaltyData } = await supabase
