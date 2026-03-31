@@ -26,14 +26,15 @@ function Caption({ text }: { text: string }) {
 function Phone({ children, bg = "white" }: { children: React.ReactNode; bg?: string }) {
     return (
         <div style={{
-            width: "320px", margin: "0 auto",
+            width: "320px", height: "580px", margin: "0 auto",
             borderRadius: "40px", border: "8px solid #1a1a1a",
             boxShadow: "0 0 0 2px #2a2a2a, 0 40px 80px rgba(0,0,0,0.6)",
             overflow: "hidden", position: "relative", background: bg,
+            display: "flex", flexDirection: "column",
         }}>
             {/* Notch */}
             <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: "80px", height: "24px", background: "#1a1a1a", borderRadius: "0 0 16px 16px", zIndex: 20 }} />
-            <div style={{ paddingTop: "32px" }}>{children}</div>
+            <div style={{ paddingTop: "32px", flex: 1, overflowY: "auto" }}>{children}</div>
         </div>
     );
 }
@@ -373,9 +374,11 @@ function LoyaltyStepContent({ step, onNext }: { step: LoyaltyStep; onNext: () =>
         return (
             <div style={{ height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
                 <img src="/4.png" alt="Carte fidélité sur téléphone"
-                    style={{ width: "100%", height: "100%", objectFit: "contain", objectPosition: "center", background: "#111" }} />
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 50%)" }} />
-                <Caption text="Votre carte de fidélité 100% digitale — vous ne la perdrez jamais !" />
+                <div style={{ position: "absolute", bottom: "18px", left: "50%", transform: "translateX(-50%)", background: "rgba(20,20,20,0.75)", backdropFilter: "blur(10px)", color: "white", fontSize: "12px", fontWeight: "600", padding: "8px 16px", borderRadius: "8px", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.1)" }}>
+                    Votre carte de fidélité 100% digitale — vous ne la perdrez jamais !
+                </div>
             </div>
         );
     }
@@ -385,9 +388,11 @@ function LoyaltyStepContent({ step, onNext }: { step: LoyaltyStep; onNext: () =>
         return (
             <div style={{ height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
                 <img src="/5.png" alt="Commerçant validant"
-                    style={{ width: "100%", height: "100%", objectFit: "contain", objectPosition: "center", background: "#111" }} />
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 55%)" }} />
-                <Caption text="Le client montre son téléphone au commerçant pour valider sa participation" />
+                <div style={{ position: "absolute", bottom: "18px", left: "50%", transform: "translateX(-50%)", background: "rgba(20,20,20,0.75)", backdropFilter: "blur(10px)", color: "white", fontSize: "12px", fontWeight: "600", padding: "8px 16px", borderRadius: "8px", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.1)" }}>
+                    Le client montre son téléphone au commerçant pour valider sa participation
+                </div>
             </div>
         );
     }
@@ -397,9 +402,11 @@ function LoyaltyStepContent({ step, onNext }: { step: LoyaltyStep; onNext: () =>
         return (
             <div style={{ height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
                 <img src="/6.png" alt="Cliente avec carte tamponnée"
-                    style={{ width: "100%", height: "100%", objectFit: "contain", objectPosition: "center", background: "#111" }} />
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 10%" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 55%)" }} />
-                <Caption text="Tampon validé — le client repart fidélisé, il reviendra !" />
+                <div style={{ position: "absolute", bottom: "18px", left: "50%", transform: "translateX(-50%)", background: "rgba(20,20,20,0.75)", backdropFilter: "blur(10px)", color: "white", fontSize: "12px", fontWeight: "600", padding: "8px 16px", borderRadius: "8px", whiteSpace: "nowrap", border: "1px solid rgba(255,255,255,0.1)" }}>
+                    Tampon validé — le client repart fidélisé, il reviendra !
+                </div>
             </div>
         );
     }
@@ -438,9 +445,7 @@ export function InteractiveDemo() {
         setLoyaltyStep(0);
     };
 
-    // Steps "actifs" où le visiteur interagit → pas de bouton Suivant visible
-    const isInteractiveStep =
-        (scenario === "wheel" && step === 4); // la roue : avance via bouton interne
+    const isInteractiveStep = false; // tous les steps ont le bouton Suivant
 
     return (
         <section id="demo" style={{
