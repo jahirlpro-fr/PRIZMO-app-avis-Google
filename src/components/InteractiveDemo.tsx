@@ -304,7 +304,7 @@ function LoyaltyStepContent({ step, onNext }: { step: LoyaltyStep; onNext: () =>
             <div style={{ height: "460px", borderRadius: "20px", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.07)", position: "relative" }}>
                 <img src="/6.png" alt="Cliente heureuse" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 8%" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 55%)" }} />
-                <Caption text="La cliente repart fidélisée — elle reviendra compléter sa carte !" />
+                <Caption text="Carte de fidélité tamponné !" />
             </div>
         );
     }
